@@ -1,0 +1,143 @@
+﻿@{
+    ViewBag.Title = "User Master";
+    ViewBag.PageTitle = "Create User";
+}
+
+@using PensionModel.ViewModel
+@model LoginModel
+
+
+@using (Html.BeginForm("Index", "User", FormMethod.Post))
+{
+    
+    
+    <section class="content-header">
+        <h1>User <small>Master</small>
+        </h1>
+
+    </section>
+    <div class="panel panel-info" id="dvAdd">
+        <div class="panel-heading">
+            User Details
+            <input type="button" id="btnBack" value="Back" class="btnAdd btn btn-primary" />
+        </div>
+        <div class="panel-body">
+
+
+            <div class="form-group">
+                <div class="col-sm-4">
+                  Role
+                </div>
+                <div class="col-sm-6">
+                    @Html.TextBoxFor(m => m.RID, new { @class = "form-control" })
+
+                </div>
+
+
+            </div>
+            <br />
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-4">
+                    Name
+                </div>
+                <div class="col-sm-6">
+                    @Html.TextAreaFor(m => m.Name, new { @class = "form-control" })
+                </div>
+
+
+            </div>
+         
+            <div class="form-group">
+                <div class="col-sm-4">
+                    Status
+                </div>
+                <div class="col-sm-6">
+                    @Html.RadioButtonFor(m => m.Status, true,new { @checked = "checked" })Active
+                    @Html.RadioButtonFor(m => m.Status, false)In-Active    
+                </div>
+
+
+            </div>
+
+
+            <br />
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+
+
+            <br />
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <input type="submit" name="Button" value="Save" id="btnSave" class="btn btn-primary" onclick="return Validation();" />
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <!-- Advanced Tables -->
+    <div class="panel panel-info" id="dvGrid">
+        <div class="panel-heading">
+            User Data
+            <input type="button" id="btnAdd" value="Add New" class="btnAdd btn btn-primary" />
+        </div>
+        
+            <div class="panel-body">
+                <div class="table-responsive" id="Grid">
+
+                    <table class="table" id="tbl">
+                        <thead>
+                            <tr>
+                                <th>Name
+                                </th>
+                                <th>Role
+                                </th>
+                                <th>Status
+                                </th>
+                                <th>Action
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach (var item in Model.LoginList)
+                            {
+                                <tr>
+                                    <td>@item.Name</td>
+                                    <td>@item.RoleDetails.Role</td>
+                                    @if (@item.Status == false)
+                                    {
+                                        <td>In-Active</td>
+                                    }
+                                    else
+                                    {
+                                        <td>Active</td>
+                                    }
+                                    <td>
+                                        @*<img  id="btnEdit" src="~/1493196377_create.png" onclick="HiddenField('@item.UID')"  style="height:20px;width:20px;" />*@
+                                        @Html.ActionLink(" ", "Edit", new { @id = @item.UID}, new { @class = "fa fa-pencil-square fa-lg" })                                       
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                
+            </div>
+        </div>
+    </div>
+
+}
+

@@ -1,0 +1,475 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="VPDPensionModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="AllowanceMaster">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AllowanceName" Type="nvarchar" MaxLength="50" />
+    <Property Name="Description" Type="nvarchar" MaxLength="500" />
+    <Property Name="Status" Type="int" />
+  </EntityType>
+  <EntityType Name="Annuity">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Age" Type="int" />
+    <Property Name="Yly" Type="numeric" Precision="18" Scale="2" />
+    <Property Name="Hly" Type="numeric" Precision="18" Scale="2" />
+    <Property Name="Qly" Type="numeric" Precision="18" Scale="2" />
+    <Property Name="Mly" Type="numeric" Precision="18" Scale="2" />
+    <Property Name="LICId" Type="bigint" />
+    <Property Name="PlanID" Type="bigint" />
+    <Property Name="EffDate" Type="datetime" />
+    <Property Name="Status" Type="int" />
+  </EntityType>
+  <EntityType Name="ColunmMapMaster">
+    <Key>
+      <PropertyRef Name="CMID" />
+    </Key>
+    <Property Name="CMID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CompID" Type="int" />
+    <Property Name="TblName" Type="varchar" MaxLength="250" />
+    <Property Name="TblClmName" Type="varchar" MaxLength="250" />
+    <Property Name="TblClmIndex" Type="int" />
+    <Property Name="ExlClmName" Type="varchar" MaxLength="250" />
+    <Property Name="ExlClmIndex" Type="int" />
+    <Property Name="MappedBy" Type="int" />
+    <Property Name="MappedDate" Type="date" />
+  </EntityType>
+  <EntityType Name="CompanyMaster">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CompCode" Type="nvarchar" MaxLength="50" />
+    <Property Name="CompName" Type="nvarchar" MaxLength="50" />
+    <Property Name="Address" Type="nvarchar(max)" />
+    <Property Name="Email" Type="nvarchar" MaxLength="50" />
+    <Property Name="ContactPerson" Type="nvarchar" MaxLength="50" />
+    <Property Name="Type" Type="nvarchar" MaxLength="10" />
+    <Property Name="WidowPension" Type="int" />
+    <Property Name="PensionEligibityYears" Type="int" />
+    <Property Name="Status" Type="int" />
+    <Property Name="PensionLimit" Type="nvarchar" MaxLength="10" />
+    <Property Name="Merging" Type="nvarchar" MaxLength="10" />
+    <Property Name="SAIntMethod" Type="int" />
+    <Property Name="SAContriRate" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="SAStopIntType" Type="int" />
+    <Property Name="SAContriMethod" Type="int" />
+  </EntityType>
+  <EntityType Name="CompWiseAllowance">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CompID" Type="int" />
+    <Property Name="AllowanceID" Type="int" />
+    <Property Name="GradeID" Type="int" />
+    <Property Name="EffDeate" Type="datetime" />
+    <Property Name="Status" Type="int" />
+    <Property Name="IsChecked" Type="bit" />
+  </EntityType>
+  <EntityType Name="EmployeeMaster">
+    <Key>
+      <PropertyRef Name="EmpId" />
+    </Key>
+    <Property Name="EmpId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CompId" Type="int" />
+    <Property Name="EmpNo" Type="varchar" MaxLength="500" />
+    <Property Name="EmpName" Type="varchar" MaxLength="500" Nullable="false" />
+    <Property Name="DOB" Type="datetime" />
+    <Property Name="DOJ" Type="datetime" />
+    <Property Name="RetireTypeId" Type="int" />
+    <Property Name="RetireDate" Type="datetime" />
+    <Property Name="DeathDate" Type="datetime" />
+    <Property Name="Gender" Type="varchar" MaxLength="10" />
+    <Property Name="MaritalStatus" Type="varchar" MaxLength="50" />
+    <Property Name="FHStatus" Type="int" />
+    <Property Name="FHName" Type="varchar" MaxLength="500" />
+    <Property Name="Relation" Type="varchar" MaxLength="50" />
+    <Property Name="Location" Type="varchar" MaxLength="50" />
+    <Property Name="Address" Type="varchar(max)" />
+    <Property Name="ContactO" Type="varchar" MaxLength="20" />
+    <Property Name="ContactR" Type="varchar" MaxLength="20" />
+    <Property Name="Email" Type="varchar" MaxLength="50" />
+    <Property Name="AadharNo" Type="varchar" MaxLength="50" />
+    <Property Name="PANNo" Type="varchar" MaxLength="50" />
+    <Property Name="BankAcNo" Type="varchar" MaxLength="50" />
+    <Property Name="BankName" Type="varchar" MaxLength="50" />
+    <Property Name="AccType" Type="varchar" MaxLength="20" />
+    <Property Name="IFSC" Type="varchar" MaxLength="20" />
+    <Property Name="BranchName" Type="varchar" MaxLength="20" />
+    <Property Name="BranchAddress" Type="varchar(max)" />
+    <Property Name="PensionStatus" Type="varchar" MaxLength="50" />
+    <Property Name="Status" Type="varchar" MaxLength="10" />
+    <Property Name="CreatedBy" Type="int" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="UpdatedBy" Type="int" />
+    <Property Name="UpdatedDate" Type="datetime" />
+    <Property Name="PentionTypeID" Type="bigint" />
+    <Property Name="LicId" Type="bigint" />
+    <Property Name="PaymentType" Type="int" />
+    <Property Name="EmployeementType" Type="nvarchar" MaxLength="50" />
+    <Property Name="GradeId" Type="bigint" />
+    <Property Name="EmployeeType" Type="int" />
+    <Property Name="HoldDate" Type="datetime" />
+    <Property Name="Remarks" Type="nvarchar(max)" />
+    <Property Name="AnnuityMode" Type="varchar" MaxLength="20" />
+    <Property Name="Merged" Type="int" />
+    <Property Name="FromMerger" Type="int" />
+    <Property Name="MDOJ" Type="datetime" />
+    <Property Name="MDOL" Type="datetime" />
+    <Property Name="FrozenAmt" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="FrozenPensionAmt" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="Benefits" Type="int" />
+    <Property Name="Contribution" Type="nvarchar" MaxLength="20" />
+    <Property Name="RPensionAmt" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="SASettleDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="EmployeePlan">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="EmpId" Type="bigint" />
+    <Property Name="PensionId" Type="bigint" />
+    <Property Name="LicId" Type="bigint" />
+    <Property Name="PlanId" Type="bigint" />
+    <Property Name="AnnuityNo" Type="varchar" MaxLength="50" />
+    <Property Name="InsuranceOffife" Type="nvarchar" MaxLength="50" />
+    <Property Name="Email" Type="nvarchar" MaxLength="50" />
+    <Property Name="PolicyId" Type="nvarchar" MaxLength="50" />
+    <Property Name="PolicyDate" Type="datetime" />
+    <Property Name="Amount" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="PolicyStatus" Type="nvarchar" MaxLength="20" />
+    <Property Name="HoldDate" Type="datetime" />
+    <Property Name="Remark" Type="nvarchar(max)" />
+    <Property Name="RPensionType" Type="int" />
+  </EntityType>
+  <EntityType Name="EmployerMaster">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CompID" Type="int" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" />
+    <Property Name="Email" Type="nvarchar" MaxLength="50" />
+    <Property Name="Mobile" Type="nvarchar" MaxLength="50" />
+    <Property Name="UserName" Type="nvarchar" MaxLength="50" />
+    <Property Name="Password" Type="nvarchar" MaxLength="50" />
+    <Property Name="Type" Type="int" />
+    <Property Name="Status" Type="int" />
+  </EntityType>
+  <EntityType Name="ErrorMsgMaster">
+    <Key>
+      <PropertyRef Name="EId" />
+    </Key>
+    <Property Name="EId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserId" Type="int" />
+    <Property Name="IPAddress" Type="varchar" MaxLength="50" />
+    <Property Name="ErrorMsg" Type="varchar(max)" />
+    <Property Name="ExceptiionMsg" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="GradeChange">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Compnay_id" Type="int" />
+    <Property Name="EmpNo" Type="int" />
+    <Property Name="GradeChangeTo" Type="int" />
+    <Property Name="EffDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="GradeMaster">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Grade_Name" Type="nvarchar" MaxLength="50" />
+    <Property Name="Description" Type="nvarchar" MaxLength="50" />
+    <Property Name="Status" Type="int" />
+  </EntityType>
+  <EntityType Name="Incentive">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="From" Type="int" />
+    <Property Name="To" Type="int" />
+    <Property Name="Yly" Type="decimal" Precision="18" Scale="3" />
+    <Property Name="Hly" Type="decimal" Precision="18" Scale="3" />
+    <Property Name="Qly" Type="decimal" Precision="18" Scale="3" />
+    <Property Name="Mly" Type="decimal" Precision="18" Scale="3" />
+    <Property Name="EffDate" Type="datetime" />
+    <Property Name="Status" Type="int" />
+  </EntityType>
+  <EntityType Name="InsuranceMaster">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="InsuranceCompany" Type="varchar" MaxLength="50" />
+    <Property Name="HO" Type="varchar" MaxLength="50" />
+    <Property Name="Status" Type="int" />
+  </EntityType>
+  <EntityType Name="LifeCertificate">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="InsCompId" Type="int" />
+    <Property Name="EmpId" Type="int" />
+    <Property Name="YearCode" Type="nvarchar" MaxLength="50" />
+    <Property Name="CertificateCopy" Type="nvarchar" MaxLength="50" />
+    <Property Name="EffDate" Type="date" />
+    <Property Name="ToDate" Type="datetime" />
+    <Property Name="Status" Type="int" />
+  </EntityType>
+  <EntityType Name="LoginMaster">
+    <Key>
+      <PropertyRef Name="UID" />
+    </Key>
+    <Property Name="UID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CompID" Type="int" />
+    <Property Name="RID" Type="int" />
+    <Property Name="Name" Type="varchar" MaxLength="450" />
+    <Property Name="UserID" Type="varchar" MaxLength="250" />
+    <Property Name="Password" Type="varchar" MaxLength="50" />
+    <Property Name="Email" Type="varchar" MaxLength="150" />
+    <Property Name="Mobile" Type="numeric" Precision="11" Scale="0" />
+    <Property Name="Address" Type="varchar" MaxLength="550" />
+    <Property Name="Status" Type="bit" />
+    <Property Name="CreatedBy" Type="int" />
+    <Property Name="CreatedDate" Type="date" />
+    <Property Name="UpdatedBy" Type="int" />
+    <Property Name="UpdatedDate" Type="date" />
+  </EntityType>
+  <EntityType Name="MergingCompany">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CmyID" Type="bigint" />
+    <Property Name="MCmyID" Type="bigint" />
+    <Property Name="EffDate" Type="datetime" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="Status" Type="int" />
+  </EntityType>
+  <EntityType Name="NomineeMaster">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CompId" Type="bigint" />
+    <Property Name="EmpId" Type="bigint" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" />
+    <Property Name="Relation" Type="nvarchar" MaxLength="50" />
+    <Property Name="DOB" Type="date" />
+    <Property Name="Addess" Type="nvarchar" MaxLength="100" />
+    <Property Name="Contact" Type="nvarchar" MaxLength="50" />
+    <Property Name="Mobile" Type="nvarchar" MaxLength="15" />
+    <Property Name="Adharnumber" Type="nvarchar" MaxLength="20" />
+    <Property Name="Pan" Type="nvarchar" MaxLength="15" />
+    <Property Name="BankName" Type="nvarchar" MaxLength="50" />
+    <Property Name="Branch" Type="nvarchar" MaxLength="10" />
+    <Property Name="AccountNo" Type="nvarchar" MaxLength="50" />
+    <Property Name="IFSC" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="PaymentType">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PaymentType" Type="nvarchar" MaxLength="50" />
+    <Property Name="OtherCharge" Type="nvarchar" MaxLength="50" />
+    <Property Name="Description" Type="nvarchar" MaxLength="50" />
+    <Property Name="Status" Type="int" />
+  </EntityType>
+  <EntityType Name="PensionLimit">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CmyID" Type="bigint" />
+    <Property Name="EmployeementType" Type="nvarchar" MaxLength="50" />
+    <Property Name="GradeID" Type="bigint" />
+    <Property Name="Pension Limit" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="EffDate" Type="datetime" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="Status" Type="int" />
+  </EntityType>
+  <EntityType Name="PensionMaster">
+    <Key>
+      <PropertyRef Name="PID" />
+    </Key>
+    <Property Name="PID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="EmpNo" Type="nvarchar" MaxLength="50" />
+    <Property Name="PolicyNo" Type="nvarchar" MaxLength="50" />
+    <Property Name="AnnuityNo" Type="nvarchar" MaxLength="50" />
+    <Property Name="GrossAmt" Type="numeric" Precision="18" Scale="2" />
+    <Property Name="ITAmt" Type="numeric" Precision="18" Scale="2" />
+    <Property Name="CheqAmt" Type="numeric" Precision="18" Scale="2" />
+    <Property Name="PensionMonth" Type="varchar" MaxLength="50" />
+    <Property Name="Year" Type="varchar" MaxLength="50" />
+    <Property Name="VPDCheqAmt" Type="numeric" Precision="18" Scale="2" />
+    <Property Name="OtherCharge" Type="numeric" Precision="18" Scale="2" />
+    <Property Name="ProcessDate" Type="date" />
+    <Property Name="IsProcessed" Type="bit" Nullable="false" />
+    <Property Name="UploadedDate" Type="datetime" />
+    <Property Name="UploadedBy" Type="int" />
+    <Property Name="SettelmentDate" Type="date" />
+  </EntityType>
+  <EntityType Name="PensionType">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Type" Type="nvarchar" MaxLength="50" />
+    <Property Name="Description" Type="nvarchar(max)" />
+    <Property Name="Status" Type="int" />
+  </EntityType>
+  <EntityType Name="PlanMaster">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CompID" Type="int" />
+    <Property Name="PlanName" Type="nvarchar" MaxLength="50" />
+    <Property Name="Details" Type="nvarchar" MaxLength="50" />
+    <Property Name="Formula" Type="nvarchar" MaxLength="50" />
+    <Property Name="EffDate" Type="datetime" />
+    <Property Name="Status" Type="int" />
+  </EntityType>
+  <EntityType Name="RetirementType_Master">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RetirementType" Type="nvarchar" MaxLength="50" />
+    <Property Name="Description" Type="nvarchar" MaxLength="50" />
+    <Property Name="Status" Type="int" />
+  </EntityType>
+  <EntityType Name="RoleMaster">
+    <Key>
+      <PropertyRef Name="RID" />
+    </Key>
+    <Property Name="RID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Role" Type="varchar" MaxLength="250" />
+    <Property Name="Description" Type="varchar(max)" />
+    <Property Name="Status" Type="bit" />
+  </EntityType>
+  <EntityType Name="SAContribution">
+    <Key>
+      <PropertyRef Name="SAID" />
+    </Key>
+    <Property Name="SAID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="EmpNo" Type="varchar" MaxLength="50" />
+    <Property Name="Basic" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="CompCont" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="EmpCont" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="CompID" Type="int" />
+    <Property Name="Month" Type="varchar" MaxLength="20" />
+    <Property Name="Year" Type="varchar" MaxLength="50" />
+    <Property Name="UploadedDate" Type="datetime" />
+    <Property Name="UploadedBy" Type="int" />
+  </EntityType>
+  <EntityType Name="SAEmpDetails">
+    <Key>
+      <PropertyRef Name="SAOBID" />
+    </Key>
+    <Property Name="SAOBID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="EmpNo" Type="varchar" MaxLength="50" />
+    <Property Name="OpeningBalance" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="Year" Type="varchar" MaxLength="20" />
+    <Property Name="SAID" Type="int" />
+    <Property Name="CompID" Type="int" />
+    <Property Name="SASettalDate" Type="datetime" />
+    <Property Name="UploadedDate" Type="datetime" />
+    <Property Name="UploadedBy" Type="int" />
+  </EntityType>
+  <EntityType Name="SAInterest">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CompID" Type="bigint" />
+    <Property Name="LiveEmpInt" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="LeftEmpInt" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="LiveEffYear" Type="varchar" MaxLength="20" />
+    <Property Name="LeftEffYear" Type="varchar" MaxLength="20" />
+    <Property Name="Status" Type="int" />
+  </EntityType>
+  <EntityType Name="SalaryMaster">
+    <Key>
+      <PropertyRef Name="SID" />
+    </Key>
+    <Property Name="SID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="EmpNo" Type="varchar" MaxLength="50" />
+    <Property Name="EmpName" Type="varchar" MaxLength="500" />
+    <Property Name="Basic" Type="numeric" Precision="18" Scale="2" />
+    <Property Name="HRA" Type="numeric" Precision="18" Scale="2" />
+    <Property Name="DA" Type="numeric" Precision="18" Scale="2" />
+    <Property Name="EA" Type="numeric" Precision="18" Scale="2" />
+    <Property Name="Conveyance" Type="numeric" Precision="18" Scale="2" />
+    <Property Name="Overtime" Type="numeric" Precision="18" Scale="2" />
+    <Property Name="PF" Type="numeric" Precision="18" Scale="2" />
+    <Property Name="Medical" Type="numeric" Precision="18" Scale="2" />
+    <Property Name="CompID" Type="int" />
+    <Property Name="SalaryMonth" Type="int" />
+    <Property Name="Year" Type="varchar" MaxLength="50" />
+    <Property Name="UploadedBy" Type="int" />
+    <Property Name="UploadedDate" Type="date" />
+  </EntityType>
+  <EntityType Name="TaxMaster">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TaxName" Type="nvarchar" MaxLength="30" />
+    <Property Name="Status" Type="int" />
+  </EntityType>
+  <EntityType Name="TaxValue">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TID" Type="bigint" />
+    <Property Name="Rate" Type="decimal" Precision="18" Scale="3" />
+    <Property Name="EffDate" Type="datetime" />
+    <Property Name="Status" Type="int" />
+  </EntityType>
+  <EntityContainer Name="VPDPensionModelStoreContainer">
+    <EntitySet Name="AllowanceMaster" EntityType="Self.AllowanceMaster" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Annuity" EntityType="Self.Annuity" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ColunmMapMaster" EntityType="Self.ColunmMapMaster" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CompanyMaster" EntityType="Self.CompanyMaster" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CompWiseAllowance" EntityType="Self.CompWiseAllowance" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="EmployeeMaster" EntityType="Self.EmployeeMaster" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="EmployeePlan" EntityType="Self.EmployeePlan" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="EmployerMaster" EntityType="Self.EmployerMaster" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ErrorMsgMaster" EntityType="Self.ErrorMsgMaster" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="GradeChange" EntityType="Self.GradeChange" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="GradeMaster" EntityType="Self.GradeMaster" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Incentive" EntityType="Self.Incentive" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="InsuranceMaster" EntityType="Self.InsuranceMaster" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="LifeCertificate" EntityType="Self.LifeCertificate" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="LoginMaster" EntityType="Self.LoginMaster" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="MergingCompany" EntityType="Self.MergingCompany" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="NomineeMaster" EntityType="Self.NomineeMaster" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PaymentType" EntityType="Self.PaymentType" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PensionLimit" EntityType="Self.PensionLimit" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PensionMaster" EntityType="Self.PensionMaster" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PensionType" EntityType="Self.PensionType" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PlanMaster" EntityType="Self.PlanMaster" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="RetirementType_Master" EntityType="Self.RetirementType_Master" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="RoleMaster" EntityType="Self.RoleMaster" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SAContribution" EntityType="Self.SAContribution" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SAEmpDetails" EntityType="Self.SAEmpDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SAInterest" EntityType="Self.SAInterest" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SalaryMaster" EntityType="Self.SalaryMaster" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TaxMaster" EntityType="Self.TaxMaster" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TaxValue" EntityType="Self.TaxValue" Schema="dbo" store:Type="Tables" />
+  </EntityContainer>
+</Schema>

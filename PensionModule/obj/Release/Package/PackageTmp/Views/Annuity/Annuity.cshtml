@@ -1,0 +1,148 @@
+﻿@model PensionModel.ViewModel.AnnuityViewModel
+@{
+    ViewBag.Title = "Annuity";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("Annuity", "Annuity", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+   
+    <section class="content-header">
+        <h1>Annuity <small>Details</small>
+        </h1>
+
+    </section>  
+    
+    <div class="panel panel-info" id="dvAdd">
+        <div class="panel-heading">
+            Annuity Details
+            <input type="button" id="btnBack" value="Back" class="btnAdd btn btn-primary" />
+        </div>
+        <div class="panel-body">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <div class="col-sm-2">
+                        Insurance  
+                    </div>
+                    <div class="col-sm-4">
+                        @Html.DropDownListFor(m => m.LICId, new SelectList(Model.ListIns, "id", "InsuranceCompany"), "--Select Insurance--", new { @class = "form-control", @OnChange = "return bindplan();" })
+                    </div>
+                </div>
+                <div class="col-md-12" style="height: 15px;"></div>
+                <div class="form-group">
+                    <div class="col-sm-12">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-2">
+                        Plan
+                    </div>
+                    <div class="col-sm-4">
+                        @Html.DropDownListFor(m => m.PlanID, new SelectList(Model.ListPlan, "id", "PlanName"), "--Select Plan--", new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-md-12" style="height: 15px;"></div>
+                <div class="form-group">
+                    <div class="col-sm-12">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-2">
+                        Effective Date
+                    </div>
+                    <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.EffDate, new { @class = "form-control pull-right datepicker", @onblur = "return futuredate();" })
+                    <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                    </div>
+                </div>
+            </div>
+            <fieldset class="scheduler-border">
+            <legend class="scheduler-border">Upload Data Sheet</legend>
+            @*<div class="alert alert-danger">
+                <strong>Note : </strong>
+                <p>1. Excel sheet colunm structure must be as sample sheet.&nbsp;<a target="_blank" href="/DataFiles/Pension_Sample_Sheet.xlsx"><i class="fa fa-file-excel-o" aria-hidden="true"></i>&nbsp;Download Sample Sheet</a></p>
+                <p>2. Upload single sheet excel file. Sheet name must be 'Sheet1', remember this is sheet name not a file name.</p>
+                <p>3. In Sheet first colunm 'PUID' and ninth colunm 'Over/Under(kW)' keep blank.</p>
+            </div>*@
+            @Html.Label("Select Excel File", new { @class = "col-sm-2 control-label" })
+            <div class="col-sm-10">
+                <input type="file" value="" id="fle" name="file" class="btn btn-info" />
+            </div>
+        </fieldset>
+            <div class="col-sm-3">
+                <input type="Submit" value="Save" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+    <!-- Advanced Tables -->
+    <div class="panel panel-info" id="dvGrid">
+        <div class="panel-heading">
+            Annuity Data
+            <input type="button" id="btnAdd" value="Add New" class="btnAdd btn btn-primary" />
+        </div>
+        <div class="panel-body">
+            <div class="table-responsive" id="Grid">
+                <table class="table" id="tbl">
+                    <thead>
+                        <tr>
+                            <th>Insurance</th>
+                            <th>Plan</th>
+                            <th>Age</th>
+                            <th>Yearly</th>
+                            <th>Half Yearly</th>
+                            <th>Quaterly</th>
+                            <th>Monthly</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.lstaty)
+                        {
+                            <tr>
+                                <td>@item.Insurance</td>
+                                <td>@item.PlanName</td>
+                                <td>@item.Age</td>
+                                <td>@item.Yly</td>
+                                <td>@item.Hly</td>
+                                <td>@item.Qly</td>
+                                <td>@item.Mly</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+}
+
+<script>
+
+    function futuredate() {
+        debugger;
+        $("#EffDate").datepicker({
+            maxDate: 0
+        });
+    }
+    function bindplan() {
+        debugger;
+        var serviceURL = '/Annuity/BindPlan';
+        $.ajax({
+            type: "POST",
+            url: serviceURL,
+            data: JSON.stringify({ model: { LICId: $("#LICId").val() } }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                $('#PlanID').empty();
+                debugger;
+                for (var i = 0; i < data.length; i++) {
+                    var opt = new Option(data[i].PlanName, data[i].id);
+                    $('#PlanID').append(opt);
+                }
+            },
+            error: function (data) {
+            }
+        });
+    }
+
+</script>

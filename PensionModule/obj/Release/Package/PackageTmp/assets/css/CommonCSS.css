@@ -1,0 +1,13 @@
+﻿.errMsg {
+
+    color:#ff7570;
+    background:#fff3f3;
+    border:1px solid #ff7570;
+    padding: 5px 10px;
+    border-radius:3px;
+    position:relative;
+    display:inline-block;
+    margin-top:3px;
+}
+
+

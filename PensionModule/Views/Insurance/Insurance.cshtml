@@ -1,0 +1,260 @@
+﻿@model  Pension.Models.ViewModel.InsuranceViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Insurance";
+    ViewBag.PageTitle = "Create/Manage Language";
+}
+@using (Html.BeginForm("Insurance", "Insurance", FormMethod.Post))
+{
+    
+    @Html.HiddenFor(m => m.hdnInsuranceID)
+    <section class="content-header">
+        <h1>Insurance <small>Master</small>
+        </h1>
+
+    </section>
+    <div class="panel panel-info" id="dvAdd">
+        <div class="panel-heading">
+            Insurance Details
+            <input type="button" id="btnBack" value="Back" class="btnAdd btn btn-primary" />
+        </div>
+        <div class="panel-body">
+
+
+            <div class="form-group">
+                <div class="col-sm-4">
+                    Insurance Company
+                </div>
+                <div class="col-sm-6">
+                    @Html.TextBoxFor(m => m.InsuranceCompany, new { @class = "form-control" })
+                </div>
+
+
+            </div>
+            <br />
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-4">
+                   Head Office
+                </div>
+                <div class="col-sm-6">
+                    @Html.TextAreaFor(m => m.HO, new { @class = "form-control" })
+                </div>
+
+
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-4">
+                    Status
+                </div>
+                <div class="col-sm-6">
+                    @Html.RadioButtonFor(m => m.Status, "1", new { @checked = "checked" })Active
+                    @Html.RadioButtonFor(m => m.Status, "0")In-Active    
+                </div>
+
+
+            </div>
+
+
+            <br />
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+
+
+            <br />
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <input type="submit" name="Button" value="Save" id="btnSave" class="btn btn-primary" onclick="return Validation();" />
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <!-- Advanced Tables -->
+    <div class="panel panel-info" id="dvGrid">
+        <div class="panel-heading">
+
+            <input type="button" id="btnAdd" value="Add New" class="btnAdd btn btn-primary" />
+        </div>
+
+        <div class="panel-body">
+            <div class="table-responsive" id="Grid">
+
+                <table class="table" id="tbl">
+                    <thead>
+                        <tr>
+                            <th>Insurance Company
+                            </th>
+                            <th>HO
+                            </th>
+                            <th>Status
+                            </th>
+                            <th>Action
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var item in Model.lstins)
+                        {
+                            <tr>
+                                <td>@item.InsuranceCompany</td>
+                                <td>@item.HO</td>
+                                @if (@item.Status == 0)
+                                {
+                                    <td>In-Active</td>
+                                }
+                                else
+                                {
+                                    <td>Active</td>
+                                }
+                                <td>
+                                    <a  id="btnEdit" class="fa fa-pencil-square fa-lg" onclick="HiddenField('@item.id')"  style="height:20px;width:20px;" />
+                                    @*  <button type="button"   name="Button" value="Edit" ></button>*@
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+    </div>
+
+}
+
+
+<script src="~/assets/js/jquery-1.10.2.js"></script>
+<script src="~/assets/js/jquery.min.js"></script>
+<script>
+
+    $('#btnBack').click(function () {
+        $('#Status').val('');
+        $('#InsuranceCompany').val('');
+        $('#HO').val('');
+
+        $('#hdnInsuranceID').val('');
+        removeErr("err_LangSName");
+        removeErr("err_LangFName");
+    });
+
+    function Validation() {
+        debugger;
+        var Grade_Name = $('#InsuranceCompany').val();
+        if (Grade_Name == "") {
+            showErr("InsuranceCompany", "Please enter valid Company name");
+            return false;
+        }
+        else {
+            removeErr("err_LangSName");
+            return true;
+        }
+    }
+
+
+    function ValidLangName() {
+        var ValidateMsg = true;
+        var LangName = $('#InsuranceCompany').val();
+        if (LangName == "") {
+            showErr("InsuranceCompany", "Please enter valid language name");
+            ValidateMsg = false;
+        }
+        else {
+            removeErr("err_LangFName");
+            ValidateMsg = true;
+        }
+        return ValidateMsg;
+    }
+
+
+    function CheckExist() {
+        if (ValidLangName() == true) {
+            checkformExist()
+        }
+
+        else {
+            showErr("InsuranceCompany", "Please enter valid Insurance Company name");
+
+        }
+    }
+
+
+    function checkformExist() {
+        debugger;
+        var serviceURL = '/Company/CheckExists';
+
+        $.ajax({
+            type: "POST",
+            url: serviceURL,
+            data: JSON.stringify({ model: { CompName: $("#CompName").val() } }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                showErr("CompName", "Company Name Already Exists");
+                $('#CompName').val('');
+                $('#CompName').focus();
+            },
+            error: function (data) {
+
+
+            }
+
+
+        });
+
+
+    }
+
+
+
+    function HiddenField(id) {
+        $("#dvGrid").hide();
+        $("#dvAdd").show(1000);
+        debugger;
+        $('#hdnInsuranceID').val(id);
+        var id = $('#hdnInsuranceID').val();
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("GetDataById", "Insurance")',
+            data: "{'id': '" + id + "'}",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+
+                $('#InsuranceCompany').val(data.InsuranceCompany);
+                $('#HO').val(data.HO);
+                $('#Status').val(data.Status);
+
+            },
+            error: function (data) {
+                alert(data.responseText);
+            }
+
+        });
+
+    }
+
+
+</script>
+<link rel="stylesheet" href="~/assets/js/dataTables/dataTables.bootstrap.css" />
+<script src="~/assets/js/dataTables/jquery.dataTables.js"></script>
+<script src="~/assets/js/dataTables/dataTables.bootstrap.js"></script>
+
+<!--end-->
+

@@ -1,0 +1,473 @@
+﻿@model PensionModel.ViewModel.EmployeePlanViewModel
+@using PensionModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Employee Plan";
+}
+
+@using (Html.BeginForm("EmployeePlan", "EmployeePlan", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+   
+    <section class="content-header">
+        <h1>Annuity <small>Addition</small>
+        </h1>
+
+    </section>  
+    <div class="panel panel-info" id="dvAdd">
+        <div class="panel-heading">
+            Annuity Addition
+            <input type="button" id="btnBack" value="Back" class="btnAdd btn btn-primary" />
+        </div>
+        @Html.HiddenFor(m => m.hdnempplan)
+        <div class="panel-body">
+            <br />
+            @*<div class="form-group">
+                <div class="col-sm-2">
+                    Pension
+                </div>
+                <div class="col-sm-4">
+                    @Html.DropDownListFor(m => m.PensionId, new SelectList(Model.ListPen, "id", "Type"), "--Select Grade--", new { @class = "form-control"})
+                </div>
+            </div>
+            <div class="col-md-12" style="height:15px;"></div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>*@
+            <div class="form-group">
+                <div class="col-sm-2">
+                    Insurance  
+                </div>
+                <div class="col-sm-4" style="font-weight:bold; font-size:14px;">
+                    @*@Html.DropDownListFor(m => m.LicId, new SelectList(Model.ListIns, "id", "InsuranceCompany"), "--Select Insurance--", new { @class = "form-control", @OnChange = "return bindplan();" })*@
+                    @Html.DisplayFor(m => m.Insurance, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-md-12" style="height: 15px;"></div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-2">
+                    Plan 
+                </div>
+                <div class="col-sm-4" style="font-weight:bold; font-size:14px;">
+                    @*@Html.DropDownListFor(m => m.PlanId, new SelectList(Model.ListPlan, "id", "PlanName"), "--Select Plan--", new { @class = "form-control" })*@
+                    @Html.DisplayFor(m => m.Plan, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-md-12" style="height: 15px;"></div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-2">
+                    Annouity No
+                </div>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.AnnuityNo, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-md-12" style="height: 15px;"></div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-2">
+                    Insurance Office
+                </div>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.InsuranceOffife, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-md-12" style="height: 15px;"></div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-2">
+                    PolicyID
+                </div>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.PolicyId, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-md-12" style="height: 15px;"></div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-2">
+                    Policy Date
+                </div>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.PolicyDate, new { @class = "form-control pull-right datepicker" })
+                    <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-2">
+                    Amount
+                </div>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.Amount, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-md-12" style="height: 15px;"></div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2">
+                    Policy Status
+                </div>
+                <div class="col-sm-4">
+                    @Html.DropDownListFor(m => m.PolicyStatus, new List<SelectListItem>() { new SelectListItem() { Text = "--Select Status--", Value = "" },
+                     new SelectListItem() { Text = "Hold", Value = "1" }, 
+                     new SelectListItem() { Text = "Active", Selected=true, Value = "2"}},
+                     new { @class = "form-control", @onchange = "return hold(this.value);" })
+                </div>
+            </div>
+            <div class="col-md-12" style="height: 15px;"></div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+            <div id="divhold">
+                <div class="form-group">
+                    <div class="col-sm-2">
+                        Hold Date
+                    </div>
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(m => m.HoldDate, new { @class = "form-control datepicker " })
+                        <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                    </div>
+                </div>
+                <div class="col-md-12" style="height: 15px;"></div>
+                <div class="form-group">
+                    <div class="col-sm-12">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-2">
+                        Remark
+                    </div>
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(m => m.Remark, new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12" style="height: 15px;"></div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2">
+                    Type of Pension
+                </div>
+                <div class="col-sm-4">
+                    @Html.DropDownListFor(m => m.RPensionType, new List<SelectListItem>() {
+                     new SelectListItem() { Text = "Regular", Selected=true, Value = "1" }, 
+                     new SelectListItem() { Text = "Annuity", Value = "0" }},
+                     new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.RPensionType)
+                </div>
+            </div>
+            <div class="col-md-12" style="height: 15px;"></div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+
+            <br />
+            <br />
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <input type="submit" name="Button" value="Save" id="btnSave" class="btn btn-primary" onclick="return Validation();" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-info" id="dvGrid">
+        <div class="panel-heading">
+
+            <input type="button" id="btnAdd" value="Add New" class="btnAdd btn btn-primary" />
+        </div>
+        <div class="panel-heading" style="height: 54px;">
+            <div class="panel-body">
+                <div class="table-responsive" id="Grid">
+
+                    <table class="table" id="tbl">
+                        <thead>
+                            <tr>
+                                <th>Insurance</th>
+                                <th>Plan</th>
+                                <th>Annuity No</th>
+                                <th>InsuranceOffife</th>
+                                <th>Email</th>
+                                <th>PolicyID</th>
+                                <th>Policy Date</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.lstempplan)
+                            {
+                                <tr>
+                                    <td>@item.Insurance</td>
+                                    <td>@item.Plan</td>
+                                    <td>@item.AnnuityNo</td>
+                                    <td>@item.InsuranceOffife</td>
+                                    <td>@item.Email</td>
+                                    <td>@item.PolicyId</td>
+                                    @if (@item.PolicyDate.HasValue)
+                                    {
+                                        <td>@item.PolicyDate.Value.ToString("dd/MM/yyyy")</td>
+                                    }
+                                    else
+                                    {
+                                        <td>@item.PolicyDate</td>    
+                                    }
+                                    <td>@item.Amount</td>
+                                    <td>
+                                        <a  id="btnEdit" class="fa fa-pencil-square fa-lg" onclick="HiddenField('@item.Id')"  style="height:20px;width:20px;" />
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+
+<script>
+    $('#btnBack').click(function () {
+
+        $('#LicId').val('');
+        $('#PlanId').val('');
+        $('#AnnuityNo').val('');
+        $('#InsuranceOffife').val('');
+        $('#Email').val('');
+        $('#PolicyId').val('');
+        $('#PolicyDate').val('');
+        $('#Amount').val('');
+        $('#PolicyStatus').val('');
+        $('#HoldDate').val('');
+        $('#Remark').val('');
+
+        $('#hdnempplan').val('');
+        removeErr("err_LangSName");
+        removeErr("err_LangFName");
+    });
+
+    $('#btnAdd').click(function () {
+
+        $('#LicId').val('');
+        $('#PlanId').val('');
+        $('#AnnuityNo').val('');
+        $('#InsuranceOffife').val('');
+        $('#Email').val('');
+        $('#PolicyId').val('');
+        $('#PolicyDate').val('');
+        $('#Amount').val('');
+        $('#PolicyStatus').val(2);
+        $('#HoldDate').val('');
+        $('#Remark').val('');
+
+        hold(2);
+        $('#hdnempplan').val('');
+        removeErr("err_LangSName");
+        removeErr("err_LangFName");
+    });
+
+
+    function hold(x) {
+        debugger;
+        if (x == 1) {
+            $('#divhold').show();
+        }
+        else {
+            $('#divhold').hide();
+        }
+    }
+
+    $(function () { // will trigger when the document is ready
+        //$('.RetireDate').datepicker(); //Initialise any date pickers
+        $('.datepicker').datepicker(); //Initialise any date pickers
+
+    });
+
+    function bindplan() {
+        //$.ajax({
+        //    type: "POST",
+        //    url: serviceURL,
+        //    data: JSON.stringify({ model: { Grade_Name: $("#Grade_Name").val() } }),
+        //    contentType: "application/json; charset=utf-8",
+        //    dataType: "json",
+        //    success: function (data) {
+        //        showErr("Grade_Name", "Grade Name Already Exists");
+        //        $('#Grade_Name').val('');
+        //        $('#Grade_Name').focus();
+        //    },
+        //    error: function (data) {
+        //    }
+        //});
+
+        debugger;
+        var serviceURL = '/EmployeePlan/BindPlan';
+        $.ajax({
+
+            type: "POST",
+            url: serviceURL,
+            data: JSON.stringify({ model: { LicId: $("#LicId").val() } }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                $('#PlanId').empty();
+                debugger;
+                for (var i = 0; i < data.length; i++) {
+                    var opt = new Option(data[i].PlanName, data[i].id);
+                    $('#PlanId').append(opt);
+
+                }
+
+                //$.each(data, function (i, data) {
+                //    alert($.parseJSON(data));
+                //    $("#PlanId").append
+                //    ($('<option></option>').val(plan.PlanId).html(plan.PlanName))
+                //})
+            },
+            error: function (data) {
+            }
+        });
+    }
+
+    function Validation() {
+        var ValidateMsg = true;
+        debugger;
+        var LicId = $('#LicId').val();
+        var PlanId = $('#PlanId').val();
+        var AnnuityNo = $('#AnnuityNo').val();
+        var InsuranceOffife = $('#InsuranceOffife').val();
+        var Email = $('#Email').val();
+        var PolicyId = $('#PolicyId').val();
+        var PolicyDate = $('#PolicyDate').val();
+        var Amount = $('#Amount').val();
+        var PolicyStatus = $('#PolicyStatus').val();
+
+
+        if (LicId == "") {
+            showErr("LicId", "Please select Insurance");
+            return false;
+        }
+        else if (PlanId == "") {
+            showErr("PlanId", "Please select Plan");
+            return false;
+        }
+        else if (AnnuityNo == "") {
+            showErr("AnnuityNo", "Please enter AnnuityNo");
+            return false;
+        }
+        else if (InsuranceOffife == "") {
+            showErr("InsuranceOffife", "Please enter Insurance Offife Name");
+            return false;
+        }
+        else if (Email == "") {
+            showErr("Email", "Please enter EmailId");
+            return false;
+        }
+        else if (PolicyId == "") {
+            showErr("PolicyId", "Please enter PolicyId");
+            return false;
+        }
+        else if (PolicyDate == "") {
+            showErr("PolicyDate", "Please enter Policy Date");
+            return false;
+        }
+        else if (Amount == "") {
+            showErr("Amount", "Please enter Amount");
+            return false;
+        }
+        else if (PolicyStatus == "") {
+            showErr("PolicyStatus", "Please select Policy Status");
+            return false;
+        }
+        else {
+            removeErr("err_LangFName");
+            return true;
+        }
+    }
+
+    function HiddenField(id) {
+        $('#dvAdd').show(1000);
+        $('#dvGrid').hide();
+        debugger;
+        $('#hdnempplan').val(id);
+        var ids = $('#hdnempplan').val();
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("GetByID", "EmployeePlan")',
+            data: "{'Id': '" + ids + "'}",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                var value = new Date(parseInt(data.PolicyDate.replace(/(^.*\()|([+-].*$)/g, '')));
+                var PolicyDate = value.getMonth() + 1 + "/" + value.getDate() + "/" + value.getFullYear();
+                var value = new Date(parseInt(data.HoldDate.replace(/(^.*\()|([+-].*$)/g, '')));
+                var HoldDate = value.getMonth() + 1 + "/" + value.getDate() + "/" + value.getFullYear();
+
+                $('#LicId').val(data.LicId);
+                $('#AnnuityNo').val(data.AnnuityNo);
+                $('#InsuranceOffife').val(data.InsuranceOffife);
+                $('#Email').val(data.Email);
+                $('#PolicyId').val(data.PolicyId);
+                $('#PolicyDate').val(PolicyDate);
+                $('#Amount').val(data.Amount);
+                $('#PolicyStatus').val(data.PolicyStatus);
+                $('#HoldDate').val(HoldDate);
+                $('#Remark').val(data.Remark);
+
+                $('#PlanId').empty();
+                debugger;
+                for (var i = 0; i < data.ListPlan.length; i++) {
+                    var opt = new Option(data.ListPlan[i].PlanName, data.ListPlan[i].id);
+                    $('#PlanId').append(opt);
+                }
+
+                $('#PlanId').val(data.PlanId);
+            },
+            error: function (data) {
+                alert(data.responseText);
+            }
+        });
+    }
+
+</script>

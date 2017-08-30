@@ -1,0 +1,67 @@
+﻿@{
+    ViewBag.Title = "Company Master";
+    ViewBag.PageTitle = "Company Master";
+}
+@using PensionModel.ViewModel
+@model CompanyModel
+@using (Html.BeginForm("Company", "Index", FormMethod.Post))
+{
+    <section class="content-header">
+        <h1>Company <small>Master</small>
+        </h1>
+
+    </section>
+    <!-- Advanced Tables -->
+    <div class="panel panel-info" id="dvGrid">
+        <div class="panel-heading">
+            Company Data
+            <input type="button" id="btnAdd" value="Add New" class="btnAdd btn btn-primary" />
+        </div>
+
+        <div class="panel-body">
+            <div class="table-responsive" id="Grid">
+
+                <table class="table" id="tbl">
+                    <thead>
+                        <tr>
+                            <th>Code
+                            </th>
+                            <th>Company
+                            </th>
+                            <th>Email</th>
+                            <th>Status
+                            </th>
+                            <th>Action
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var item in Model.ListComp)
+                        {
+                            <tr>
+                                <td>@item.CompCode</td>
+                                <td>@item.CompName</td>
+                                <td>@item.Email</td>
+                                @if (@item.Status == 0)
+                                {
+                                    <td>In-Active</td>
+                                }
+                                else
+                                {
+                                    <td>Active</td>
+                                }
+                                <td>
+                                    @Html.ActionLink(" ", "Edit", new { @id = @item.id }, new { @class = "fa fa-pencil-square fa-lg" })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+
+            </div>
+        </div>
+    </div>
+
+}

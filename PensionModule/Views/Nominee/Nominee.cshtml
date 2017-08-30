@@ -1,0 +1,356 @@
+﻿@model PensionModel.ViewModel.NomineeViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Nominee";
+}
+
+
+@using (Html.BeginForm("Nominee", "Nominee", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+   
+    <section class="content-header">
+        <h1>Nominee <small>Change</small>
+        </h1>
+
+    </section>  
+    
+    <div class="panel panel-info" id="dvAdd">
+        <div class="panel-heading">
+            Nominee Master
+            <input type="button" id="btnBack" value="Back" class="btnAdd btn btn-primary" />
+        </div>
+        @Html.HiddenFor(m => m.hdnnomieId)
+        <div class="panel-body">
+            <div class="form-group">
+                <div class="col-sm-2">
+                    Name
+                </div>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                </div>
+
+                <div class="col-sm-2">
+                    Relation
+                </div>
+                <div class="col-sm-4">
+                    @*@Html.TextBoxFor(m => m.Relation, new { @class = "form-control" })*@
+                    @Html.DropDownListFor(m => m.Relation, new List<SelectListItem>() { new SelectListItem() { Text = "--Select Relation--", Value = "" },
+                     new SelectListItem() { Text = "Father", Value = "Father" }, 
+                     new SelectListItem() { Text = "Mother", Value = "Mother" },
+                     new SelectListItem() { Text = "Son", Value = "Son" },
+                     new SelectListItem() { Text = "Dauther", Value = "Dauther" }},
+                     new { @class = "form-control" })
+                </div>
+            </div>
+            <br />
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2">
+                    Date Of Birth
+                </div>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.DOB, "{0:dd/MM/yyyy}", new { @class = "form-control pull-right datepicker" })
+                    <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                </div>
+                <div class="col-sm-2">
+                    Address
+                </div>
+                <div class="col-sm-4">
+                    @Html.TextAreaFor(m => m.Addess, new { @class = "form-control" })
+                </div>
+
+            </div>
+            <br />
+            <br />
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-2">
+                    Contact Person
+                </div>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.Contact, new { @class = "form-control" })
+                </div>
+                <div class="col-sm-2">
+                    Mobile No
+                </div>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.Mobile, new { @class = "form-control" })
+                </div>
+            </div>
+            <br />
+            <br />
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-2">
+                    Aadhar Card No
+                </div>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.Adharnumber, new { @class = "form-control" })
+                </div>
+                <div class="col-sm-2">
+                    Pan
+                </div>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.Pan, new { @class = "form-control" })
+                </div>
+            </div>
+            <br />
+            <br />
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-2">
+                    Bank Name
+                </div>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.BankName, new { @class = "form-control" })
+                </div>
+
+                <div class="col-sm-2">
+                    Branch
+                </div>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.Branch, new { @class = "form-control" })
+                </div>
+            </div>
+            <br />
+            <br />
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-2">
+                    Account No
+                </div>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.AccountNo, new { @class = "form-control"})
+                </div>
+                <div class="col-sm-2">
+                    IFSC Code
+                </div>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.IFSC, new { @class = "form-control" })
+                </div>
+            </div>
+            <br />
+            <br />
+            <br />
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <input type="submit" name="Button" value="Save" id="btnSave" onclick="return Validation();" class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="panel panel-info" id="dvGrid">
+        <div class="panel-heading">
+            <input type="button" id="btnAdd" value="Add New" class="btnAdd btn btn-primary" />
+        </div>
+        <div class="panel-heading" style="height: 54px;">
+            <div class="panel-body">
+                <div class="table-responsive" id="Grid">
+
+                    <table class="table" id="tbl">
+                        <thead>
+                            <tr>
+                                @*<th>Company Name</th>*@
+                                <th>Name</th>
+                                <th>Relation</th>
+                                @*<th>DOB</th>
+                                <th>Addess</th>
+                                <th>Contact</th>*@
+                                <th>Mobile</th>
+                                <th>Adharnumber</th>
+                                <th>Pan</th>
+                                @*<th>BankName</th>
+                                <th>Branch</th>
+                                <th>AccountNo</th>
+                                <th>IFSC </th>*@
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.lstnomei)
+                            {
+                                <tr>
+                                    @*<td></td>*@
+                                    <td>@item.Name</td>
+                                    <td>@item.Relation</td>
+                                    @*@if (@item.DOB.HasValue)
+                                    {
+                                        <td>@item.DOB.Value.ToString("dd/MM/yyyy")</td>
+                                    }
+                                    else
+                                    {
+                                        <td>@item.DOB</td>
+                                    }*@
+                                    @*<td>@item.Addess</td>*@
+                                    @*<td>@item.Contact</td>*@
+                                    <td>@item.Mobile</td>
+                                    <td>@item.Adharnumber</td>
+                                    <td>@item.Pan</td>
+                                    @*<td>@item.BankName</td>
+                                    <td>@item.Branch</td>
+                                    <td>@item.AccountNo</td>
+                                    <td>@item.IFSC </td>*@
+                                    <td>
+                                        <a  id="btnEdit" class="fa fa-pencil-square fa-lg" onclick="HiddenField('@item.id')"  style="height:20px;width:20px;" />
+                                        @*@Html.ActionLink(" ", "Nominee", new { @id = @item.id}, new { @class = "fa fa-pencil-square fa-lg" })*@
+                                        @*<button onclick="HiddenField('@item.id')" class = "fa fa-pencil-square fa-lg" id="btnedit"></button>*@
+                                    </td>
+                                    @*<td>
+                                        <img  id="btnremove" onclick="HiddenField1('@item.id')"  style="height:20px;width:20px;" />
+                                    </td>*@
+                                </tr>   
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+<script src="~/assets/js/jquery-1.10.2.js"></script>
+<script src="~/assets/js/jquery.min.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script>
+    $('#btnAdd').click(function () {
+        $('#dvAdd').show(1000);
+        $('#dvGrid').hide();
+    });
+</script>
+<script>
+
+    $('#btnBack').click(function () {
+
+        $('#id').val('');
+        $('#Name').val('');
+        $('#Relation').val('');
+        $('#DOB').val('');
+        $('#Addess').val('');
+        $('#Contact').val('');
+        $('#Mobile').val('');
+        $('#Adharnumber').val('');
+        $('#Pan').val('');
+        $('#BankName').val('');
+        $('#Branch').val('');
+        $('#AccountNo').val('');
+        $('#IFSC').val('');
+
+        $('#hdnnomieId').val('');
+        removeErr("err_LangSName");
+        removeErr("err_LangFName");
+    });
+</script>
+<script>
+    $(function () { 
+        $('.datepicker').datepicker(); 
+
+    });
+    function Validation() {
+        var ValidateMsg = true;
+        debugger;
+        var Name = $('#Name').val();
+        var Relation = $('#Relation').val();
+
+        if (Name == "") {
+            showErr("Name", "Please enter valid Nominee name");
+            return false;
+        }
+        else if (Relation == "") {
+            showErr("Relation", "Please enter valid Nominee relation");
+            return false;
+        }
+        else {
+            removeErr("err_LangFName");
+            return true;
+        }
+    }
+
+    function HiddenField(id) {
+        $('#dvAdd').show(1000);
+        $('#dvGrid').hide();
+        debugger;
+
+        $('#hdnnomieId').val(id);
+
+        var iid = $('#hdnnomieId').val();
+        //var id = $('#hdnnomieId').val();
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("GetByID", "Nominee")',
+            data: "{'id': '" + iid + "'}",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+
+                var value = new Date(parseInt(data.DOB.replace(/(^.*\()|([+-].*$)/g, '')));
+                var DOB = value.getMonth() + 1 + "/" + value.getDate() + "/" + value.getFullYear();
+
+                //$('#id').val(data.id);
+                $('#Name').val(data.Name);
+                $('#Relation').val(data.Relation);
+                $('#DOB').val(DOB);
+                $('#Addess').val(data.Addess);
+                $('#Contact').val(data.Contact);
+                $('#Mobile').val(data.Mobile);
+                $('#Adharnumber').val(data.Adharnumber);
+                $('#Pan').val(data.Pan);
+                $('#BankName').val(data.BankName);
+                $('#Branch').val(data.Branch);
+                $('#AccountNo').val(data.AccountNo);
+                $('#IFSC').val(data.IFSC);
+            },
+            error: function (data) {
+                alert(data.responseText);
+            }
+        });
+    }
+
+    //function HiddenField1(id) {
+    //    $('#dvAdd').hide();
+    //    $('#dvGrid').show(1000);
+    //    debugger;
+
+    //    $('#hdnnomieId').val(id);
+    //    var id = $('#hdnnomieId').val();
+
+    //    $('#id').val('');
+    //    $('#Name').val('');
+    //    $('#Relation').val('');
+    //    $('#DOB').val('');
+    //    $('#Addess').val('');
+    //    $('Contact').val('');
+    //    $('#Mobile').val('');
+    //    $('#Adharnumber').val('');
+    //    $('#Pan').val('');
+    //    $('#BankName').val('');
+    //    $('#Branch').val('');
+    //    $('#AccountNo').val('');
+    //    $('#IFSC').val('');
+    //}
+</script>

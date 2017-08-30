@@ -1,0 +1,54 @@
+﻿@using PensionModel.ViewModel
+@model List<SalaryModel>
+<link rel="stylesheet" href="/assets/js/dataTables/dataTables.bootstrap.css" />
+<script src="/assets/js/dataTables/jquery.dataTables.js"></script>
+<script src="/assets/js/dataTables/dataTables.bootstrap.js"></script>
+<script src="~/assets/js/CustomValidation.js"></script>
+<link href="~/assets/css/CommonCSS.css" rel="stylesheet" />
+<!--end-->
+<script>
+    $(document).ready(function () {
+        $('#tbl1').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                {
+                    extend: 'copyHtml5',
+                    exportOptions: {
+                        columns: ':contains("Office")'
+                    }
+                },
+                'excelHtml5',
+                'csvHtml5',
+                'pdfHtml5'
+            ]
+        });
+    });
+
+</script>
+<div class="table-responsive" id="dvData">
+    <table class="table" id="tbl">
+        <thead>
+            <tr>
+                <th>EmpNo</th>
+                <th>EmpName</th>
+                @*<th>Pay.Type</th>  
+                                <th>Amount</th>                              
+                                <th>CompName</th>
+                                <th>PolicyNo</th>*@
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.EmpNo</td>
+                    <td>@item.EmpName</td>
+                    @*<td>@item.PayTypeDetails.PaymentType1</td>   
+                                    <td>@item.GrossAmt</td>                                 
+                                    <td>@item.CompDetails.CompName</td>
+                                    <td>@item.PolicyNo</td>*@
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,115 @@
+﻿@{
+    ViewBag.Title = "Colunm Mapping Master";
+    ViewBag.PageTitle = "Colunm Mapping Master";
+}
+@using PensionModel.ViewModel
+@model PensionModel.ViewModel.ColunmMapModel
+
+@using (Html.BeginForm("Index", "ColunmMapping", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <section class="content-header">
+        <h1>Colunm Mapping <small>Master</small>
+        </h1>
+
+    </section>
+    
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            Colunm Mapping Details
+            <input type="button" id="btnBack" value="Back" class="btnAdd btn btn-primary" />
+        </div>
+       
+        <div class="panel-body">
+            <div class="col-sm-12">
+                @Html.Label("*Sheet Type", new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-4">
+
+                    @Html.DropDownListFor(m => m.TblName, new List<SelectListItem>() { new SelectListItem() { Text = "--Select Sheet Type--", Value = "" }, new SelectListItem() { Text = "Salary Sheet", Value = "SalaryMaster" }, new SelectListItem() { Text = "Pension Sheet", Value = "PensionMaster" } }, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.TblName)
+                </div>
+                
+            </div>
+            
+            <fieldset class="scheduler-border">
+                <legend class="scheduler-border">Upload Data Sheet</legend>
+                @*<div class="alert alert-danger">
+                    <strong>Note : </strong>
+                    <p>1. Excel sheet colunm structure must be as sample sheet.&nbsp;<a target="_blank" href="/DataFiles/Pension_Sample_Sheet.xlsx"><i class="fa fa-file-excel-o" aria-hidden="true"></i>&nbsp;Download Sample Sheet</a></p>
+                    <p>2. Upload single sheet excel file. Sheet name must be 'Sheet1', remember this is sheet name not a file name.</p>
+                    <p>3. In Sheet first colunm 'PUID' and ninth colunm 'Over/Under(kW)' keep blank.</p>
+                </div>*@
+                @*<form method="post" action="/PowerUsage/addFile">*@
+                @*@using (Html.BeginForm("uploadFile", "Pension", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {*@
+                
+                @Html.Label("Select Excel File", new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    @*<input type="file" id="file" name="files" multiple="multiple" value="" class="btn btn-info" />*@
+                    <input type="file" value="" id="fle" name="file" class="btn btn-info" />
+                     
+                </div>
+
+                @*}*@
+            </fieldset>
+            <div class="col-sm-3">
+                <input type="submit" value="Save" id="btnSave" class="btn btn-primary" />
+
+            </div>
+            
+        </div>
+        
+    </div>
+
+
+    <div class="col-sm-12" id="dvData"></div>
+
+}
+
+@*<script lang="javascript" type="text/javascript">
+    $(document).ready(function () {
+
+        //$("#btnSave").click(function () {
+        $('#btnSave').click(function () {
+            $("#divLoading").show();
+            debugger;
+            var type = $('#TblName').val();
+            var pm = $('#PensionMonth').val();
+            var pt = $('#ddlPay').val();
+            if (pt == "") {
+                pt = 0;
+            }
+            if (window.FormData !== undefined) {
+
+                var fileUpload = $("#fle").get(0);
+                var files = fileUpload.files;
+
+                // Create FormData object  
+                var fileData = new FormData();
+
+                // Looping over all files and add it to FormData object  
+                for (var i = 0; i < files.length; i++) {
+                    fileData.append(files[i].name, files[i]);
+                }
+            }
+            $.ajax(
+            {
+                url: '@Url.Action("getColunm", "ColunmMapping")',
+                type: "GET",
+                datatype: "JSON",
+                data: { table: type,file:filedata },
+
+                success: function (gr) {
+                    debugger;
+                    $("#dvData").html("");  // clear before appending new list 
+                    $("#dvData").append(gr);
+                    $("#divLoading").hide();
+
+                }
+
+            });
+
+            
+        });
+        
+    });
+</script>*@

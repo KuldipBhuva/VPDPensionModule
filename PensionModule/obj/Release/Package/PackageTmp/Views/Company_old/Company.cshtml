@@ -1,0 +1,378 @@
+﻿@model  Pension.Models.ViewModel.CompanyViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Company";
+    ViewBag.PageTitle = "Create/Manage Language";
+}
+@using (Html.BeginForm("Company", "Company", FormMethod.Post))
+{
+    
+    @Html.HiddenFor(m => m.hdnCompanyId)
+    <section class="content-header">
+        <h1>Company <small>Master</small>
+        </h1>
+
+    </section>
+    <div class="panel panel-info" id="dvAdd">
+        <div class="panel-heading">
+            Company Details
+            <input type="button" id="btnBack" value="Back" class="btnAdd btn btn-primary" />
+        </div>
+        <div class="panel-body">
+
+            <div class="form-group">
+                <div class="col-sm-4">
+                    Company Code
+                </div>
+                <div class="col-sm-6">
+                    @Html.TextBoxFor(m => m.CompCode, new { @class = "form-control" })
+                </div>
+            </div>
+            <br />
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-4">
+                    Company Name
+                </div>
+                <div class="col-sm-6">
+                    @Html.TextBoxFor(m => m.CompName, new { @class = "form-control", @onblur = "return CheckExist();" })
+                </div>
+
+
+            </div>
+            <br />
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-4">
+                    Company Address
+                </div>
+                <div class="col-sm-6">
+                    @Html.TextAreaFor(m => m.Address, new { @class = "form-control" })
+                </div>
+
+
+            </div>
+            <br />
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-4">
+                    Company Email
+                </div>
+                <div class="col-sm-6">
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @Type = "email" })
+                </div>
+
+
+            </div>
+            <br />
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-4">
+                    Contact Person
+                </div>
+                <div class="col-sm-6">
+                    @Html.TextBoxFor(m => m.ContactPerson, new { @class = "form-control" })
+                </div>
+
+
+            </div>
+            <br />
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-4">
+                    Type
+                </div>
+                <div class="col-sm-6">
+                      @Html.DropDownListFor(m => m.Type, new List<SelectListItem>() { new SelectListItem() { Text = "--Select Type--", Value = "" }, new SelectListItem() { Text = "High", Value = "1" }, new SelectListItem() { Text = "Medium", Value = "2" }, new SelectListItem() { Text = "Normal", Value = "3" } }, new { @class = "form-control" })
+                          
+                </div>
+
+
+            </div>
+            <br />
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+
+              <div class="form-group">
+                <div class="col-sm-4">
+                    Widow Pension
+                </div>
+                <div class="col-sm-6">
+                      @Html.DropDownListFor(m => m.WidowPension, new List<SelectListItem>() { new SelectListItem() { Text = "--Select Widow pension--", Value = "" }, new SelectListItem() { Text = "Yes", Value = "1" }, new SelectListItem() { Text = "No", Value = "2" }}, new { @class = "form-control" })
+                          
+                </div>
+
+
+            </div>
+            <br />
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+              <div class="form-group">
+                <div class="col-sm-4">
+                    Pension Eligibity(No of years)
+                </div>
+                <div class="col-sm-6">
+                    @Html.TextBoxFor(m => m.PensionEligibityYears, new { @class = "form-control", @Type = "number" })
+                </div>
+
+
+            </div>
+
+              <br />
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+
+            
+            <br />
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <input type="submit" name="Button" value="Save" id="btnSave" class="btn btn-primary" onclick="return Validation();" />
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <!-- Advanced Tables -->
+    <div class="panel panel-info" id="dvGrid">
+        <div class="panel-heading">
+
+            <input type="button" id="btnAdd" value="Add New" class="btnAdd btn btn-primary" />
+        </div>
+        <div class="panel-heading" style="height: 54px;">
+            <div class="panel-body">
+                <div class="table-responsive" id="Grid">
+
+                    <table class="table" id="tbl">
+                        <thead>
+                            <tr>
+                                <th>Company Code
+                                </th>
+                                <th>Company Name
+                                </th>
+                                <th>Contact Person
+                                </th>
+                                <th>Action
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach (var item in Model.lstcomp)
+                            {
+                                <tr>
+                                    <td>@item.CompCode</td>
+                                    <td>@item.CompName</td>
+                                    <td>@item.ContactPerson</td>
+                                    <td>
+                                        <img  id="btnEdit" src="~/1493196377_create.png" onclick="HiddenField('@item.id')"  style="height:20px;width:20px;" />
+                                        @*  <button type="button"   name="Button" value="Edit" ></button>*@
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+
+<script src="~/assets/js/jquery-1.10.2.js"></script>
+<script src="~/assets/js/jquery.min.js"></script>
+<script>
+
+    $('#btnBack').click(function () {
+        $('#CompCode').val('');
+        $('#CompName').val('');
+        $('#Address').val('');
+        $('#Email').val('');
+        $('#ContactPerson').val('');
+        $('#Type').val('');
+        $('#WidowPension').val('');
+        $('#PensionEligibityYears').val('');
+        
+        $('#hdnCompanyId').val('');
+        removeErr("err_LangSName");
+        removeErr("err_LangFName");
+    });
+
+    function Validation() {
+        debugger;
+        var LangName = $('#CompName').val();
+        var Email = $('#Email').val();
+        if (LangName == "") {
+            showErr("CompName", "Please enter valid Company name");
+            return false;
+        }
+      
+        if (Email == "") {
+            showErr("Email", "Please enter valid Email");
+            return false;
+        }
+        else {
+            removeErr("err_LangSName");
+            return true;
+        }
+    }
+
+
+    function ValidLangName() {
+        var ValidateMsg = true;
+        var LangName = $('#CompName').val();
+        if (LangName == "") {
+            showErr("CompName", "Please enter valid language name");
+            ValidateMsg = false;
+        }
+        else {
+            removeErr("err_LangFName");
+            ValidateMsg = true;
+        }
+        return ValidateMsg;
+    }
+
+
+    function CheckExist() {
+        if (ValidLangName() == true) {
+            checkformExist()
+        }
+
+        else {
+            showErr("CompName", "Please enter valid Company name");
+
+        }
+    }
+
+
+    function checkformExist() {
+        debugger;
+        var serviceURL = '/Company/CheckExists';
+
+        $.ajax({
+            type: "POST",
+            url: serviceURL,
+            data: JSON.stringify({ model: { CompName: $("#CompName").val() } }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                showErr("CompName", "Company Name Already Exists");
+                $('#CompName').val('');
+                $('#CompName').focus();
+            },
+            error: function (data) {
+
+
+            }
+            //success: successFunc,
+            //error: errorFunc
+
+        });
+
+        //function successFunc(data) {
+
+        //    if (data == true) {
+        //        showErr("LangFName", "Language Name Already Exists");
+        //        //alert("");
+        //        $('#LangFName').val('');
+        //        $('#LangFName').focus();
+        //    }
+
+        //}
+
+        //function errorFunc() {
+
+
+        //}
+    }
+
+
+
+    function HiddenField(id) {
+        $("#dvGrid").hide();
+        $("#dvAdd").show(1000);
+        debugger;
+        $('#hdnCompanyId').val(id);
+        var id = $('#hdnCompanyId').val();
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("GetDataById", "Company")',
+            data: "{'id': '" + id + "'}",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+
+                $('#CompCode').val(data.CompCode);
+                $('#CompName').val(data.CompName);
+                $('#Address').val(data.Address);
+                $('#Email').val(data.Email);
+                $('#ContactPerson').val(data.ContactPerson);
+                $('#Type').val(data.Type);
+                $('#WidowPension').val(data.WidowPension);
+                $('#PensionEligibityYears').val(data.PensionEligibityYears);
+            },
+            error: function (data) {
+                alert(data.responseText);
+            }
+
+        });
+
+    }
+
+
+</script>
+<link rel="stylesheet" href="~/assets/js/dataTables/dataTables.bootstrap.css" />
+<script src="~/assets/js/dataTables/jquery.dataTables.js"></script>
+<script src="~/assets/js/dataTables/dataTables.bootstrap.js"></script>
+
+<!--end-->
+<script>
+    $(document).ready(function () {
+        $('#tbl').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                {
+                    extend: 'copyHtml5',
+                    exportOptions: {
+                        columns: ':contains("Office")'
+                    }
+                },
+                'excelHtml5',
+                'csvHtml5',
+                'pdfHtml5'
+            ]
+        });
+    });
+
+</script>

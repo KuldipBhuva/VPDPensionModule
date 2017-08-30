@@ -1,0 +1,363 @@
+﻿@model PensionModel.ViewModel.IncentiveViewModel
+@{
+    ViewBag.Title = "Incentive";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+@using (Html.BeginForm("Incentive", "Incentive", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+   
+    <section class="content-header">
+        <h1>Incentive  <small>Details</small>
+        </h1>
+
+    </section>  
+    <div class="panel panel-info" id="dvAdd">
+        <div class="panel-heading">
+            Incentive Details 
+            <input type="button" id="btnBack" value="Back" class="btnAdd btn btn-primary" />
+        </div>
+        @Html.HiddenFor(m => m.hdnin)
+        <div class="panel-body">
+            <br />
+            <div class="form-group">
+                <div class="col-sm-2">
+                    From Amount  
+                </div>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.From, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-md-12" style="height: 15px;"></div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-2">
+                    To Amount
+                </div>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.To, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-md-12" style="height: 15px;"></div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-2">
+                    Yearly
+                </div>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.Yly, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-md-12" style="height: 15px;"></div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-2">
+                    Half Yearly
+                </div>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.Hly, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-md-12" style="height: 15px;"></div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-2">
+                    Quaterly
+                </div>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.Qly, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-md-12" style="height: 15px;"></div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-2">
+                    Monthly
+                </div>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.Mly, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-md-12" style="height: 15px;"></div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-2">
+                    Effective Date
+                </div>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.EffDate, new { @class = "form-control pull-right datepicker" })
+                    <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                </div>
+            </div>
+            <div class="col-md-12" style="height: 15px;"></div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-2">
+                    Status
+                </div>
+                <div class="col-sm-4">
+                    @Html.RadioButtonFor(m => m.Status, "1", new { @checked = "checked" })Active
+                    @Html.RadioButtonFor(m => m.Status, "0")In-Active    
+                </div>
+            </div>
+            <br />
+            <br />
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <input type="submit" name="Button" value="Save" id="btnSave" class="btn btn-primary" onclick="return Validation();" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-info" id="dvGrid">
+        <div class="panel-heading">
+
+            <input type="button" id="btnAdd" value="Add New" class="btnAdd btn btn-primary" />
+        </div>
+        <div class="panel-heading" style="height: 54px;">
+            <div class="panel-body">
+                <div class="table-responsive" id="Grid">
+
+                    <table class="table" id="tbl">
+                        <thead>
+                            <tr>
+                                <th>From Amount</th>
+                                <th>To Amount</th>
+                                <th>Yearly</th>
+                                <th>Half Yearly</th>
+                                <th>Quaterly</th>
+                                <th>Monthly</th>
+                                <th>Effective Date</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.lstin)
+                            {
+                                <tr>
+                                    <td>@item.From</td>
+                                    <td>@item.To</td>
+                                    <td>@item.Yly</td>
+                                    <td>@item.Hly</td>
+                                    <td>@item.Qly</td>
+                                    <td>@item.Mly</td>
+                                    @if (@item.EffDate.HasValue)
+                                    {
+                                        <td>@item.EffDate.Value.ToString("dd/MM/yyyy")</td>
+                                    }
+                                    else
+                                    {
+                                        <td>@item.EffDate</td>    
+                                    }
+                                    @if (@item.Status == 1)
+                                    {
+                                        <td>Active</td>
+                                    }
+                                    else
+                                    {
+                                        <td>In-Active</td>   
+                                    }
+                                    <td>
+                                        <a  id="btnEdit" class="fa fa-pencil-square fa-lg" onclick="HiddenField('@item.Id')"  style="height:20px;width:20px;" />
+                                    </td>
+                                    <td>
+                                        <a  id="btnStatus" class="fa fa-pencil-square fa-lg" onclick="Field('@item.Id','@item.Status')"  style="height:20px;width:20px;" />
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+
+<script>
+    $('#btnBack').click(function () {
+
+        $('#From').val('');
+        $('#To').val('');
+        $('#Yly').val('');
+        $('#Hly').val('');
+        $('#Qly').val('');
+        $('#Mly').val('');
+        $('#EffDate').val('');
+
+        $('#hdnin').val('');
+    });
+
+    $('#btnAdd').click(function () {
+
+        $('#From').val('');
+        $('#To').val('');
+        $('#Yly').val('');
+        $('#Hly').val('');
+        $('#Qly').val('');
+        $('#Mly').val('');
+        $('#EffDate').val('');
+        $('#hdnin').val('');
+    });
+
+    $(function () { // will trigger when the document is ready
+        //$('.RetireDate').datepicker(); //Initialise any date pickers
+        $('.datepicker').datepicker(); //Initialise any date pickers
+
+    });
+
+    function Validation() {
+        var val = true;
+        debugger;
+        var From = $('#From').val();
+        var To = $('#To').val();
+        var Yly = $('#Yly').val();
+        var Hly = $('#Hly').val();
+        var Qly = $('#Qly').val();
+        var Mly = $('#Mly').val();
+        var Effdate = $('#EffDate').val();
+
+        if (From == "") {
+            showErr("From", "Please enter From Amount");
+            val = false;
+        }
+        else {
+            removeErr("err_From");
+        }
+        if (To == "") {
+            showErr("To", "Please enter To Amount");
+            val = false;
+        }
+        else {
+            removeErr("err_To");
+        }
+        if (Yly == "") {
+            showErr("Yly", "Please enter Yearly Incentive");
+            val = false;
+        }
+        else {
+            removeErr("err_Yly");
+        }
+        if (Hly == "") {
+            showErr("Hly", "Please enter Half Yearly Incentive");
+            val = false;
+        }
+        else {
+            removeErr("err_Hly");
+        }
+        if (Qly == "") {
+            showErr("Qly", "Please enter Quaterly Incentive");
+            val = false;
+        }
+        else {
+            removeErr("err_Qly");
+        }
+        if (Mly == "") {
+            showErr("Mly", "Please enter Monthly Incentive");
+            val = false;
+        }
+        else {
+            removeErr("err_Mly");
+        }
+        if (Effdate == "") {
+            showErr("EffDate", "Please Select Effective Date");
+            val = false;
+        }
+        else {
+            removeErr("err_EffDate");
+        }
+        return val;
+    }
+
+    function HiddenField(id) {
+        $('#dvAdd').show(1000);
+        $('#dvGrid').hide();
+        debugger;
+        $('#hdnin').val(id);
+        var ids = $('#hdnin').val();
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("GetByID", "Incentive")',
+            data: "{'Id': '" + ids + "'}",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                var value = new Date(parseInt(data.EffDate.replace(/(^.*\()|([+-].*$)/g, '')));
+                var EffDate = value.getMonth() + 1 + "/" + value.getDate() + "/" + value.getFullYear();
+
+                $('#From').val(data.From);
+                $('#To').val(data.To);
+                $('#Yly').val(data.Yly);
+                $('#Hly').val(data.Hly);
+                $('#Qly').val(data.Qly);
+                $('#Mly').val(data.Mly);
+                $('#EffDate').val(EffDate);
+                $('#Status').val(data.Status);
+            },
+            error: function (data) {
+                alert(data.responseText);
+            }
+        });
+    }
+
+    function Field(id, Status) {
+        //$('#dvAdd').hide(1000);
+        //$('#dvGrid').show();
+        debugger;
+        $('#hdnin').val(id);
+        var ids = $('#hdnin').val();
+        var status = Status;
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("SetStatus", "Incentive")',
+            data: "{'Id': '" + ids + "','Status':'" + status + "'}",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                location.reload();
+            },
+            error: function (data) {
+                alert(data.responseText);
+            }
+        });
+    }
+
+</script>

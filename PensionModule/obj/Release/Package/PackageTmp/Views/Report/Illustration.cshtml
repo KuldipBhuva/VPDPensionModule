@@ -1,0 +1,334 @@
+﻿@model PensionModel.ViewModel.ReportViewModel
+@using PensionModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Illustration";
+}
+
+@{
+    if (Session["Comp"] != null)
+    {
+        if (Session["Emp"] != null)
+        {
+            VPDPensionEntities DbContext = new VPDPensionEntities();
+    <div class="panel panel-info" id="dvpension">
+        <div class="panel-body">
+            @{            
+            var id = Convert.ToInt32(Session["Emp"]);
+            var lst = DbContext.EmployeeMasters.Where(k => k.EmpId == id).SingleOrDefault();
+            var planlst = DbContext.PlanMasters.Where(k => k.CompID == lst.LicId && k.id == lst.PentionTypeID).SingleOrDefault();
+            var plan = planlst.PlanName;
+            if (lst != null)
+            {
+                int month = 0;
+                int year = 0;
+                int age = 0;
+                <div class="col-sm-12" style="text-align: left; font-size: 16px; font-family: -webkit-pictograph;">
+                    <label class="col-sm-1"><strong>Illustration</strong></label>
+                </div>
+                <div class="col-sm-12" style="height: 25px;"></div>
+                <div class="col-sm-12">
+                    <div class="col-sm-12">
+                        <label class="col-sm-4" style="font-weight: normal;">Completed Age:</label>
+                        @{
+                if (lst.RetireDate != null && lst.DOB != null)
+                {
+                    age = lst.RetireDate.Value.Year - lst.DOB.Value.Year;
+                }
+                        }
+                        @Html.DisplayFor(m => age, new { @class = "col-sm-2" }) Year
+                    </div>
+                    <div class="col-sm-12">
+                        <label class="col-sm-4" style="font-weight: normal;">Services Counting for Pension :</label>
+                        @{
+                if (lst.Merged == 0 || lst.Merged == null)
+                {
+                    month = lst.RetireDate.Value.Month - lst.DOJ.Value.Month;
+                    year = lst.RetireDate.Value.Year - lst.DOJ.Value.Year;
+                    if (month > 5)
+                    {
+                        year += 1;
+                        month = 0;
+                    }
+                }
+                else
+                {
+                    month = lst.RetireDate.Value.Month - lst.DOJ.Value.Month;
+                    year = lst.RetireDate.Value.Year - lst.DOJ.Value.Year;
+                    //while (month >= 12)
+                    //{
+                    //    year += 1;
+                    //    month -= 12;
+                    //}
+                    if (month > 5)
+                    {
+                        year += 1;
+                        month = 0;
+                    }
+                    var mmonth = lst.MDOL.Value.Month - lst.MDOJ.Value.Month;
+                    var myear = lst.MDOL.Value.Year - lst.MDOJ.Value.Year;
+                }
+                var list = DbContext.GradeChanges.Where(k => k.Compnay_id == lst.CompId && k.EmpNo == lst.EmpId).OrderByDescending(k => k.EffDate).FirstOrDefault();
+                var lst2 = DbContext.PensionLimits.Where(k => k.CmyID == lst.CompId && k.GradeID == list.GradeChangeTo && k.EmployeementType == lst.EmployeementType).SingleOrDefault();
+                var Limit = lst2.Pension_Limit;               
+                        }
+                        @Html.DisplayFor(m => year, new { @class = "col-sm-2" }) Year
+                    </div>
+                    <div class="col-sm-12">
+                        <label class="col-sm-4" style="font-weight: normal;">Pension :</label>
+                        @Html.DisplayFor(m => Limit, new { @class = "col-sm-2" }) p.m.
+                    </div>
+                </div>
+                
+                <div class="col-sm-12" style="height: 15px;"></div>                
+                <div class="col-sm-12">
+                    <div class="col-sm-12"><strong>Determine the capital equivalent of above pension as follows:</strong></div>
+                    <div class="col-sm-12">
+                        @{
+                            
+                decimal LIC = 0;
+                Nullable<decimal> mode = 0;
+                Nullable<decimal> mode1 = 0;
+                Nullable<int> capital = 0;
+                Nullable<decimal> Insentive = 0;
+                //Nullable<decimal> TotalCapitalAmt = 0;
+                var policy = DbContext.Annuities.Where(m => m.Age == age && m.PlanID == lst.PentionTypeID && m.LICId == lst.LicId).OrderByDescending(m => m.EffDate).SingleOrDefault();
+                if (lst.AnnuityMode == "1")
+                {
+                    mode = policy.Yly;
+                }
+                else if (lst.AnnuityMode == "2")
+                {
+                    mode = policy.Hly;
+                }
+                else if (lst.AnnuityMode == "3")
+                {
+                    mode = policy.Qly;
+                }
+                else if (lst.AnnuityMode == "4")
+                {
+                    mode = policy.Mly;
+                }
+                mode1 = ((mode / 1000) / 12);
+                string val1 = Convert.ToString(string.Format("{0:0.00000000}", mode1));
+                capital = Convert.ToInt32(Limit / mode1);
+
+                var lstin = DbContext.Incentives.Where(m => m.To > capital && m.From < capital).SingleOrDefault();
+                if (lst.AnnuityMode == "1")
+                {
+                    Insentive = lstin.Yly;
+                }
+                else if (lst.AnnuityMode == "2")
+                {
+                    Insentive = lstin.Hly;
+                }
+                else if (lst.AnnuityMode == "3")
+                {
+                    Insentive = lstin.Qly;
+                }
+                else if (lst.AnnuityMode == "4")
+                {
+                    Insentive = lstin.Mly;
+                }
+                LIC = Convert.ToDecimal(mode + Insentive);
+                LIC = LIC / 1000 / 12;
+                string val = Convert.ToString(string.Format("{0:0.00000000}", LIC));
+                var TotalCapitalAmt = Convert.ToInt32(Limit / LIC);
+                double pension = 0, commutation = 0, tax = 0, NetAmt = 0;
+                string pensiontext = "", commutationtext = "";
+                if (lst.Benefits == 1)
+                {
+                    pension = Convert.ToInt32(TotalCapitalAmt / 3);
+                    commutation = Convert.ToInt32((TotalCapitalAmt * 2) / 3);
+                    pensiontext = "Commuted value of 1/3rd pension ";
+                    commutationtext = "Capital equivalent 2/3rd commutation ";
+                    tax = commutation * 0.03625;
+                    NetAmt = Convert.ToInt32(commutation - tax);
+                }
+                else if (lst.Benefits == 2)
+                {
+                    pension = Convert.ToInt32(TotalCapitalAmt / 2);
+                    commutation = Convert.ToInt32(TotalCapitalAmt / 2);
+                    pensiontext = "Commuted value of 1/2 pension ";
+                    commutationtext = "Capital equivalent 1/2 commutation ";
+                    tax = commutation * 0.03625;
+                    NetAmt = Convert.ToInt32(commutation - tax);
+                }
+                else
+                {
+                    //tax = TotalCapitalAmt * 0.03625;
+                    NetAmt = Convert.ToInt32(TotalCapitalAmt);
+                }
+                
+                        }
+                    </div>
+                    <div class="col-sm-12">
+                        <label class="col-sm-5" style="font-weight: normal;">Factor from LIC Table (@Html.DisplayFor(m => plan))</label>
+                        <label style="font-weight: normal;">@Html.DisplayFor(m => val1)&nbsp;(@Html.DisplayFor(m => mode)/1000/12)</label>
+                    </div>
+                    <div class="col-sm-12">
+                        <label class="col-sm-5" style="font-weight: normal;"></label>
+                        <label style="font-weight: normal;">@Html.DisplayFor(m => capital, new { @class = "col-sm-2" })</label>
+                        <label style="font-weight: normal;">Per month Pension  / Factor for life only from LIC Table</label>
+                    </div>
+                    <div class="col-sm-12">
+                        <label class="col-sm-5" style="font-weight: normal;"></label>
+                        <label style="margin: 0px 413px;">
+                            ((@Html.DisplayFor(m => mode) + 
+                             @Html.DisplayFor(m => Insentive))/1000/12)</label>
+                    </div>
+                    <div class="col-sm-12">
+                        <label class="col-sm-5" style="font-weight: normal;">Factor from LIC Table including incentive (@Html.DisplayFor(m => plan))</label>
+                        @Html.DisplayFor(m => val, new { @class = "col-sm-2" })
+                        <label style="font-weight: normal;">(LIC factor age wise + LIC incentive/1000/12)</label>
+                    </div>
+                    <div class="col-sm-12" style="height: 15px;"></div>
+                    <div class="col-sm-12">
+                        <label class="col-sm-5" style="font-weight: normal;"></label>
+                        @Html.DisplayFor(m => TotalCapitalAmt, new { @class = "col-sm-2" })
+                        <label style="font-weight: normal;">Per month Pension / Factor for life only from LIC Table including incentive</label>
+                    </div>
+                    <div class="col-sm-12" style="height: 20px;"></div>
+                    <div class="col-sm-12">
+                        <label class="col-sm-5"><strong>Capital equivalent = </strong></label>
+                        <label>@Html.DisplayFor(m => TotalCapitalAmt, new { @class = "col-sm-2" })</label>
+                    </div>
+                    <div class="col-sm-12" style="height: 20px;"></div>
+                    @if (lst.Contribution == "1")
+                    {
+                        <div class="col-sm-12">
+                            <label class="col-sm-5" style="font-weight: normal;">@Html.DisplayFor(m => pensiontext) = </label>
+                            @Html.DisplayFor(m => pension, new { @class = "col-sm-2" })
+                        </div>
+                        <div class="col-sm-12" style="height: 20px;"></div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-5" style="font-weight: normal;">@Html.DisplayFor(m => commutationtext) = </label>
+                            @Html.DisplayFor(m => commutation, new { @class = "col-sm-2" })
+                        </div>
+                        <div class="col-sm-12" style="height: 5px;"></div>
+                        <div class="col-sm-12">
+                            <label class="col-sm-5"><strong>GST 3.625%</strong></label>
+                            @Html.DisplayFor(m => tax, new { @class = "col-sm-2" })
+                        </div>
+                    }
+                    <div class="col-sm-12" style="height: 10px;">
+                        <label class="col-sm-5"></label>
+                        <strong>-------------------</strong>
+                    </div>
+                    <div class="col-sm-12">
+                        <label class="col-sm-5"><strong>Net Amount</strong></label>
+                        <strong>@Html.DisplayFor(m => NetAmt, new { @class = "col-sm-2" })</strong>
+                    </div>
+
+                </div>
+                
+                    if (lst.Contribution == "1")
+                    {
+                <div class="col-sm-12" style="height: 15px;"></div>
+                <div class="col-sm-12">
+                    <div class="col-sm-12"><strong class="col-sm-5">Option After @Html.DisplayFor(m => commutationtext) :-</strong></div>
+                    <div class="col-sm-1"></div>
+                    <div class="col-sm-12"><strong class="col-sm-5">=======================================</strong></div>
+                    @{
+                        var PenList = DbContext.Annuities.Where(m => m.PlanID == lst.PentionTypeID && m.Age == age && m.LICId != lst.LicId).ToList();
+                        foreach (var A in PenList)
+                        {
+                            if (lst.AnnuityMode == "1")
+                            {
+                                mode = A.Yly;
+                            }
+                            else if (lst.AnnuityMode == "2")
+                            {
+                                mode = A.Hly;
+                            }
+                            else if (lst.AnnuityMode == "3")
+                            {
+                                mode = A.Qly;
+                            }
+                            else if (lst.AnnuityMode == "4")
+                            {
+                                mode = A.Mly;
+                            }
+                            mode1 = ((mode / 1000) / 12);
+                            //val1 = Convert.ToString(string.Format("{0:0.00000000}", mode1));
+                            capital = Convert.ToInt32(Limit / mode1);
+
+                            lstin = DbContext.Incentives.Where(m => m.To > capital && m.From < capital).SingleOrDefault();
+                            if (lst.AnnuityMode == "1")
+                            {
+                                Insentive = lstin.Yly;
+                            }
+                            else if (lst.AnnuityMode == "2")
+                            {
+                                Insentive = lstin.Hly;
+                            }
+                            else if (lst.AnnuityMode == "3")
+                            {
+                                Insentive = lstin.Qly;
+                            }
+                            else if (lst.AnnuityMode == "4")
+                            {
+                                Insentive = lstin.Mly;
+                            }
+                            LIC = Convert.ToDecimal(mode + Insentive);
+                            LIC = LIC / 1000 / 12;
+                            val = Convert.ToString(string.Format("{0:0.00000000}", LIC));
+                            if (lst.Benefits == 1)
+                            {
+                                commutation = Convert.ToInt32((TotalCapitalAmt * 2) / 3);
+                            }
+                            else if (lst.Benefits == 2)
+                            {
+                                commutation = Convert.ToInt32(TotalCapitalAmt / 2);
+                            }
+                            var MthlyPen = Convert.ToInt32(Convert.ToDecimal(commutation) * LIC);
+
+                            var Ins = DbContext.InsuranceMasters.Where(m => m.id == A.LICId).SingleOrDefault();<div class="col-sm-12">
+                                <strong class="col-sm-4"></strong>
+                                <div class="col-sm-3"></div>
+                                <strong class="col-sm-4" style="text-decoration: underline; font-size: 15.5px; padding-bottom: 18px; background-color: yellow;">@Html.DisplayFor(m => Ins.InsuranceCompany)</strong>
+                            </div>
+                        <div class="col-sm-12">
+                            <strong class="col-sm-4">Pension Option</strong>
+                            <div class="col-sm-3"></div>
+                            <strong class="col-sm-5">@Html.DisplayFor(m => plan)</strong>
+                        </div>
+                        <div class="col-md-12" style="height: 17px;"></div>
+                        <div class="col-sm-12">
+                            <div class="col-sm-4">
+                                Factor from LIC Table including incentive
+                                                    <br />
+                                (@Html.DisplayFor(m => plan))
+                            </div>
+                            <div class="col-sm-3">
+                                <label>
+                                    ((@Html.DisplayFor(m => mode)+@Html.DisplayFor(m => Insentive))/1000/12)</label>
+                            </div>
+                            <div class="col-sm-5">@Html.DisplayFor(m => val, new { @class = "col-sm-2" })</div>
+                        </div>
+                        <div class="col-md-12" style="height: 15px;"></div>
+                        <div class="col-sm-12">
+                            <div class="col-sm-5">
+                                For above incentive refer Net amount excluding GST
+                            </div>
+                        </div>
+                        <div class="col-md-12" style="height: 15px;"></div>                        
+                        <div class="col-sm-12">
+                            <div class="col-sm-7">
+                                <strong>Monthly Pension</strong> (Net amount excluding GST*Factor from LIC Table including incentive (@Html.DisplayFor(m => plan)))
+                            </div>
+                            <strong class="col-sm-5">@Html.DisplayFor(m => MthlyPen, new { @class = "col-sm-2" })</strong>
+                        </div>
+                        <div class="col-md-12" style="height: 25px;"></div> 
+                        
+                        }
+                    }
+                </div>
+                    }
+            }
+            }
+        </div>
+    </div>
+        }
+    }
+}

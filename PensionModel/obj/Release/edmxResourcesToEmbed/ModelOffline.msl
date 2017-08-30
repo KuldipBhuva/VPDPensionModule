@@ -1,0 +1,475 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="VPDPensionModelStoreContainer" CdmEntityContainer="VPDPensionEntities">
+    <EntitySetMapping Name="AllowanceMasters">
+      <EntityTypeMapping TypeName="VPDPensionModel.AllowanceMaster">
+        <MappingFragment StoreEntitySet="AllowanceMaster">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="AllowanceName" ColumnName="AllowanceName" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CompWiseAllowances">
+      <EntityTypeMapping TypeName="VPDPensionModel.CompWiseAllowance">
+        <MappingFragment StoreEntitySet="CompWiseAllowance">
+          <ScalarProperty Name="GradeID" ColumnName="GradeID" />
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="CompID" ColumnName="CompID" />
+          <ScalarProperty Name="AllowanceID" ColumnName="AllowanceID" />
+          <ScalarProperty Name="EffDeate" ColumnName="EffDeate" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="IsChecked" ColumnName="IsChecked" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="EmployerMasters">
+      <EntityTypeMapping TypeName="VPDPensionModel.EmployerMaster">
+        <MappingFragment StoreEntitySet="EmployerMaster">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="CompID" ColumnName="CompID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ErrorMsgMasters">
+      <EntityTypeMapping TypeName="VPDPensionModel.ErrorMsgMaster">
+        <MappingFragment StoreEntitySet="ErrorMsgMaster">
+          <ScalarProperty Name="EId" ColumnName="EId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="IPAddress" ColumnName="IPAddress" />
+          <ScalarProperty Name="ErrorMsg" ColumnName="ErrorMsg" />
+          <ScalarProperty Name="ExceptiionMsg" ColumnName="ExceptiionMsg" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="GradeMasters">
+      <EntityTypeMapping TypeName="VPDPensionModel.GradeMaster">
+        <MappingFragment StoreEntitySet="GradeMaster">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="Grade_Name" ColumnName="Grade_Name" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="InsuranceMasters">
+      <EntityTypeMapping TypeName="VPDPensionModel.InsuranceMaster">
+        <MappingFragment StoreEntitySet="InsuranceMaster">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="InsuranceCompany" ColumnName="InsuranceCompany" />
+          <ScalarProperty Name="HO" ColumnName="HO" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PlanMasters">
+      <EntityTypeMapping TypeName="VPDPensionModel.PlanMaster">
+        <MappingFragment StoreEntitySet="PlanMaster">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="CompID" ColumnName="CompID" />
+          <ScalarProperty Name="PlanName" ColumnName="PlanName" />
+          <ScalarProperty Name="Details" ColumnName="Details" />
+          <ScalarProperty Name="Formula" ColumnName="Formula" />
+          <ScalarProperty Name="EffDate" ColumnName="EffDate" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RetirementType_Master">
+      <EntityTypeMapping TypeName="VPDPensionModel.RetirementType_Master">
+        <MappingFragment StoreEntitySet="RetirementType_Master">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="RetirementType" ColumnName="RetirementType" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LoginMasters">
+      <EntityTypeMapping TypeName="VPDPensionModel.LoginMaster">
+        <MappingFragment StoreEntitySet="LoginMaster">
+          <ScalarProperty Name="CompID" ColumnName="CompID" />
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="RID" ColumnName="RID" />
+          <ScalarProperty Name="UID" ColumnName="UID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RoleMasters">
+      <EntityTypeMapping TypeName="VPDPensionModel.RoleMaster">
+        <MappingFragment StoreEntitySet="RoleMaster">
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Role" ColumnName="Role" />
+          <ScalarProperty Name="RID" ColumnName="RID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LifeCertificates">
+      <EntityTypeMapping TypeName="VPDPensionModel.LifeCertificate">
+        <MappingFragment StoreEntitySet="LifeCertificate">
+          <ScalarProperty Name="ToDate" ColumnName="ToDate" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="EffDate" ColumnName="EffDate" />
+          <ScalarProperty Name="CertificateCopy" ColumnName="CertificateCopy" />
+          <ScalarProperty Name="YearCode" ColumnName="YearCode" />
+          <ScalarProperty Name="EmpId" ColumnName="EmpId" />
+          <ScalarProperty Name="InsCompId" ColumnName="InsCompId" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="NomineeMasters">
+      <EntityTypeMapping TypeName="VPDPensionModel.NomineeMaster">
+        <MappingFragment StoreEntitySet="NomineeMaster">
+          <ScalarProperty Name="EmpId" ColumnName="EmpId" />
+          <ScalarProperty Name="CompId" ColumnName="CompId" />
+          <ScalarProperty Name="IFSC" ColumnName="IFSC" />
+          <ScalarProperty Name="AccountNo" ColumnName="AccountNo" />
+          <ScalarProperty Name="Branch" ColumnName="Branch" />
+          <ScalarProperty Name="BankName" ColumnName="BankName" />
+          <ScalarProperty Name="Pan" ColumnName="Pan" />
+          <ScalarProperty Name="Adharnumber" ColumnName="Adharnumber" />
+          <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+          <ScalarProperty Name="Contact" ColumnName="Contact" />
+          <ScalarProperty Name="Addess" ColumnName="Addess" />
+          <ScalarProperty Name="DOB" ColumnName="DOB" />
+          <ScalarProperty Name="Relation" ColumnName="Relation" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PensionMasters">
+      <EntityTypeMapping TypeName="VPDPensionModel.PensionMaster">
+        <MappingFragment StoreEntitySet="PensionMaster">
+          <ScalarProperty Name="SettelmentDate" ColumnName="SettelmentDate" />
+          <ScalarProperty Name="UploadedBy" ColumnName="UploadedBy" />
+          <ScalarProperty Name="UploadedDate" ColumnName="UploadedDate" />
+          <ScalarProperty Name="IsProcessed" ColumnName="IsProcessed" />
+          <ScalarProperty Name="ProcessDate" ColumnName="ProcessDate" />
+          <ScalarProperty Name="OtherCharge" ColumnName="OtherCharge" />
+          <ScalarProperty Name="VPDCheqAmt" ColumnName="VPDCheqAmt" />
+          <ScalarProperty Name="Year" ColumnName="Year" />
+          <ScalarProperty Name="PensionMonth" ColumnName="PensionMonth" />
+          <ScalarProperty Name="CheqAmt" ColumnName="CheqAmt" />
+          <ScalarProperty Name="ITAmt" ColumnName="ITAmt" />
+          <ScalarProperty Name="GrossAmt" ColumnName="GrossAmt" />
+          <ScalarProperty Name="AnnuityNo" ColumnName="AnnuityNo" />
+          <ScalarProperty Name="PolicyNo" ColumnName="PolicyNo" />
+          <ScalarProperty Name="EmpNo" ColumnName="EmpNo" />
+          <ScalarProperty Name="PID" ColumnName="PID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="GradeChanges">
+      <EntityTypeMapping TypeName="VPDPensionModel.GradeChange">
+        <MappingFragment StoreEntitySet="GradeChange">
+          <ScalarProperty Name="EffDate" ColumnName="EffDate" />
+          <ScalarProperty Name="GradeChangeTo" ColumnName="GradeChangeTo" />
+          <ScalarProperty Name="EmpNo" ColumnName="EmpNo" />
+          <ScalarProperty Name="Compnay_id" ColumnName="Compnay_id" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PensionTypes">
+      <EntityTypeMapping TypeName="VPDPensionModel.PensionType">
+        <MappingFragment StoreEntitySet="PensionType">
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PaymentTypes">
+      <EntityTypeMapping TypeName="VPDPensionModel.PaymentType">
+        <MappingFragment StoreEntitySet="PaymentType">
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="OtherCharge" ColumnName="OtherCharge" />
+          <ScalarProperty Name="PaymentType1" ColumnName="PaymentType" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MergingCompanies">
+      <EntityTypeMapping TypeName="VPDPensionModel.MergingCompany">
+        <MappingFragment StoreEntitySet="MergingCompany">
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="EffDate" ColumnName="EffDate" />
+          <ScalarProperty Name="MCmyID" ColumnName="MCmyID" />
+          <ScalarProperty Name="CmyID" ColumnName="CmyID" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PensionLimits">
+      <EntityTypeMapping TypeName="VPDPensionModel.PensionLimit">
+        <MappingFragment StoreEntitySet="PensionLimit">
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="EffDate" ColumnName="EffDate" />
+          <ScalarProperty Name="Pension_Limit" ColumnName="Pension Limit" />
+          <ScalarProperty Name="GradeID" ColumnName="GradeID" />
+          <ScalarProperty Name="EmployeementType" ColumnName="EmployeementType" />
+          <ScalarProperty Name="CmyID" ColumnName="CmyID" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SalaryMasters">
+      <EntityTypeMapping TypeName="VPDPensionModel.SalaryMaster">
+        <MappingFragment StoreEntitySet="SalaryMaster">
+          <ScalarProperty Name="UploadedDate" ColumnName="UploadedDate" />
+          <ScalarProperty Name="UploadedBy" ColumnName="UploadedBy" />
+          <ScalarProperty Name="Year" ColumnName="Year" />
+          <ScalarProperty Name="SalaryMonth" ColumnName="SalaryMonth" />
+          <ScalarProperty Name="CompID" ColumnName="CompID" />
+          <ScalarProperty Name="Medical" ColumnName="Medical" />
+          <ScalarProperty Name="PF" ColumnName="PF" />
+          <ScalarProperty Name="Overtime" ColumnName="Overtime" />
+          <ScalarProperty Name="Conveyance" ColumnName="Conveyance" />
+          <ScalarProperty Name="EA" ColumnName="EA" />
+          <ScalarProperty Name="DA" ColumnName="DA" />
+          <ScalarProperty Name="HRA" ColumnName="HRA" />
+          <ScalarProperty Name="Basic" ColumnName="Basic" />
+          <ScalarProperty Name="EmpName" ColumnName="EmpName" />
+          <ScalarProperty Name="EmpNo" ColumnName="EmpNo" />
+          <ScalarProperty Name="SID" ColumnName="SID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TaxMasters">
+      <EntityTypeMapping TypeName="VPDPensionModel.TaxMaster">
+        <MappingFragment StoreEntitySet="TaxMaster">
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="TaxName" ColumnName="TaxName" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TaxValues">
+      <EntityTypeMapping TypeName="VPDPensionModel.TaxValue">
+        <MappingFragment StoreEntitySet="TaxValue">
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="EffDate" ColumnName="EffDate" />
+          <ScalarProperty Name="Rate" ColumnName="Rate" />
+          <ScalarProperty Name="TID" ColumnName="TID" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Incentives">
+      <EntityTypeMapping TypeName="VPDPensionModel.Incentive">
+        <MappingFragment StoreEntitySet="Incentive">
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="EffDate" ColumnName="EffDate" />
+          <ScalarProperty Name="Mly" ColumnName="Mly" />
+          <ScalarProperty Name="Qly" ColumnName="Qly" />
+          <ScalarProperty Name="Hly" ColumnName="Hly" />
+          <ScalarProperty Name="Yly" ColumnName="Yly" />
+          <ScalarProperty Name="To" ColumnName="To" />
+          <ScalarProperty Name="From" ColumnName="From" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Annuities">
+      <EntityTypeMapping TypeName="VPDPensionModel.Annuity">
+        <MappingFragment StoreEntitySet="Annuity">
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="EffDate" ColumnName="EffDate" />
+          <ScalarProperty Name="Mly" ColumnName="Mly" />
+          <ScalarProperty Name="Qly" ColumnName="Qly" />
+          <ScalarProperty Name="Hly" ColumnName="Hly" />
+          <ScalarProperty Name="Yly" ColumnName="Yly" />
+          <ScalarProperty Name="Age" ColumnName="Age" />
+          <ScalarProperty Name="PlanID" ColumnName="PlanID" />
+          <ScalarProperty Name="LICId" ColumnName="LICId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="EmployeePlans">
+      <EntityTypeMapping TypeName="VPDPensionModel.EmployeePlan">
+        <MappingFragment StoreEntitySet="EmployeePlan">
+          <ScalarProperty Name="RPensionType" ColumnName="RPensionType" />
+          <ScalarProperty Name="Remark" ColumnName="Remark" />
+          <ScalarProperty Name="HoldDate" ColumnName="HoldDate" />
+          <ScalarProperty Name="PolicyStatus" ColumnName="PolicyStatus" />
+          <ScalarProperty Name="Amount" ColumnName="Amount" />
+          <ScalarProperty Name="PolicyDate" ColumnName="PolicyDate" />
+          <ScalarProperty Name="PolicyId" ColumnName="PolicyId" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="InsuranceOffife" ColumnName="InsuranceOffife" />
+          <ScalarProperty Name="AnnuityNo" ColumnName="AnnuityNo" />
+          <ScalarProperty Name="PlanId" ColumnName="PlanId" />
+          <ScalarProperty Name="LicId" ColumnName="LicId" />
+          <ScalarProperty Name="PensionId" ColumnName="PensionId" />
+          <ScalarProperty Name="EmpId" ColumnName="EmpId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ColunmMapMasters">
+      <EntityTypeMapping TypeName="VPDPensionModel.ColunmMapMaster">
+        <MappingFragment StoreEntitySet="ColunmMapMaster">
+          <ScalarProperty Name="MappedDate" ColumnName="MappedDate" />
+          <ScalarProperty Name="MappedBy" ColumnName="MappedBy" />
+          <ScalarProperty Name="ExlClmIndex" ColumnName="ExlClmIndex" />
+          <ScalarProperty Name="ExlClmName" ColumnName="ExlClmName" />
+          <ScalarProperty Name="TblClmIndex" ColumnName="TblClmIndex" />
+          <ScalarProperty Name="TblClmName" ColumnName="TblClmName" />
+          <ScalarProperty Name="TblName" ColumnName="TblName" />
+          <ScalarProperty Name="CompID" ColumnName="CompID" />
+          <ScalarProperty Name="CMID" ColumnName="CMID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CompanyMasters">
+      <EntityTypeMapping TypeName="VPDPensionModel.CompanyMaster">
+        <MappingFragment StoreEntitySet="CompanyMaster">
+          <ScalarProperty Name="SAContriMethod" ColumnName="SAContriMethod" />
+          <ScalarProperty Name="SAStopIntType" ColumnName="SAStopIntType" />
+          <ScalarProperty Name="SAContriRate" ColumnName="SAContriRate" />
+          <ScalarProperty Name="SAIntMethod" ColumnName="SAIntMethod" />
+          <ScalarProperty Name="Merging" ColumnName="Merging" />
+          <ScalarProperty Name="PensionLimit" ColumnName="PensionLimit" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="PensionEligibityYears" ColumnName="PensionEligibityYears" />
+          <ScalarProperty Name="WidowPension" ColumnName="WidowPension" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="ContactPerson" ColumnName="ContactPerson" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="CompName" ColumnName="CompName" />
+          <ScalarProperty Name="CompCode" ColumnName="CompCode" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="EmployeeMasters">
+      <EntityTypeMapping TypeName="VPDPensionModel.EmployeeMaster">
+        <MappingFragment StoreEntitySet="EmployeeMaster">
+          <ScalarProperty Name="SASettleDate" ColumnName="SASettleDate" />
+          <ScalarProperty Name="RPensionAmt" ColumnName="RPensionAmt" />
+          <ScalarProperty Name="Contribution" ColumnName="Contribution" />
+          <ScalarProperty Name="Benefits" ColumnName="Benefits" />
+          <ScalarProperty Name="FrozenPensionAmt" ColumnName="FrozenPensionAmt" />
+          <ScalarProperty Name="FrozenAmt" ColumnName="FrozenAmt" />
+          <ScalarProperty Name="MDOL" ColumnName="MDOL" />
+          <ScalarProperty Name="MDOJ" ColumnName="MDOJ" />
+          <ScalarProperty Name="FromMerger" ColumnName="FromMerger" />
+          <ScalarProperty Name="Merged" ColumnName="Merged" />
+          <ScalarProperty Name="AnnuityMode" ColumnName="AnnuityMode" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="HoldDate" ColumnName="HoldDate" />
+          <ScalarProperty Name="EmployeeType" ColumnName="EmployeeType" />
+          <ScalarProperty Name="GradeId" ColumnName="GradeId" />
+          <ScalarProperty Name="EmployeementType" ColumnName="EmployeementType" />
+          <ScalarProperty Name="PaymentType" ColumnName="PaymentType" />
+          <ScalarProperty Name="LicId" ColumnName="LicId" />
+          <ScalarProperty Name="PentionTypeID" ColumnName="PentionTypeID" />
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="PensionStatus" ColumnName="PensionStatus" />
+          <ScalarProperty Name="BranchAddress" ColumnName="BranchAddress" />
+          <ScalarProperty Name="BranchName" ColumnName="BranchName" />
+          <ScalarProperty Name="IFSC" ColumnName="IFSC" />
+          <ScalarProperty Name="AccType" ColumnName="AccType" />
+          <ScalarProperty Name="BankName" ColumnName="BankName" />
+          <ScalarProperty Name="BankAcNo" ColumnName="BankAcNo" />
+          <ScalarProperty Name="PANNo" ColumnName="PANNo" />
+          <ScalarProperty Name="AadharNo" ColumnName="AadharNo" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="ContactR" ColumnName="ContactR" />
+          <ScalarProperty Name="ContactO" ColumnName="ContactO" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="Location" ColumnName="Location" />
+          <ScalarProperty Name="Relation" ColumnName="Relation" />
+          <ScalarProperty Name="FHName" ColumnName="FHName" />
+          <ScalarProperty Name="FHStatus" ColumnName="FHStatus" />
+          <ScalarProperty Name="MaritalStatus" ColumnName="MaritalStatus" />
+          <ScalarProperty Name="Gender" ColumnName="Gender" />
+          <ScalarProperty Name="DeathDate" ColumnName="DeathDate" />
+          <ScalarProperty Name="RetireDate" ColumnName="RetireDate" />
+          <ScalarProperty Name="RetireTypeId" ColumnName="RetireTypeId" />
+          <ScalarProperty Name="DOJ" ColumnName="DOJ" />
+          <ScalarProperty Name="DOB" ColumnName="DOB" />
+          <ScalarProperty Name="EmpName" ColumnName="EmpName" />
+          <ScalarProperty Name="EmpNo" ColumnName="EmpNo" />
+          <ScalarProperty Name="CompId" ColumnName="CompId" />
+          <ScalarProperty Name="EmpId" ColumnName="EmpId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SAContributions">
+      <EntityTypeMapping TypeName="VPDPensionModel.SAContribution">
+        <MappingFragment StoreEntitySet="SAContribution">
+          <ScalarProperty Name="UploadedBy" ColumnName="UploadedBy" />
+          <ScalarProperty Name="UploadedDate" ColumnName="UploadedDate" />
+          <ScalarProperty Name="Year" ColumnName="Year" />
+          <ScalarProperty Name="Month" ColumnName="Month" />
+          <ScalarProperty Name="CompID" ColumnName="CompID" />
+          <ScalarProperty Name="EmpCont" ColumnName="EmpCont" />
+          <ScalarProperty Name="CompCont" ColumnName="CompCont" />
+          <ScalarProperty Name="Basic" ColumnName="Basic" />
+          <ScalarProperty Name="EmpNo" ColumnName="EmpNo" />
+          <ScalarProperty Name="SAID" ColumnName="SAID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SAEmpDetails">
+      <EntityTypeMapping TypeName="VPDPensionModel.SAEmpDetail">
+        <MappingFragment StoreEntitySet="SAEmpDetails">
+          <ScalarProperty Name="UploadedBy" ColumnName="UploadedBy" />
+          <ScalarProperty Name="UploadedDate" ColumnName="UploadedDate" />
+          <ScalarProperty Name="SASettalDate" ColumnName="SASettalDate" />
+          <ScalarProperty Name="CompID" ColumnName="CompID" />
+          <ScalarProperty Name="SAID" ColumnName="SAID" />
+          <ScalarProperty Name="Year" ColumnName="Year" />
+          <ScalarProperty Name="OpeningBalance" ColumnName="OpeningBalance" />
+          <ScalarProperty Name="EmpNo" ColumnName="EmpNo" />
+          <ScalarProperty Name="SAOBID" ColumnName="SAOBID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SAInterests">
+      <EntityTypeMapping TypeName="VPDPensionModel.SAInterest">
+        <MappingFragment StoreEntitySet="SAInterest">
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="LeftEffYear" ColumnName="LeftEffYear" />
+          <ScalarProperty Name="LiveEffYear" ColumnName="LiveEffYear" />
+          <ScalarProperty Name="LeftEmpInt" ColumnName="LeftEmpInt" />
+          <ScalarProperty Name="LiveEmpInt" ColumnName="LiveEmpInt" />
+          <ScalarProperty Name="CompID" ColumnName="CompID" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

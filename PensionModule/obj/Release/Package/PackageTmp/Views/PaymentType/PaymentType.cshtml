@@ -1,0 +1,196 @@
+﻿@model PensionModel.ViewModel.PaymentTypeModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "GradeChange";
+}
+
+
+@using (Html.BeginForm("PaymentType", "PaymentType", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+   
+    <section class="content-header">
+        <h1>Payment <small>Type</small>
+        </h1>
+
+    </section>  
+    <div class="panel panel-info" id="dvAdd">
+        <div class="panel-heading">
+            Payment Type Master 
+            <input type="button" id="btnBack" value="Back" class="btnAdd btn btn-primary" />
+        </div>
+        @Html.HiddenFor(m => m.hdnpayid)
+        <div class="panel-body">
+            <br />
+            <br />
+            <div class="form-group">
+                <div class="col-sm-2">
+                    Payment Type
+                </div>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.PaymentType1, new { @class = "form-control" })
+                </div>
+            </div>
+            <br />
+            <br />
+            <br />
+            <div class="form-group">
+                <div class="col-sm-2">
+                    Other Charges
+                </div>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.OtherCharge, new { @class = "form-control" })
+                </div>
+            </div>
+            <br />
+            <br />
+            <div class="form-group">
+                <div class="col-sm-2">
+                    Description
+                </div>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.Description, new { @class = "form-control" })
+                </div>
+            </div>
+            <br />
+            <br />
+            <div class="form-group">
+                <div class="col-sm-2">
+                    Status
+                </div>
+                <div class="col-sm-4">
+                    @Html.RadioButtonFor(m => m.Status, "1", new { @checked = "checked" })Active
+                    @Html.RadioButtonFor(m => m.Status, "0")In-Active    
+                </div>
+            </div>
+            <br />
+            <br />
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <input type="submit" name="Button" value="Save" id="btnSave" class="btn btn-primary" onclick="return Validation();" />
+                </div>
+            </div>
+
+        </div>
+    </div>
+    
+    <div class="panel panel-info" id="dvGrid">
+        <div class="panel-heading">
+
+            <input type="button" id="btnAdd" value="Add New" class="btnAdd btn btn-primary" />
+        </div>
+        <div class="panel-heading" style="height: 54px;">
+            <div class="panel-body">
+                <div class="table-responsive" id="Grid">
+
+                    <table class="table" id="tbl">
+                        <thead>
+                            <tr>
+                                <th>Payment Type</th>
+                                <th>Other Charge</th>
+                                <th>Description</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.lstpay)
+                            {
+                                <tr>
+                                    <td>@item.PaymentType1</td>
+                                    <td>@item.OtherCharge</td>
+                                    <td>@item.Description</td>
+                                    @if (@item.Status == 1)
+                                    {
+                                        <td>Active</td>
+                                    }
+                                    else
+                                    {
+                                        <td>In-Active</td>
+                                    }
+                                    <td>
+                                        <a  id="btnEdit" class="fa fa-pencil-square fa-lg" onclick="HiddenField('@item.id')"  style="height:20px;width:20px;" />
+                                    </td>
+                                </tr>   
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+    $('#btnAdd').click(function () {
+        $('#dvAdd').show(1000);
+        $('#dvGrid').hide();
+
+        $('#id').val('');
+        $('#PaymentType1').val('');
+        $('#OtherCharge').val('');
+        $('#Description').val('');
+        $('#Status').val(1);
+
+        $('#hdnpayid').val('');
+        removeErr("err_LangSName");
+        removeErr("err_LangFName");
+    });
+</script>
+<script>    
+    function Validation() {
+        var ValidateMsg = true;
+
+        var PT = $('#PaymentType1').val();
+        //var OC = $('#OtherCharges').val();
+
+        if (PT == "") {
+            showErr("PaymentType1", "Please enter Payment Type");
+            return false;
+        }
+        else {
+            removeErr("err_LangFName");
+            return true;
+        }
+    }
+
+    $('#btnBack').click(function () {
+        $('#id').val('');
+        $('#PaymentType1').val('');
+        $('#OtherCharge').val('');
+        $('#Description').val('');
+
+        removeErr("err_LangSName");
+        removeErr("err_LangFName");
+    });
+
+    function HiddenField(id) {
+        $('#dvAdd').show(1000);
+        $('#dvGrid').hide();
+        debugger;
+
+        $('#hdnpayid').val(id);
+        var iid = $('#hdnpayid').val();
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("GetByID", "PaymentType")',
+            data: "{'id': '" + iid + "'}",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                $('#PaymentType1').val(data.PaymentType1);
+                $('#OtherCharge').val(data.OtherCharge);
+                $('#Description').val(data.Description);
+                $('#Status').val(data.Status);
+            },
+            error: function (data) {
+                alert(data.responseText);
+            }
+        });
+    }
+
+</script>
+
+

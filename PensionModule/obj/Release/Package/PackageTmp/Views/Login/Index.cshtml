@@ -1,0 +1,101 @@
+﻿@using PensionModel.ViewModel
+
+@model LoginModel
+@{
+    Layout = "~/Views/Shared/_login.cshtml";
+}
+
+@using (Html.BeginForm("Index", "Login", FormMethod.Post))
+{
+
+    //this  is for create form tag
+    @Html.AntiForgeryToken()          // this is for prevent CSRF attack
+         
+@* @Html.ValidationMessage("Error") *@
+    
+    <div class="form-group has-feedback">
+        UserName :                        
+         <div class="input-group">
+             @Html.TextBoxFor(m => m.UserID, new { @class = "form-control", @placeholder = "* User Name", @id = "txtUnm" })
+             <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+         </div>
+    </div>
+@*<div class="form-group has-feedback">
+        @Html.ValidationMessageFor(m => m.UserID)
+    </div>*@
+    <div class="form-group has-feedback">
+        Password :
+        <div class="input-group">
+            @Html.TextBoxFor(m => m.Password, new { @class = "form-control", @type = "password", @placeholder = "* Password" })
+            <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+        </div>
+
+    </div>
+@*<div class="form-group has-feedback">
+        @Html.ValidationMessageFor(m => m.Password)
+    </div>*@
+    <div class="row">
+        @*<div class="col-xs-8">
+            <div class="checkbox icheck">
+                <label>
+                    <input type="checkbox">
+                    Remember Me
+               
+                </label>
+            </div>
+        </div>*@
+        <!-- /.col -->
+        <div class="col-xs-8">
+            <label>
+                <input type="checkbox">
+                Remember Me               
+            </label>
+        </div>
+        <div class="col-xs-4">
+            <input type="submit" value="Login" class="btn btn-primary btn-block btn-flat" onclick=" return Validation();" />
+
+        </div>
+        <!-- /.col -->
+
+
+
+
+
+    </div>
+
+
+
+    <div class="form-group input-group">
+        @Html.ValidationSummary(true, "", new { @style = "color: red" })
+    </div>
+            
+
+
+}
+
+@* This below line is for create javascript section *@
+
+@section Scripts{
+   @* @Scripts.Render("~/bundles/jqueryval")*@
+   
+    <script type="text/javascript">
+        function Validation() {
+            debugger;
+            var Userid = $('#txtUnm').val();
+            var Pwd = $('#Password').val();
+            var bool = true;
+
+            if (Userid == "") {
+                showErr("txtUnm", "Please enter valid User Id");
+                bool = false;
+            }
+            if (Pwd === "") {
+                showErr("Password", "Please enter Password");
+                bool = false;
+            }
+            return bool;
+        }
+    </script>
+}
+
+

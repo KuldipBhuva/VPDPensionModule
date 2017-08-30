@@ -1,0 +1,60 @@
+﻿@{
+    Layout = null;
+}
+@using PensionModel.ViewModel
+@model PensionMasterModel
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Arrears</title>
+     <!-- Bootstrap 3.3.5 -->
+        <link rel="stylesheet" href="/UI/bootstrap/css/bootstrap.min.css">
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+</head>
+<body>
+    @using (Html.BeginForm("Arrears", "Pension", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="col-sm-4"></div>
+    <div class="col-sm-4">
+        <div class="well well-sm"><label>Name:-</label>@Model.ListPension[0].EmpNo<span style="float:right;"><label>AnnuityNo:-</label>@Model.ListPension[0].AnnuityNo</span></div>
+        <table class="table table-bordered">
+            <tr>                
+                <th>Month</th>
+                <th>Year</th>
+                @*<th>Process</th>*@
+            </tr>
+            <tbody>
+                @for (var m = 0; m < Model.ListPension.Count(); m++)
+                {
+                    var ar = Model.ListPension[m];
+                    <tr>
+                        @Html.HiddenFor(model => model.ListPension[m].PID)
+                        <td>@ar.PensionMonth</td>
+                        <td>@ar.Year</td>
+                        
+                    @*    <td>@Html.CheckBoxFor(model => model.ListPension[m].IsProcessed)
+                            </td>*@
+                    </tr>
+                }
+                <tr>
+                    <td colspan="3" style="text-align:right;"> <input type="submit" value="Process All Arrears" class="btn btn-primary" id="btnSave" /></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-sm-4"></div>
+    }
+</body>
+</html>
+
+@{
+    var message = TempData["AMsg"] ?? string.Empty;
+}
+<script type="text/javascript">
+    var message = '@message';
+    if (message)
+        alert(message);
+</script>

@@ -1,0 +1,933 @@
+﻿@{
+    ViewBag.Title = "Company Master";
+    ViewBag.PageTitle = "Company Master";
+}
+@using PensionModel.ViewModel
+@model CompanyModel
+@using (Html.BeginForm("Edit", "Company", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(m => m.id)
+    
+    <section class="content-header">
+        <h1>Company <small>Master</small>
+        </h1>
+    </section>
+    <br />
+    <br />
+    <br />
+    
+    <div class="panel panel-info">
+        @*<input type="button" id="btnBack" value="Back" class="btnAdd btn btn-primary" />*@
+        <div class="panel-group" id="accordion" style="height: 500px">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <i class="fa fa-institution" aria-hidden="true"></i><a aria-expanded="true" data-toggle="collapse" data-parent="#accordion" href="#dvAddCmy" data-toggle="tooltip" data-placement="bottom" title="Expired Licences!"><span>&nbsp;Company Details&nbsp;</span></a>
+                    </h4>
+                </div>
+                <div class="panel-collapse collapse in" id="dvAddCmy">
+                    <div class="panel-body">
+                        <div class="table-responsive">
+
+                            <div class="form-group">
+                                <div class="col-sm-4">
+                                    Company Code                    
+                                </div>
+                                <div class="col-sm-6">
+                                    @Html.TextBoxFor(m => m.CompCode, new { @class = "form-control" })
+                                </div>
+                            </div>
+
+                            <br />
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-4">
+                                    Company Name
+                                </div>
+                                <div class="col-sm-6">
+                                    @Html.TextBoxFor(m => m.CompName, new { @class = "form-control", @onblur = "return CheckExist();" })
+                                </div>
+                            </div>
+
+                            <br />
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-4">
+                                    Company Address
+                                </div>
+                                <div class="col-sm-6">
+                                    @Html.TextAreaFor(m => m.Address, new { @class = "form-control" })
+                                </div>
+                            </div>
+
+                            <br />
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-4">
+                                    Company Email
+                                </div>
+                                <div class="col-sm-6">
+                                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @Type = "email" })
+                                </div>
+                            </div>
+
+                            <br />
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-4">
+                                    Contact Person
+                                </div>
+                                <div class="col-sm-6">
+                                    @Html.TextBoxFor(m => m.ContactPerson, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            @*<br />
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-4">
+                    Type
+                </div>
+                <div class="col-sm-6">
+                      @Html.DropDownListFor(m => m.Type, new List<SelectListItem>() { new SelectListItem() { Text = "--Select Type--", Value = "" }, new SelectListItem() { Text = "High", Value = "1" }, new SelectListItem() { Text = "Medium", Value = "2" }, new SelectListItem() { Text = "Normal", Value = "3" } }, new { @class = "form-control" })
+                          
+                </div>
+            </div>*@
+                            <br />
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-4">
+                                    Widow Pension
+                                </div>
+                                <div class="col-sm-6">
+                                    @Html.DropDownListFor(m => m.WidowPension, new List<SelectListItem>() { new SelectListItem() { Text = "--Select Widow pension--", Value = "" }, new SelectListItem() { Text = "Yes", Value = "1" }, new SelectListItem() { Text = "No", Value = "2" } }, new { @class = "form-control" })
+
+                                </div>
+                            </div>
+
+                            <br />
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-4">
+                                    Pension Eligibity(No of years)
+                                </div>
+                                <div class="col-sm-6">
+                                    @Html.TextBoxFor(m => m.PensionEligibityYears, new { @class = "form-control", @Type = "number" })
+                                </div>
+                            </div>
+
+                            <br />
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                </div>
+                            </div>
+
+                            <br />
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <i class="fa fa-ticket" aria-hidden="true"></i><a data-toggle="collapse" data-parent="#accordion" href="#dvAddPen" data-toggle="tooltip" data-placement="bottom" title="Expired Licences!"><span>&nbsp;Pension Limit&nbsp;</span></a>
+                    </h4>
+                </div>
+                <div class="panel-collapse collapse" id="dvAddPen">
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            @*<div class="form-group">
+                                <div class="col-sm-4">
+                                    Pension Limit
+                                </div>
+                                <div class="col-sm-6">
+                                    @Html.RadioButtonFor(m => m.PensionLimit, "Yes", new { @onchange = "return PenLimit(this.value);" })Yes
+                                @Html.RadioButtonFor(m => m.PensionLimit, "No", new { @onchange = "return PenLimit(this.value);" })No
+                                </div>
+                            </div>*@
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                </div>
+                            </div>
+                            <div id="divLimit" class="form-group">
+
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-4">
+                                        Employment Type
+                                    </div>
+                                    <div class="col-sm-6">
+                                        @Html.DropDownListFor(m => m.EmployeementType, new List<SelectListItem>() { 
+                                    new SelectListItem() { Text = "--Select Employment Type--", Value = "" }, 
+                                    new SelectListItem() { Text = "Managment", Value = "1" }, 
+                                    new SelectListItem() { Text = "Other", Value = "2" } }, new { @class = "form-control" })
+                                    </div>
+                                </div>
+
+                                <br />
+                                <br />
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-4">
+                                        Grade
+                                    </div>
+                                    <div class="col-sm-6">
+                                        @Html.DropDownListFor(m => m.GradeID, new SelectList(Model.Listgrade, "id", "Grade_Name"), "--Select Grade--", new { @class = "form-control" })@* , @onblur = "return checkformExist();"*@
+                                    </div>
+                                </div>
+
+                                <br />
+                                <br />
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-4">
+                                        Pension Limit
+                                    </div>
+                                    <div class="col-sm-6">
+                                        @Html.TextBoxFor(m => m.Pension_Limit, new { @class = "form-control" })
+                                    </div>
+                                </div>
+
+                                <br />
+                                <br />
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-4">
+                                        Effective Date
+                                    </div>
+                                    <div class="col-sm-6">
+                                        @Html.TextBoxFor(m => m.PenEffDate, new { @class = "form-control pull-right datepicker", @Value = Model.PenEffDate.HasValue ? Model.PenEffDate.Value.ToString("dd-MMM-yyyy") : Model.PenEffDate.ToString() })
+                                        <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                    </div>
+                                </div>
+
+                                <br />
+                                <br />
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                    </div>
+                                </div>
+
+                                <br />
+                                <br />
+                                <br />
+                                @if (Model.ListPension != null)
+                                {
+                                    <div class="panel panel-info">
+                                        <div class="panel-heading">
+                                            Pension Data
+                                        </div>
+
+                                        <div class="panel-body">
+                                            <div class="table-responsive" id="Grid2">
+
+                                                <table class="table" id="tbl2">
+                                                    <thead>
+                                                        <tr>
+                                                            @*<th>Company Name</th>*@
+                                                            <th>Employeement Type</th>
+                                                            <th>Grade</th>
+                                                            <th>Pension Limit</th>
+                                                            <th>Effective Date</th>
+                                                            <th>Status</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach (var item in Model.ListPension)
+                                                        {
+                                                            <tr>
+                                                                @*<td>@item.CompName</td>*@
+                                                                @if (@item.EmployeementType == "1")
+                                                                {
+                                                                    <td>Management</td>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <td>Other</td>
+                                                                }
+                                                                <td>@item.GradeName</td>
+                                                                <td>@item.Pension_Limit</td>
+                                                                <td>@item.PenEffDate.Value.ToShortDateString()</td>
+                                                                @if (@item.Status == 0)
+                                                                {
+                                                                    <td>In-Active</td>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <td>Active</td>
+                                                                }
+                                                                <td>
+                                                                    @*@Html.ActionLink(" ","", "Edit", new { @PenId = @item.PenId }, new { @class = "fa fa-pencil-square fa-lg" })*@
+                                                                    <a  id="btnEdit" class="fa fa-pencil-square fa-lg" onclick="HiddenField('@item.PenId')"  style="height:20px;width:20px;" />
+                                                                </td>
+                                                            </tr>
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <i class="fa fa-building" aria-hidden="true"></i><a data-toggle="collapse" data-parent="#accordion" href="#dvAddMCmy" data-toggle="tooltip" data-placement="bottom" title="Expired Licences!"><span>&nbsp;Merging Company&nbsp;</span></a>
+                    </h4>
+                </div>
+                <div class="panel-collapse collapse" id="dvAddMCmy">
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            @*<div class="form-group">
+                                <div class="col-sm-4">
+                                    Merging
+                                </div>
+                                <div class="col-sm-6">
+                                    @Html.RadioButtonFor(m => m.Merging, "Yes", new { @onchange = "return Merging(this.value);" })Yes
+                                @Html.RadioButtonFor(m => m.Merging, "No", new { @onchange = "return Merging(this.value);" })No
+                                </div>
+                            </div>*@
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                </div>
+                            </div>
+                            <div id="divMerging" class="form-group">
+
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-4">
+                                        Merge Company
+                                    </div>
+                                    <div class="col-sm-6">
+                                        @Html.DropDownListFor(m => m.MCmyID, new SelectList(Model.LstCmy, "id", "CompName"), "--Select Company--", new { @class = "form-control", @onblur = "return checkformExist();" })
+                                    </div>
+                                </div>
+
+                                <br />
+                                <br />
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-4">
+                                        Effective Date
+                                    </div>
+                                    <div class="col-sm-6">
+                                        @Html.TextBoxFor(m => m.MergeEffDate, new { @class = "form-control pull-right datepicker" })
+                                        <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                    </div>
+                                </div>
+
+                                <br />
+                                <br />
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                    </div>
+                                </div>
+
+                                <br />
+                                <br />
+                                <br />
+                                @if (Model.ListMergeComp != null)
+                                {
+                                    <div class="panel panel-info">
+                                        <div class="panel-heading">
+                                            Merged Company Data
+                                    @*<input type="button" id="btnAdd" value="Add New" class="btnAdd btn btn-primary" />*@
+                                        </div>
+
+                                        <div class="panel-body">
+                                            <div class="table-responsive" id="Grid1">
+
+                                                <table class="table" id="tbl1">
+                                                    <thead>
+                                                        <tr>
+                                                            @*<th>Company Name</th>*@
+                                                            <th>Merged Company Name</th>
+                                                            <th>Effective Date</th>
+                                                            <th>Status</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach (var item in Model.ListMergeComp)
+                                                        {
+                                                            <tr>
+                                                                @*<td>@item.CompName</td>*@
+                                                                <td>@item.CompName</td>
+                                                                <td>@item.MergeEffDate.Value.ToShortDateString()</td>
+                                                                @if (@item.Status == 0)
+                                                                {
+                                                                    <td>In-Active</td>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <td>Active</td>
+                                                                }
+                                                                <td>
+                                                                    @*@Html.ActionLink(" ", "Edit", new { @id = @item.MerId }, new { @class = "fa fa-pencil-square fa-lg" })*@
+                                                                    <a  id="btnMergeEdit" class="fa fa-pencil-square fa-lg" onclick="MergeHiddenField('@item.MerId')"  style="height:20px;width:20px;" />
+                                                                </td>
+                                                            </tr>
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <i class="fa fa-building" aria-hidden="true"></i><a data-toggle="collapse" data-parent="#accordion" href="#dvAddSA" data-toggle="tooltip" data-placement="bottom" title="Expired Licences!"><span>&nbsp;Superannuation Details&nbsp;</span></a>
+                    </h4>
+                </div>
+                <div class="panel-collapse collapse" id="dvAddSA">
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            @*<div class="form-group">
+                                <div class="col-sm-4">
+                                    Merging
+                                </div>
+                                <div class="col-sm-6">
+                                    @Html.RadioButtonFor(m => m.Merging, "Yes", new { @onchange = "return Merging(this.value);" })Yes
+                                @Html.RadioButtonFor(m => m.Merging, "No", new { @onchange = "return Merging(this.value);" })No
+                                </div>
+                            </div>*@
+
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                </div>
+                            </div>
+                            <div id="divSA" class="form-group">
+
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                    </div>
+                                </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-4">
+                                            SA Shceme
+                                        </div>
+                                        <div class="col-sm-6">
+                                            @Html.DropDownListFor(m => m.SAContriMethod, new List<SelectListItem>() { new SelectListItem() { Text = "--Select Interest--", Value = "" },
+                     new SelectListItem() { Text = "Contributory Scheme", Value = "0" }, 
+                     new SelectListItem() { Text = "Non-Contributory Scheme", Value = "1"}},
+                     new { @class = "form-control" })
+                                        </div>
+                                    </div>
+
+                                    <br />
+                                    <br />
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                        </div>
+                                    </div>
+                                <div class="form-group">
+                                    <div class="form-group">
+                                        <div class="col-sm-4">
+                                            Contribution Rate
+                                        </div>
+                                        <div class="col-sm-6">
+                                            @Html.TextBoxFor(m => m.SAContriRate, new { @class = "form-control pull-right" })
+                                        </div>
+                                    </div>
+
+                                    <br />
+                                    <br />
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-4">
+                                            Interest Calculate Method
+                                        </div>
+                                        <div class="col-sm-6">
+                                            @Html.DropDownListFor(m => m.SAIntMethod, new List<SelectListItem>() { new SelectListItem() { Text = "--Select Interest--", Value = "" },
+                     new SelectListItem() { Text = "Month", Value = "0" }, 
+                     new SelectListItem() { Text = "Opening-Closing Balance", Value = "1"}},
+                     new { @class = "form-control" })
+                                        </div>
+                                    </div>
+
+                                    <br />
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                        </div>
+                                    </div>
+
+                                    <div id="divLeftEmp" class="form-group">
+                                        <div class="col-sm-4">
+                                            ** For Left Employee<br />
+                                            Stop Interest
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <br />
+                                            @Html.DropDownListFor(m => m.SAStopIntType, new List<SelectListItem>() { new SelectListItem() { Text = "--Select Stop Interest--", Value = "" },
+                     new SelectListItem() { Text = "Last Day of Month", Value = "0" }, 
+                     new SelectListItem() { Text = "Last Day of Financial Year", Value = "1"},
+                     new SelectListItem() { Text = "Exact Day", Value = "2"}},
+                     new { @class = "form-control" })
+                                        </div>
+                                    </div>
+
+                                    <br />
+                                    <br />
+                                    <br />
+                                    <br />
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                        </div>
+                                    </div>
+                                    <div class="form-group" style="text-align: -webkit-center;">
+                                        <div class="col-sm-4">
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <b>SA Interest</b>
+                                        </div>
+                                        <div class="col-sm-1"></div>
+                                        <div class="col-sm-3">
+                                            <b>Annual Year</b>
+                                        </div>
+                                    </div>
+
+                                    <br />
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-4">
+                                            Live Employee Interest
+                                        </div>
+                                        <div class="col-sm-3">
+                                            @Html.TextBoxFor(m => m.LiveEmpInt, new { @class = "form-control pull-right" })
+                                        </div>
+                                        <div class="col-sm-1"></div>
+                                        <div class="col-sm-3">
+                                            @Html.TextBoxFor(m => m.LiveEffYear, new { @class = "form-control pull-right" })
+                                        </div>
+                                    </div>
+
+                                    <br />
+                                    <br />
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-4">
+                                            Left Employee Interest
+                                        </div>
+                                        <div class="col-sm-3">
+                                            @Html.TextBoxFor(m => m.LeftEmpInt, new { @class = "form-control pull-right" })
+                                        </div>
+                                        <div class="col-sm-1"></div>
+                                        <div class="col-sm-3">
+                                            @Html.TextBoxFor(m => m.LeftEffYear, new { @class = "form-control pull-right" })
+                                        </div>
+                                    </div>
+
+                                    <br />
+                                    <br />
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="grid" class="form-group">
+                                <div class="panel panel-info">
+                                    <div class="panel-heading">
+                                        Superannuation Details
+                                    </div>
+
+                                    <div class="panel-body">
+                                        <div class="table-responsive" id="Grid11">
+
+                                            <table class="table" id="tbl11">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Live Employee SAInterest</th>
+                                                        <th>Live Effective Year</th>
+                                                        <th>Left Employee SAInterest</th>
+                                                        <th>Left Effective Year</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @if (Model.ListSA != null)
+                                                    {
+                                                        foreach (var item in Model.ListSA)
+                                                        {
+                                                        <tr>
+                                                            <td>@item.LiveEmpInt</td>
+                                                            <td>@item.LiveEffYear</td>
+                                                            <td>@item.LeftEmpInt</td>
+                                                            <td>@item.LeftEffYear</td>
+                                                            <td>
+                                                                @*@Html.ActionLink(" ", "Edit", new { @SaID = @item.ID }, new { @class = "fa fa-pencil-square fa-lg" })*@
+                                                                <a  id="btnSAEdit" class="fa fa-pencil-square fa-lg" onclick="SAHiddenField('@item.SaID')"  style="height:20px;width:20px;" />
+                                                            </td>
+                                                        </tr>
+                                                        }
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <input type="submit" name="Button" value="Update" style="margin: 0px 21px;" id="btnSave" class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+@*<div class="panel panel-info">
+        <div class="panel-heading">
+            Company Details
+            <input type="button" id="btnBack" value="Back" class="btnAdd btn btn-primary" />
+        </div>
+        <div class="panel-body">
+            <div class="form-group">
+                <div class="col-sm-4">
+                    Company Code                    
+                </div>
+                <div class="col-sm-6">
+                    @Html.TextBoxFor(m => m.CompCode, new { @class = "form-control" })
+                </div>
+            </div>
+
+            <br />
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-4">
+                    Company Name
+                </div>
+                <div class="col-sm-6">
+                    @Html.TextBoxFor(m => m.CompName, new { @class = "form-control", @onblur = "return CheckExist();" })
+                </div>                
+            </div>
+
+            <br />
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-4">
+                    Company Address
+                </div>
+                <div class="col-sm-6">
+                    @Html.TextAreaFor(m => m.Address, new { @class = "form-control" })
+                </div>
+            </div>
+
+            <br />
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-4">
+                    Company Email
+                </div>
+                <div class="col-sm-6">
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @Type = "email" })
+                </div>
+            </div>
+
+            <br />
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-4">
+                    Contact Person
+                </div>
+                <div class="col-sm-6">
+                    @Html.TextBoxFor(m => m.ContactPerson, new { @class = "form-control" })
+                </div>
+            </div>
+
+            <br />
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+              <div class="form-group">
+                <div class="col-sm-4">
+                    Widow Pension
+                </div>
+                <div class="col-sm-6">
+                      @Html.DropDownListFor(m => m.WidowPension, new List<SelectListItem>() { new SelectListItem() { Text = "--Select Widow pension--", Value = "" }, new SelectListItem() { Text = "Yes", Value = "1" }, new SelectListItem() { Text = "No", Value = "2" }}, new { @class = "form-control" })                          
+                </div>
+            </div>
+
+            <br />
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+              <div class="form-group">
+                <div class="col-sm-4">
+                    Pension Eligibity(No of years)
+                </div>
+                <div class="col-sm-6">
+                    @Html.TextBoxFor(m => m.PensionEligibityYears, new { @class = "form-control", @Type = "number" })
+                </div>
+            </div>
+
+              <br />
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>            
+            <br />
+            <div class="form-group">
+                 <div class="col-sm-4">
+                     Status
+                     </div>               
+                <div class="col-sm-6">
+                    @Html.RadioButtonFor(m => m.Status, 1)Active
+                        @Html.RadioButtonFor(m => m.Status, 0)In-Active                   
+                </div>
+            </div>
+            
+            <br />
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-4">
+                    Pension Limit
+                </div>
+                <div class="col-sm-6">
+                    @Html.RadioButtonFor(m => m.PensionLimit, "Yes", new { @checked = true, @onchange = "return PenLimit(this.value);" })Yes
+                    @Html.RadioButtonFor(m => m.PensionLimit, "No")No
+                </div>
+            </div>
+
+            <br />
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-4">
+                    Merging
+                </div>
+                <div class="col-sm-6">
+                    @Html.RadioButtonFor(m => m.Merging, "Yes", new { @checked = true, @onchange = "return Merging(this.value);" })Yes
+                    @Html.RadioButtonFor(m => m.Merging, "No")No
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <input type="submit" name="Button" value="Update" id="btnSave" class="btn btn-primary"/>
+                </div>
+            </div>
+        </div>
+    </div>*@    
+}
+<script>
+    $(function () { // will trigger when the document is ready
+        $('.RetireDate').datepicker(); //Initialise any date pickers
+        $('.datepicker').datepicker(); //Initialise any date pickers
+
+        //var pen = "No";
+        //pen = $('#PensionLimit').val();
+        //PenLimit(pen);
+
+        //var mer = "No";
+        //mer = $('#Merging').val();
+        //Merging(mer);
+        debugger;
+        var emp = "0";
+
+    });
+
+    function PenLimit(val) {
+        debugger;
+        if (val == "Yes") {
+            $('#PensionLimit').val(val);
+            $('#divLimit').show();
+        }
+        else {
+            $('#PensionLimit').val(val);
+            $('#divLimit').hide();
+        }
+    }
+
+    function Merging(val) {
+        debugger;
+        if (val == "Yes") {
+            $('#Merging').val(val);
+            $('#divMerge').show();
+        }
+        else {
+            $('#Merging').val(val);
+            $('#divMerge').hide();
+        }
+    }
+
+    function HiddenField(ids) {
+        //$('#dvAdd').show(1000);
+        //$('#dvGrid').hide();
+        debugger;
+
+
+        $('#hdnPenId').val(ids);
+        var pension = $('#hdnPenId').val();
+        var penid = ids;
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("GetPension", "Company")',
+            data: "{'PenId': '" + penid + "'}",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                debugger;
+                var value = new Date(parseInt(data.PenEffDate.replace(/(^.*\()|([+-].*$)/g, '')));
+                var EffDate = value.getMonth() + 1 + "/" + value.getDate() + "/" + value.getFullYear();
+
+                $('#EmployeementType').val(data.EmployeementType);
+                $('#GradeID').val(data.GradeID);
+                $('#PenEffDate').val(EffDate);
+                $('#Pension_Limit').val(data.Pension_Limit);
+            },
+            error: function (data) {
+                alert(data.responseText);
+            }
+        });
+    }
+
+    function SAHiddenField(id) {
+        debugger;
+
+        $('#hdnPenId').val(id);
+        var Intid = $('#hdnPenId').val();
+        var said = id;
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("GetSAInt", "Company")',
+            data: "{'SaID': '" + said + "'}",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                debugger;
+                $('#LiveEmpInt').val(data.LiveEmpInt);
+                $('#LiveEffYear').val(data.LiveEffYear);
+                $('#LeftEmpInt').val(data.LeftEmpInt);
+                $('#LeftEffYear').val(data.LeftEffYear);
+                $('#LiveEmpInt').focus();
+            },
+            error: function (data) {
+                alert(data.responseText);
+            }
+        });
+    }
+
+    function MergeHiddenField(mid) {
+        debugger;
+
+        $('#hdnPenId').val(mid);
+        var mergeid = $('#hdnPenId').val();
+        var merid = mid;
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("GetMCmy", "Company")',
+            data: "{'MerID': '" + merid + "'}",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                debugger;
+                var value = new Date(parseInt(data.MergeEffDate.replace(/(^.*\()|([+-].*$)/g, '')));
+                var EffDate = value.getMonth() + 1 + "/" + value.getDate() + "/" + value.getFullYear();
+
+                $('#MCmyID').val(data.MCmyID);
+                $('#MergeEffDate').val(EffDate);
+            },
+            error: function (data) {
+                alert(data.responseText);
+            }
+        });
+    }
+</script>
+<script>
+
+    $(document).ready(function () {
+        debugger;
+        var rid = '@Request.RequestContext.HttpContext.Session["RID"]';
+
+        if (rid == 3) {
+            $("#accordion :input").attr("disabled", true);
+        }
+        else {
+            $('#accordion :input').removeAttr('disabled');
+        }
+    });
+</script>

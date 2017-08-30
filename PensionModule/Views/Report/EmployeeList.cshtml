@@ -1,0 +1,69 @@
+﻿@model PensionModel.ViewModel.ReportViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "EmployeeList";
+}
+
+@using (Html.BeginForm("PolicyReport", "Report", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+   
+    <section class="content-header">
+        <h1>Employee <small>List</small></h1>
+    </section>  
+        
+    <div class="panel panel-info" id="dvGrid">
+        <div class="panel-heading">
+            Monthly Employee List
+        </div>
+        <div class="panel-body">
+            <div class="table-responsive" id="Grid">
+                <table class="table" id="tbl">
+                    <thead>
+                        <tr>
+                            <th>Employee No</th>
+                            <th>Employee Name</th>
+                            <th>Life Certificate till</th>
+                            <th>Retirement Date</th>
+                            <th>Retirement Type</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (var item in Model.lstemp)
+                        {
+@*@for (var m = 0; m < Model.lstemp.Count(); m++)
+                            {
+                                var item = Model.lstemp[m];
+                                *@<tr>
+                                    <td>@item.EmpId</td>
+                                    <td>@item.EmpName</td>
+
+                                    <td>@item.LCtill.Value.ToString(string.Format("dd/MM/yyyy"))</td>
+                                    @if (@item.RetDate.HasValue)
+                                    {
+                                        <td>@item.RetDate.Value.ToString(string.Format("dd/MM/yyyy"))</td>
+                                    }
+                                    else
+                                    {
+                                        <td>@item.RetDate</td>
+                                    }
+
+                                    <td>@item.RetType</td>
+                                    @if (@item.Status == "2")
+                                    {
+                                        <td>Active</td>
+                                    }
+                                    else if (@item.Status == "1")
+                                    {
+                                        <td>On Hold</td>
+                                    }
+                                </tr>   
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+}

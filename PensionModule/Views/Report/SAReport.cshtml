@@ -1,0 +1,92 @@
+﻿@{
+    ViewBag.Title = "SAReport";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model PensionModel.ViewModel.ReportViewModel
+@using PensionModel
+
+
+@{
+    if (Session["Comp"] != null)
+    {
+        if (Session["Emp"] != null)
+        {
+            VPDPensionEntities DbContent = new VPDPensionEntities();
+            var cmyId = Convert.ToInt32(Session["Comp"].ToString());
+            var Id = Convert.ToInt32(Session["Emp"].ToString());
+            var lst = DbContent.EmployeeMasters.SingleOrDefault(m => m.EmpId == Id);
+            var lstcmy = DbContent.SAInterests.Where(m => m.CompID == cmyId && m.Status == 1).FirstOrDefault();
+            decimal Rate = 0;
+            var Yr = "";
+            if (lst.PensionStatus != "1")
+            {
+                if (lst.EmployeeType == 2)
+                {
+                    Rate = Convert.ToDecimal(lstcmy.LeftEmpInt);
+                    Yr = lstcmy.LeftEffYear;
+                }
+                else
+                {
+                    Rate = Convert.ToDecimal(lstcmy.LiveEmpInt);
+                    Yr = lstcmy.LiveEffYear;
+                }
+            }
+    <section class="content-header">
+        <h1>SA <small>Report</small></h1>
+    </section>  
+        
+    <div class="panel panel-info" id="dvGrid">
+        <div class="panel-heading">
+            SA Report
+        </div>
+        <div class="panel-body">
+            <div class="table-responsive" id="Grid">
+                <div class="col-md-12" style="text-align: center;">
+                    <h4><strong>THE BANK OF TOKYO-MITSUBISHI UFJ, LTD. INDIAN STAFF PENSION FUND</strong></h4>
+                </div>
+                <div class="col-md-12" style="text-align: center; padding-bottom: 15px;">
+                    <h5>5th Floor, Wordmark 2, Asset 8, Aerocity, NH 8, New Delhi -110037</h5>
+                </div>
+                <div class="col-md-12" style="text-align: center; padding-bottom: 11px;">
+                    <div class="col-md-4">
+                        <b>Emp No :</b>
+                        @Html.DisplayFor(m => lst.EmpNo)
+                    </div>
+                    <div class="col-md-4">
+                        <b>DOJ :</b>
+                        @if (lst.DOJ != null)
+                        {
+                            @Html.DisplayFor(m => lst.DOJ.Value.ToString("dd/MM/yyyy"))
+                        }
+                    </div>
+                    <div class="col-md-4">
+                        <b>Rate of Ins. :</b>
+                        @Html.DisplayFor(m => Rate)
+                    </div>
+                </div>
+                <div class="col-md-12" style="text-align: center;">
+                    <div class="col-md-4">
+                        <b>Name :</b>
+                        @Html.DisplayFor(m => lst.EmpName)
+                    </div>
+                    <div class="col-md-4">
+                        <b>DOL :</b>
+                        @if (lst.RetireDate != null)
+                        {
+                            @Html.DisplayFor(m => lst.RetireDate.Value.ToString("dd/MM/yyyy"))
+                        }
+                    </div>
+                    <div class="col-md-4">
+                        <b>Period :</b>
+                        @Html.DisplayFor(m => Yr)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        }
+    }
+}
+
+
+

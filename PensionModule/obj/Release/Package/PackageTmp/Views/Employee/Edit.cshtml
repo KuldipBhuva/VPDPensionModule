@@ -1,0 +1,782 @@
+﻿@{
+    ViewBag.Title = "Employee Master";
+    ViewBag.PageTitle = "Employee Master";
+}
+@using PensionModel.ViewModel
+@model Pension.Models.ViewModel.EmployeeViewModel
+
+@using (Html.BeginForm("Edit", "Employee", FormMethod.Post))
+{
+    @Html.HiddenFor(m => m.EmpId)
+    @Html.HiddenFor(m => m.CreatedDate)
+    @Html.HiddenFor(m => m.CreatedBy)
+    @Html.HiddenFor(m => m.CompId)
+    <section class="content-header">
+        <h1>Employee <small>Master</small>
+        </h1>
+    </section>    
+    
+    <br />
+    <br />
+    <div class="panel panel-info">
+        @*<input type="button" id="btnBack" value="Back" class="btnAdd btn btn-primary" />*@
+
+        <div class="panel-group" id="accordion">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <i class="fa fa-users" aria-hidden="true"></i><a aria-expanded="true" data-toggle="collapse" data-parent="#accordion" href="#dvAddCmy" data-toggle="tooltip" data-placement="bottom" title="Expired Licences!"><span>&nbsp;Employee Details&nbsp;</span></a>
+                    </h4>
+                </div>
+                <div class="panel-collapse collapse in" id="dvAddCmy">
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            @*<div class="panel panel-info">
+        <div class="panel-heading">
+            Employee Details
+            <a  id="btnBack" class="btnAdd btn btn-primary" href='@Url.Action("Index", "Employee")' >Back</a>
+        </div>
+        <div class="panel-body">*@
+                            <div class="form-group">
+                                <div class="col-sm-2">
+                                    Employee No
+                                </div>
+                                <div class="col-sm-4">
+                                    @Html.TextBoxFor(m => m.EmpNo, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.EmpNo)
+                                </div>
+                                <div class="col-sm-2">
+                                    Employee Name
+                                </div>
+                                <div class="col-sm-4">
+                                    @Html.TextBoxFor(m => m.EmpName, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.EmpName)
+                                </div>
+                            </div>
+                            <br />
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-2">
+                                    Date Of Joining
+                                </div>
+                                <div class="col-sm-4">
+                                    @Html.TextBoxFor(m => m.DOJ, new { @class = "form-control pull-right datepicker", @Value = Model.DOJ.HasValue ? Model.DOJ.Value.ToString("dd-MMM-yyyy") : Model.DOJ.ToString() })
+                                    @Html.ValidationMessageFor(m => m.DOJ)
+                                    <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                </div>
+                                <div class="col-sm-2">
+                                    Date of Birthdate
+                                </div>
+                                <div class="col-sm-4">
+                                    @Html.TextBoxFor(m => m.DOB, new { @class = "form-control pull-right datepicker", @Value = Model.DOB.HasValue ? Model.DOB.Value.ToString("dd-MMM-yyyy") : Model.DOB.ToString() })
+                                    @Html.ValidationMessageFor(m => m.DOB)
+                                    <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                    <p class="help-block"></p>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-2">
+                                    Pension Status
+                                </div>
+                                <div class="col-sm-4">
+                                    @Html.DropDownListFor(m => m.PensionStatus, new List<SelectListItem>() { new SelectListItem() { Text = "--Select Pension--", Value = "" },
+                     new SelectListItem() { Text = "Hold", Value = "1" }, 
+                     new SelectListItem() { Text = "Active", Selected=true, Value = "2"}},
+                     new { @class = "form-control", @onchange = "return hold(this.value);" })
+                                </div>
+                                <div class="col-sm-2">
+                                    Employee Type
+                                </div>
+                                <div class="col-sm-4">
+                                    @Html.DropDownListFor(m => m.EmployeeType, new List<SelectListItem>() { new SelectListItem() { Text = "--Select Pension--", Value = "" },
+                     new SelectListItem() { Text = "Working", Value = "1" }, 
+                     new SelectListItem() { Text = "Pensioner", Value = "2"}},
+                     new { @class = "form-control", @onchange = "return retid(this.value);" })
+                                </div>
+                            </div>
+                            <br />
+                            <div id="divhold" class="form-group">
+                                <div class="col-sm-2">
+                                    Hold Date
+                                </div>
+                                <div class="col-sm-4">
+                                    @Html.TextBoxFor(m => m.HoldDate, new { @class = "form-control datepicker ", @Value = Model.HoldDate.HasValue ? Model.HoldDate.Value.ToString("dd-MMM-yyyy") : Model.HoldDate.ToString() })
+                                    @Html.ValidationMessageFor(m => m.RetireDate)
+                                    <div class="col-sm-1">
+                                        <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    Remarks
+                                </div>
+                                <div class="col-sm-4">
+                                    @Html.TextBoxFor(m => m.Remarks, new { @class = "form-control" })
+                                    <div class="col-sm-1"></div>
+                                </div>
+                            </div>
+                            <br />
+
+                            @*<div class="form-group" id="divret" runat="server">
+                                <br />
+                                <div class="col-sm-2">
+                                    Retirement Type
+                                </div>
+                                <div class="col-sm-4">
+                                    @Html.DropDownListFor(m => m.RetireTypeId, new SelectList(Model.lstRetirement, "id", "RetirementType"), "--Select Retire Type--", new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.RetireTypeId)
+                                </div>
+                                <div class="col-sm-2">
+                                    Retirement date
+                                </div>
+                                <div class="col-sm-4">
+                                    @Html.TextBoxFor(m => m.RetireDate, new { @class = "form-control datepicker", @Value = Model.RetireDate.HasValue ? Model.RetireDate.Value.ToString("dd-MMM-yyyy") : Model.RetireDate.ToString() })
+                                    @Html.ValidationMessageFor(m => m.RetireDate)
+                                    <div class="col-sm-1">
+                                        <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                    </div>
+                                </div>
+                            </div>*@
+                            <br />
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @*<div class="col-sm-2">
+                                    Death date
+                                </div>
+                                <div class="col-sm-4">
+                                    @Html.TextBoxFor(m => m.DeathDate, new { @class = "form-control pull-right datepicker", @Value = Model.DeathDate.HasValue ? Model.DeathDate.Value.ToString("dd-MMM-yyyy") : Model.DeathDate.ToString() })
+                                    @Html.ValidationMessageFor(m => m.DeathDate)
+                                    <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                </div>*@
+                                <div class="col-sm-2">
+                                    Gender
+                                </div>
+                                <div class="col-sm-4">
+                                    @Html.RadioButtonFor(m => m.Gender, "Male")Male
+                    @Html.RadioButtonFor(m => m.Gender, "Female")Female  
+                    @Html.ValidationMessageFor(m => m.Gender)
+                                </div>
+                            </div>
+                            <br />
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-2">
+                                    Marital Status
+                                </div>
+                                <div class="col-sm-4">
+                                    @Html.DropDownListFor(m => m.MaritalStatus, new List<SelectListItem>() {
+                     new SelectListItem() { Text = "--Select Marital Status--", Value = "" },
+                     new SelectListItem() { Text = "Married", Value = "1" }, 
+                     new SelectListItem() { Text = "UnMarried", Value = "2" }},
+                     new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.MaritalStatus)
+                                </div>
+                            </div>
+                            <br />
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-2">
+                                    Location
+                                </div>
+                                <div class="col-sm-4">
+                                    @Html.TextBoxFor(m => m.Location, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.Location)
+                                </div>
+                                <div class="col-sm-2">
+                                    Address
+                                </div>
+                                <div class="col-sm-4">
+                                    @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.Address)
+                                </div>
+                            </div>
+                            <br />
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-2">
+                                    Contact of office
+                                </div>
+                                <div class="col-sm-4">
+                                    @Html.TextBoxFor(m => m.ContactO, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.ContactO)
+                                </div>
+                                <div class="col-sm-2">
+                                    Contact of office
+                                </div>
+                                <div class="col-sm-4">
+                                    @Html.TextBoxFor(m => m.ContactR, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.ContactR)
+                                </div>
+                            </div>
+                            <br />
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-2">
+                                    Email
+                                </div>
+                                <div class="col-sm-4">
+                                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.Email)
+                                </div>
+                                <div class="col-sm-2">
+                                    Aadhar No
+                                </div>
+                                <div class="col-sm-4">
+                                    @Html.TextBoxFor(m => m.AadharNo, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.AadharNo)
+                                </div>
+                            </div>
+                            <br />
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-2">
+                                    PAN
+                                </div>
+                                <div class="col-sm-4">
+                                    @Html.TextBoxFor(m => m.PANNo, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.PANNo)
+                                </div>
+                                <div class="col-sm-2">
+                                    Bank Acc No.
+                                </div>
+                                <div class="col-sm-4">
+                                    @Html.TextBoxFor(m => m.BankAcNo, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.BankAcNo)
+                                </div>
+                            </div>
+                            <br />
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-2">
+                                    Bank Name
+                                </div>
+                                <div class="col-sm-4">
+                                    @Html.TextBoxFor(m => m.BankName, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.BankName)
+                                </div>
+                                <div class="col-sm-2">
+                                    Account Type
+                                </div>
+                                <div class="col-sm-4">
+                                    @Html.TextBoxFor(m => m.AccType, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.AccType)
+                                </div>
+                            </div>
+                            <br />
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-2">
+                                    IFSC
+                                </div>
+                                <div class="col-sm-4">
+                                    @Html.TextBoxFor(m => m.IFSC, new { @class = "form-control" })
+                                </div>
+                                <div class="col-sm-2">
+                                    Branch Name
+                                </div>
+                                <div class="col-sm-4">
+                                    @Html.TextBoxFor(m => m.BranchName, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <br />
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-2">
+                                    Bank Address
+                                </div>
+                                <div class="col-sm-4">
+                                    @Html.TextBoxFor(m => m.BranchAddress, new { @class = "form-control" })
+                                </div>
+                                <div class="col-sm-2">
+                                    Employment Type
+                                </div>
+                                <div class="col-sm-4">
+                                    @Html.DropDownListFor(m => m.EmployeementType, new List<SelectListItem>() { 
+                                    //new SelectListItem() { Text = "--Select Employment Type--", Value = "" }, 
+                                    new SelectListItem() { Text = "Managment", Value = "1" }, 
+                                    new SelectListItem() { Text = "Other", Value = "2",Selected=true} }, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <br />
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-2">
+                                    Merged Employee
+                                </div>
+                                <div class="col-sm-4">
+                                    @Html.DropDownListFor(m => m.Merged, new List<SelectListItem>() {
+                     new SelectListItem() { Text = "Yes", Value = "1" }, 
+                     new SelectListItem() { Text = "No", Selected=true, Value = "0" }},
+                     new { @class = "form-control", @onchange = "return MerCmy(this.value);" })
+                                    @Html.ValidationMessageFor(m => m.Merged)
+                                </div>
+                                <div class="col-sm-2">
+                                    Regular Pension
+                                </div>
+                                <div class="col-sm-4">
+                                    @Html.TextBoxFor(m => m.RPensionAmt, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            @*<div class="form-group">
+                                <div class="col-sm-2">
+                                    PensionType
+                                </div>
+                                <div class="col-sm-4">
+                                    @Html.DropDownListFor(m => m.PentionTypeID, new SelectList(Model.Listpen, "id", "Type"), "--Select Pension Type--", new { @class = "form-control" })
+                                </div>
+                                <div class="col-sm-2">
+                                    PaymentType
+                                </div>
+                                <div class="col-sm-4">
+                                    @Html.DropDownListFor(m => m.PaymentType, new SelectList(Model.Listpaytype, "id", "PaymentType1"), "--Select Payment Type--", new { @class = "form-control" })
+                                </div>
+                            </div>*@
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <i class="fa fa-list-alt" aria-hidden="true"></i><a aria-expanded="true" data-toggle="collapse" data-parent="#accordion" href="#dvCmy" data-toggle="tooltip" data-placement="bottom" title="Expired Licences!"><span>&nbsp;INTIMATION OF RETIREMENT/DEATH/LEAVING SERVICE&nbsp;</span></a>
+                    </h4>
+                </div>
+                <div class="panel-collapse collapse" id="dvCmy">
+                    <div class="panel-body">
+                        <div class="table-responsive">
+
+                            <div class="form-group">
+                                <div class="col-sm-2">
+                                    Name of Member
+                                </div>
+                                <div class="col-sm-4">
+                                    @Html.LabelFor(m => m.EmpName, Model.EmpName, new { @class = "label-control", @style = "Font-Bold:true;" })
+                                </div>
+                                <div class="col-sm-6"></div>
+                            </div>
+
+                            @*<br />
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-2">
+                                    Date of Birth
+                                </div>
+                                <div class="col-sm-4">
+                                    @Html.TextBoxFor(m => m.DOB, new { @class = "form-control pull-right datepicker", @Value = Model.DOB.HasValue ? Model.DOB.Value.ToString("dd-MMM-yyyy") : Model.DOB.ToString() })
+                                    @Html.ValidationMessageFor(m => m.DOB)
+                                    <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                    <p class="help-block"></p>
+                                </div>
+                            </div>*@
+
+                            <br />
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                </div>
+                            </div>
+                            <div class="form-group" id="divret" runat="server">
+                                <div class="col-sm-2">
+                                    Cause of Exit
+                                </div>
+                                <div class="col-sm-4">
+                                    @Html.DropDownListFor(m => m.RetireTypeId, new SelectList(Model.lstRetirement, "id", "RetirementType"), "--Select Retire Type--", new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.RetireTypeId)
+                                </div>
+                                <div class="col-sm-2">
+                                    Date of Exit
+                                </div>
+                                <div class="col-sm-4">
+                                    @Html.TextBoxFor(m => m.RetireDate, new { @class = "form-control pull-right datepicker", @onchange = "return date(this.value)", @Value = Model.RetireDate.HasValue ? Model.RetireDate.Value.ToString("dd-MMM-yyyy") : Model.RetireDate.ToString() })
+                                    @Html.ValidationMessageFor(m => m.RetireDate)
+                                    <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                    <p class="help-block"></p>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-2">
+                                    Insurance  
+                                </div>
+                                <div class="col-sm-4">
+                                    @Html.DropDownListFor(m => m.LicId, new SelectList(Model.ListIns, "id", "InsuranceCompany"), "--Select Insurance--", new { @class = "form-control", @OnChange = "return bindplan();" })
+                                </div>
+                                <div class="col-sm-2">
+                                    Pension Schema
+                                </div>
+                                <div class="col-sm-4">
+                                    @Html.DropDownListFor(m => m.PentionTypeID, new SelectList(Model.Listpen, "id", "PlanName"), "--Select Plan--", new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <br />
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                @*<div class="col-sm-2">
+                                    Type of Pension
+                                </div>
+                                <div class="col-sm-4">
+                                    @Html.DropDownListFor(m => m.PentionTypeID, new SelectList(Model.Listpen, "id", "Type"), "--Select Pension Type--", new { @class = "form-control" })
+                                </div>*@
+                                <div class="col-sm-2">
+                                    Type of Payment
+                                </div>
+                                <div class="col-sm-4">
+                                    @Html.DropDownListFor(m => m.PaymentType, new SelectList(Model.Listpaytype, "id", "PaymentType1"), "--Select Payment Type--", new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <br />
+                            <div class="form-group">
+                                <div class="col-sm-12" style="height: 15px;">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-2">
+                                    Mode of annuity
+                                </div>
+                                <div class="col-sm-4">
+                                    @Html.DropDownListFor(m => m.AnnuityMode, new List<SelectListItem>() { new SelectListItem() { Text = "--Select Pension--", Value = "" },
+                                     new SelectListItem() { Text = "Yearly", Value = "1" }, 
+                                     new SelectListItem() { Text = "Half Yearly", Selected=true, Value = "2"},
+                                     new SelectListItem() { Text = "Quaterly", Value = "3" }, 
+                                     new SelectListItem() { Text = "Monthly", Selected=true, Value = "4"}},
+                                     new { @class = "form-control", @onchange = "return hold(this.value);" })
+                                </div>
+                                <div class="col-sm-2">
+                                    Death date
+                                </div>
+                                <div class="col-sm-4">
+                                    @Html.TextBoxFor(m => m.DeathDate, new { @class = "form-control pull-right datepicker", @Value = Model.DeathDate.HasValue ? Model.DeathDate.Value.ToString("dd-MMM-yyyy") : Model.DeathDate.ToString() })
+                                    @Html.ValidationMessageFor(m => m.DeathDate)
+                                    <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="form-group">
+                                <div class="col-sm-12" style="height: 15px;">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-12" style="height: 30px;">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-4">
+                                    Final Contribution, if any, on Ceassation of Service
+                                </div>
+                                <div class="col-sm-4">
+                                    @Html.LabelFor(m => m.Status)
+                                </div>
+                                <div class="col-sm-4"></div>
+                                <br />
+                            </div>
+                            <br />
+                            <div class="form-group">
+                                <div class="col-sm-12" style="height: 20px;">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-4">
+                                    Whether Option to commute part of Pension exercised or not? (Tick Appropriate Column)
+                                </div>
+                                <div class="col-sm-4">
+                                    @Html.DropDownListFor(m => m.Contribution, new List<SelectListItem>() { new SelectListItem() { Text = "--Select Pension--", Value = "" },
+                     new SelectListItem() { Text = "Yes", Value = "1" }, 
+                     new SelectListItem() { Text = "No", Selected=true, Value = "2"},},
+                     new { @class = "form-control", @onchange = "return DBef(this.value);" })
+                                </div>
+                                <div class="col-sm-4"></div>
+                                <br />
+                            </div>
+                            <br />
+                            <div class="form-group">
+                                <div class="col-sm-12" style="height: 20px;">
+                                </div>
+                            </div>
+                            <div class="form-group" id="dbef">
+                                <div class="col-sm-4">
+                                    If the answer is YES, What Proporation?<br />
+                                    (Tick Appropriate Option)
+                                </div>
+                                <div class="col-sm-4">
+                                    @Html.DropDownListFor(m => m.Benefits, new List<SelectListItem>() { new SelectListItem() { Text = "--Select Pension--", Value = "" },
+                     new SelectListItem() { Text = "1/3 Pension", Value = "1" }, 
+                     new SelectListItem() { Text = "1/2 Pension", Value = "2"},},
+                     new { @class = "form-control", @onchange = "return hold(this.value);" })
+                                </div>
+                                <div class="col-sm-4"></div>
+                                <br />
+                            </div>
+                            <br />
+                            <div class="form-group">
+                                <div class="col-sm-12" style="height: 20px;">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-4">
+                                    Amount of single premium<br />
+                                    (i.e. purchase price paid for Annuity)
+                                </div>
+                                <div class="col-sm-4">
+                                    @Html.TextBoxFor(m => m.BranchAddress, new { @class = "form-control" })<br />
+                                </div>
+                                <div class="col-sm-4"></div>
+                                <br />
+                            </div>
+                            <br />
+                            <div class="form-group">
+                                <div class="col-sm-12" style="height: 20px;">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-4">
+                                    Due Date of First Payment of Pension
+                                </div>
+                                <div class="col-sm-4" style="font-weight: bold;">
+                                    @Html.DisplayFor(m => m.DueDate)
+                                </div>
+                                <div class="col-sm-4"></div>
+                                <br />
+                            </div>
+                            <br />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-info" id="dvmercmy">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <i class="fa fa-building" aria-hidden="true"></i><a aria-expanded="true" data-toggle="collapse" data-parent="#accordion" href="#dvMCmy" data-toggle="tooltip" data-placement="bottom" title="Expired Licences!"><span>&nbsp;Merged Company&nbsp;</span></a>
+                    </h4>
+                </div>
+                <div class="panel-collapse collapse" id="dvMCmy">
+                    <div class="panel-body">
+                        <div class="table-responsive">
+
+                            <div class="form-group">
+                                <div class="col-sm-2">
+                                    Merged Company
+                                </div>
+                                <div class="col-sm-4">
+                                    @Html.DropDownListFor(m => m.FromMerger, new SelectList(Model.lstCmy, "id", "CompName"), "--Select Company--", new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.FromMerger)
+                                </div>
+                                <div class="col-sm-6"></div>
+                            </div>
+
+                            <br />
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-2">
+                                    Merged DOJ
+                                </div>
+                                <div class="col-sm-4">
+                                    @Html.TextBoxFor(m => m.MDOJ, new { @class = "form-control pull-right datepicker", @Value = Model.MDOJ.HasValue ? Model.MDOJ.Value.ToString("dd-MMM-yyyy") : Model.MDOJ.ToString() })
+                                    @Html.ValidationMessageFor(m => m.MDOJ)
+                                    <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                </div>
+                                <div class="col-sm-2">
+                                    Merged DOL
+                                </div>
+                                <div class="col-sm-4">
+                                    @Html.TextBoxFor(m => m.MDOL, new { @class = "form-control pull-right datepicker", @Value = Model.MDOL.HasValue ? Model.MDOL.Value.ToString("dd-MMM-yyyy") : Model.MDOL.ToString() })
+                                    @Html.ValidationMessageFor(m => m.MDOJ)
+                                    <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                                </div>
+                            </div>
+
+                            <br />
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-2">
+                                    Frozen Amount
+                                </div>
+                                <div class="col-sm-4">
+                                    @Html.TextBoxFor(m => m.FrozenAmt, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.FrozenAmt)
+                                </div>
+                                <div class="col-sm-2">
+                                    Frozen Pension
+                                </div>
+                                <div class="col-sm-4">
+                                    @Html.TextBoxFor(m => m.FrozenPensionAmt, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.FrozenPensionAmt)
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <input type="submit" name="Button" value="Update" id="btnSave" class="btn btn-primary" onclick="return Validation();" />
+                </div>
+            </div>
+        </div>
+    </div>
+    
+}
+
+<script src="~/assets/js/jquery-1.10.2.js"></script>
+<script src="~/assets/js/jquery.min.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script>
+    $(function () {
+        var w = $('#Contribution').val();
+        DBef(w);
+        var x = $('#EmployeeType').val();
+        retid(x);
+        var y = $('#PensionStatus').val();
+        hold(y);
+        var z = $('#Merged').val();
+        MerCmy(z);
+        $('.RetireDate').datepicker(); //Initialise any date pickers
+        $('.datepicker').datepicker();
+        debugger;
+        var c = $("#RetireDate").val();
+        $("#DueDate").val(c);
+    });
+
+    function MerCmy(x) {
+        if (x == 1) {
+            $('#dvmercmy').show();
+        }
+        else {
+            $('#FromMerger').val('');
+            $('#MDOJ').val('');
+            $('#MDOL').val('');
+            $('#FrozenAmt').val('');
+            $('#FrozenPensionAmt').val('');
+            $('#dvmercmy').hide();
+        }
+    }
+
+    function retid(x) {
+        if (x == 2) {
+            $('#divret').show();
+        }
+        else {
+            $('#divret').hide();
+        }
+    }
+
+    function hold(x) {
+        if (x == 1) {
+            $('#divhold').show();
+        }
+        else {
+            $('#divhold').hide();
+        }
+    }
+    function DBef(x) {
+        if (x == 1) {
+            $('#Benefits').val('');
+            $('#dbef').show();
+        }
+        else {
+            $('#Benefits').val('');
+            $('#dbef').hide();
+        }
+    }
+    function bindplan() {
+        debugger;
+        var serviceURL = '/Employee/BindPension';
+        $.ajax({
+
+            type: "POST",
+            url: serviceURL,
+            data: JSON.stringify({ mod: { LicId: $("#LicId").val() } }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                $('#PentionTypeID').empty();
+                debugger;
+                for (var i = 0; i < data.length; i++) {
+                    var opt = new Option(data[i].PlanName, data[i].id);
+                    $('#PentionTypeID').append(opt);
+
+                }
+            },
+            error: function (data) {
+            }
+        });
+    }
+</script>

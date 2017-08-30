@@ -1,0 +1,53 @@
+﻿@{
+    ViewBag.Title = "Confirm Data";
+}
+
+@using (Html.BeginForm("ConfirmData", "Salary", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+
+    var lst = @ViewBag.EmpList;
+    <section class="content-header">
+        <h1>Salary <small>Master</small>
+        </h1>
+
+    </section>
+    
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            Invalid Employee List          
+        </div>
+        <div class="panel-body">
+            <div class="col-sm-12">
+                @if(lst!=null)
+                {
+                <table class="table" id="tbl">
+                    <thead>
+                        <tr>
+
+                            <th>EmpNo.</th>
+                            <th>Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var i in lst)
+                        {
+                            <tr>
+                                <td>@i.No</td>
+                                <td>@i.Name</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                }
+                else
+                {
+                    <h3><span class="label label-success">No Any Invalid Employee!!</span></h3><br />
+                }
+                
+                <input type="Submit" value="Save" class="btn btn-primary" onclick="return confirm('Are you sure?')"/>
+                @Html.ActionLink("Cancel", "Index", new { }, new { @class = "btn btn-danger" })
+            </div>
+        </div>
+    </div>
+    
+}

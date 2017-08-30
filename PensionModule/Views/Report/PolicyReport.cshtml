@@ -1,0 +1,77 @@
+﻿@model PensionModel.ViewModel.ReportViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Policy Report";
+}
+
+
+@using (Html.BeginForm("PolicyReport", "Report", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+   
+    <section class="content-header">
+        <h1>Policy <small>Report</small></h1>
+    </section>  
+        
+    <div class="panel panel-info" id="dvGrid">
+        <div class="panel-heading">
+            Policy Report
+        </div>
+        <div class="panel-body">
+            <div class="table-responsive" id="Grid">
+
+                <table class="table" id="tbl">
+                    <thead>
+                        <tr>
+                            <th>Employee No</th>
+                            <th>Insurance</th>
+                            <th>Employee Name</th>
+                            <th>Policy No</th>
+                            <th>Aunnity No</th>
+                            <th>Aunnity Name</th>
+                            <th>Aunnity Amount</th>
+                            <th>Arrears</th>
+                            <th>Remarks</th>
+                            <th>Plan</th>
+                            <th>Policy Status</th>
+                            <th>Hold Remarks</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (var m = 0; m < Model.lstempplan.Count(); m++)
+                        {
+                            var item = Model.lstempplan[m];
+                            <tr>
+                                <td>@item.EmpId</td>
+                                <td>@item.Insurance</td>
+                                <td>@item.EmpName</td>
+                                <td>@item.PolicyId</td>
+                                <td>@item.AnnuityNo</td>
+                                <td>@item.AnnuityName</td>
+                                <td>@item.AnnuityAmt</td>
+                                <td>@item.Arrears</td>
+                                <td>@item.Remarks</td>
+                                <td>@item.PlanName</td>
+                                @if (@item.Status == "2")
+                                {
+                                    <td>Active</td>
+                                }
+                                else if (@item.Status == "1")
+                                {
+                                    <td>On Hold</td>
+                                }
+                                <td>@item.HRemarks</td>
+                                <td>
+                                    @*<a  id="btnEdit" class="fa fa-pencil-square fa-lg" onclick="HiddenField('@item.id')"  style="height:20px;width:20px;" />*@
+                                </td>
+                            </tr>   
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+}
+
+
+

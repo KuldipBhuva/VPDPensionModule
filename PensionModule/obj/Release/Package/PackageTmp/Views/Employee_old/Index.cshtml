@@ -1,0 +1,462 @@
+﻿@{
+    ViewBag.Title = "Employee Master";
+    ViewBag.PageTitle = "Employee Master";
+}
+@using PensionModel.ViewModel
+@model Pension.Models.ViewModel.EmployeeViewModel
+
+@using (Html.BeginForm("Index", "Employee", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()          // this is for prevent CSRF attack
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(m => m.hdnEmpId)
+    <section class="content-header">
+        <h1>Employee <small>Master</small>
+        </h1>
+
+    </section>
+    <div class="panel panel-info" id="dvAdd">
+        <div class="panel-heading">
+            Employee Details
+            <input type="button" id="btnBack" value="Back" class="btnAdd btn btn-primary" />
+        </div>
+
+        <div class="panel-body">
+            <div class="form-group">
+                <div class="col-sm-2">
+                    Employee No
+                </div>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.EmpNo, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.EmpNo)
+                </div>
+
+                <div class="col-sm-2">
+                    Employee Name
+                </div>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.EmpName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.EmpName)
+                </div>
+            </div>
+            <br />
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2">
+                    Date Of Joining
+                </div>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.DOJ, new { @class = "form-control pull-right datepicker" })
+                    @Html.ValidationMessageFor(m => m.DOJ)
+                    <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                    
+
+                </div>
+                <div class="col-sm-2">
+                    Date of Birthdate
+                </div>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.DOB, new { @class = "form-control datepicker" })
+                    @Html.ValidationMessageFor(m => m.DOB)
+                    <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                    <p class="help-block"></p>
+                </div>
+
+            </div>
+            <br />
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-2">
+                    Retirement Type
+                </div>
+                <div class="col-sm-4">
+                    @Html.DropDownListFor(m => m.RetireTypeId, new SelectList(Model.lstRetirement, "id", "RetirementType"), "--Select Retire Type--", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.RetireTypeId)
+                </div>
+                <div class="col-sm-2">
+                    Retirement date
+                </div>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.RetireDate, new { @class = "form-control datepicker " })
+                    @Html.ValidationMessageFor(m => m.RetireDate)
+                    <div class="col-sm-1">
+                        <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-2">
+                    Death date
+                </div>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.DeathDate, new { @class = "form-control pull-right datepicker" })
+                    @Html.ValidationMessageFor(m => m.DeathDate)
+                    <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+
+
+                </div>
+                <div class="col-sm-2">
+                    <label>Gender</label>
+                </div>
+                <div class="col-sm-4">
+                    @Html.RadioButtonFor(m => m.Gender, "Active")Active
+                        @Html.RadioButtonFor(m => m.Gender, "InActive")In-Active  
+                    @Html.ValidationMessageFor(m => m.Gender)
+
+                </div>
+            </div>
+            <br />
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-2">
+                    Marital Status
+                </div>
+                <div class="col-sm-4">
+                    @Html.DropDownListFor(m => m.MaritalStatus, new List<SelectListItem>() {
+                     new SelectListItem() { Text = "--Select Marital Status--", Value = "" },
+                     new SelectListItem() { Text = "Married", Value = "1" }, 
+                     new SelectListItem() { Text = "UnMarried", Value = "2" }},
+                     new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.MaritalStatus)
+
+                </div>
+
+                <div class="col-sm-2">
+                    Relation
+                </div>
+                <div class="col-sm-4">
+                    @Html.DropDownListFor(m => m.Relation, new List<SelectListItem>() {
+                     new SelectListItem() { Text = "--Select Relation--", Value = "" },
+                     new SelectListItem() { Text = "Father", Value = "1" }, 
+                     new SelectListItem() { Text = "Mother", Value = "2" },
+                     new SelectListItem() { Text = "Husband", Value = "3" },
+                     new SelectListItem() { Text = "Wife", Value = "4" }},
+                     new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Relation)
+
+                </div>
+            </div>
+            <br />
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-2">
+                    Location
+                </div>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.Location, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Location)
+
+                </div>
+                <div class="col-sm-2">
+                    Address
+                </div>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Address)
+
+                </div>
+            </div>
+            <br />
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-sm-2">
+                    Contact of office
+                </div>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.ContactO, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.ContactO)
+
+                </div>
+                <div class="col-sm-2">
+                    Contact of office
+                </div>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.ContactR, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.ContactR)
+
+                </div>
+
+            </div>
+            <br />
+
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-2">
+                    Email
+                </div>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Email)
+
+                </div>
+                <div class="col-sm-2">
+                    Aadhar No
+                </div>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.AadharNo, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.AadharNo)
+
+                </div>
+            </div>
+            <br />
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-2">
+                    PAN
+                </div>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.PANNo, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.PANNo)
+
+                </div>
+
+                <div class="col-sm-2">
+                    Bank Acc No.
+                </div>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.BankAcNo, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.BankAcNo)
+
+                </div>
+
+            </div>
+            <br />
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-2">
+                    Bank Name
+                </div>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.BankName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.BankName)
+
+                </div>
+
+                <div class="col-sm-2">
+                    Account Type
+                </div>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.AccType, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.AccType)
+
+                </div>
+
+            </div>
+            <br />
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-sm-2">
+                    IFSC
+                </div>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.IFSC, new { @class = "form-control" })
+                </div>
+                <div class="col-sm-2">
+                    Branch Name
+                </div>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.BranchName, new { @class = "form-control" })
+                </div>
+            </div>
+            <br />
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-2">
+                    Bank Address
+                </div>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.BranchAddress, new { @class = "form-control" })
+                </div>
+                <div class="col-sm-2">
+                    Pension Status
+                </div>
+                <div class="col-sm-4">
+                    @Html.DropDownListFor(m => m.PensionStatus, new List<SelectListItem>() { new SelectListItem() { Text = "--Select Pension--", Value = "" },
+                     new SelectListItem() { Text = "Hold", Value = "1" }, 
+                     new SelectListItem() { Text = "Active", Value = "2" }},
+                     new { @class = "form-control" })
+                </div>
+            </div>
+            <br />
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <input type="submit" name="Button" value="Save" id="btnSave" class="btn btn-primary" onclick="return Validation();" />
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- Advanced Tables -->
+    <div class="panel panel-info" id="dvGrid">
+        <div class="panel-heading">
+            Employee Data
+            <input type="button" id="btnAdd" value="Add New" class="btnAdd btn btn-primary" />
+        </div>
+
+        <div class="panel-body">
+            <div class="table-responsive" id="Grid">
+
+                <table class="table" id="tbl">
+                    <thead>
+                        <tr>
+                            <th>Employee
+                            </th>
+                            <th>Company
+                            </th>
+                            <th>Email</th>
+                            <th>Status
+                            </th>
+                            <th>Action
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var item in Model.ListEmp)
+                        {
+                            <tr>
+                                <td>@item.EmpName</td>
+                                <td>@item.CompDetails.CompName</td>
+                                <td>@item.Email</td>
+                                @if (@item.Status == "0")
+                                {
+                                    <td>In-Active</td>
+                                }
+                                else
+                                {
+                                    <td>Active</td>
+                                }
+                                <td>
+                                 @*   <a  id="btnEdit" class="fa fa-pencil-square fa-lg" onclick="HiddenField('@item.EmpId')"  style="height:20px;width:20px;" />*@
+                                    @Html.ActionLink("Edit", "Edit", new { @id = @item.EmpId},new{ @class = "fa fa-pencil-square fa-lg", @onclick = "HiddenField('@item.EmpId')" })
+
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+
+            </div>
+        </div>
+    </div>
+
+}
+
+@section Scripts{
+
+    <script src="~/Scripts/jquery-1.9.1.js"></script>
+    <script src="~/Scripts/jquery-1.9.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script>
+        $(function () { // will trigger when the document is ready
+            $('.RetireDate').datepicker(); //Initialise any date pickers
+            $('.datepicker').datepicker(); //Initialise any date pickers
+
+        });
+
+        function CheckNumericValue(e) {
+            if ((e.which < 48 || e.which > 57)) {
+                if (e.which == 8 || e.which == 46 || e.which == 0) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+        }
+
+        function Validation() {
+
+
+
+
+        }
+
+
+
+        function HiddenField(id) {
+            $("#dvGrid").hide();
+            $("#dvAdd").show(1000);
+            debugger;
+            $('#hdnEmpId').val(id);
+            var id = $('#hdnEmpId').val();
+
+            @*$.ajax({
+                type: "POST",
+                url: '@Url.Action("GetDataById", "Employee")',
+                data: "{'id': '" + id + "'}",
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    $('#EmpName').val(data.EmpName);
+                    $('#DOB').val(data.DOB);
+                    $('#Relation').val(data.Relation);
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+
+            });*@
+
+        }
+
+    </script>
+
+}

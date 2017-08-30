@@ -1,0 +1,312 @@
+﻿@model PensionModel.ViewModel.LifeCertificateViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Life Certificate";
+}
+
+
+@using (Html.BeginForm("LifeCertificate", "LifeCertificate", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+   
+    <section class="content-header">
+        <h1>Life  <small>Certificate</small>
+        </h1>
+
+    </section>  
+    <div class="panel panel-info" id="dvAdd">
+        <div class="panel-heading">
+            Life Certificate Master 
+            <input type="button" id="btnBack" value="Back" class="btnAdd btn btn-primary" />
+        </div>
+        @Html.HiddenFor(m => m.hdnlife)
+        <div class="panel-body">
+            <br />
+            <div class="form-group">
+                <div class="col-sm-2">
+                    YearCode
+                </div>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.YearCode, new { @class = "form-control", @onblur = "return checkformExist();" })
+                    @Html.ValidationMessageFor(mbox => mbox.YearCode)
+                </div>
+            </div>
+            <div class="col-md-12" style="height: 15px;"></div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-2">
+                    Certificate Copy
+                </div>
+                <div class="col-sm-4">
+                    @Html.LabelFor(m => m.CertificateCopy, new { @class = "form-control" })
+                    @*     @Html.ValidationMessageFor(mbox => mbox.CertificateCopy)*@
+                    <input type="file" name="file" id="file" class="form-control btn btn-info" />
+                </div>
+                <div class="col-md-6">
+                    <div id="image-holder" class="img-rounded" style="height: 70px; width: 100px"></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+
+            @*            <div class="form-group">
+                <div class="col-sm-2">
+                    From Date
+                </div>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.FromDate, "{0:dd/MM/yyyy}", new { @class = "form-control pull-right datepicker" })
+                    <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                </div>
+            </div>
+            <div class="col-md-12" style="height:15px;"></div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-2">
+                    To Date
+                </div>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(m => m.ToDate, "{0:dd/MM/yyyy}", new { @class = "form-control pull-right datepicker" })
+                    <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>*@
+
+            <div class="form-group">
+                <div class="col-sm-2">
+                    Status
+                </div>
+                <div class="col-sm-4">
+                    @Html.RadioButtonFor(m => m.Status, "1", new { @checked = "checked" })Active
+                    @Html.RadioButtonFor(m => m.Status, "0")In-Active    
+                    
+                    @*@Html.DropDownListFor(m => m.Status, new List<SelectListItem>() { new SelectListItem() { Text = "--Select Status--", Value = "" },
+                     new SelectListItem() { Text = "Active", Value = "1" }, 
+                     new SelectListItem() { Text = "In-Active", Selected=true, Value = "0"}},
+                     new { @class = "form-control" })*@
+                </div>
+            </div>
+            <br />
+            <br />
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <input type="submit" name="Button" value="Save" id="btnSave" class="btn btn-primary" onclick="return Validation();" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-info" id="dvGrid">
+        <div class="panel-heading">
+            <input type="button" id="btnAdd" value="Add New" class="btnAdd btn btn-primary" />
+        </div>
+        <div class="panel-body">
+            <div class="table-responsive" id="Grid">
+                <table class="table" id="tbl">
+                    <thead>
+                        <tr>
+                            <th>year Code</th>
+                            <th>CertificateCopy</th>
+                            <th>EffDate</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.lstlife)
+                        {
+                            <tr>
+                                <td>@item.YearCode</td>
+                                <td><a href="@item.CertificateCopy" target="_blank">View Certificate</a></td>
+                                @*<td><img src="@item.CertificateCopy" height="80px" width="150px" data-title="My title" data-description="My description" /></td>*@
+                                @if (@item.EffDate.HasValue)
+                                {
+                                    <td>@item.EffDate.Value.ToString("dd/MM/yyyy")</td>
+                                }
+                                else
+                                {
+                                    <td>@item.EffDate</td>    
+                                }
+                                @if (@item.Status == 1)
+                                {
+                                    <td>Active</td>
+                                }
+                                else if (@item.Status == 0)
+                                {
+                                    <td>In-Active</td>
+                                }
+                                <td>
+                                    <a  id="btnEdit" class="fa fa-pencil-square fa-lg" onclick="HiddenField('@item.id')"  style="height:20px;width:20px;" />
+                                </td>
+                            </tr>   
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+}
+
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+
+<script>
+    $('#btnBack').click(function () {
+        $('#YearCode').val('');
+        $('#CertificateCopy').val('');
+        $('#EffDate').val('');
+
+
+        //$('#hdngradeId').val('');
+        removeErr("err_LangSName");
+        removeErr("err_LangFName");
+    });
+    $('#btnAdd').click(function () {
+        $('#YearCode').val('');
+        $('#CertificateCopy').val('');
+        $('#EffDate').val('');
+        $('#hdnlife').val('');
+
+        //$('#hdngradeId').val('');
+        removeErr("err_LangSName");
+        removeErr("err_LangFName");
+    });
+    $(function () { // will trigger when the document is ready
+        //$('.RetireDate').datepicker(); //Initialise any date pickers
+        $('.datepicker').datepicker(); //Initialise any date pickers
+
+    });
+
+
+    function Validation() {
+        var ValidateMsg = true;
+        debugger;
+        var YearCode = $('#YearCode').val();
+        var file = $('#file').val();
+
+        if (YearCode == "") {
+            showErr("YearCode", "Please enter Year Code");
+            ValidateMsg = false;
+        }
+        else {
+
+            removeErr("err_YearCode");
+
+        }
+        if ($('#hdnlife').val() == "") {
+            if (file == "") {
+                showErr("file", "Please enter valid CertificateCopy");
+                ValidateMsg = false;
+            }
+            else {
+                removeErr("err_CertificateCopy");
+
+            }
+        }
+        return ValidateMsg;
+
+    }
+
+    function HiddenField(id) {
+        $('#dvAdd').show(1000);
+        $('#dvGrid').hide();
+        debugger;
+        $('#hdnlife').val(id);
+        var ids = $('#hdnlife').val();
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("GetByID", "LifeCertificate")',
+            data: "{'id': '" + ids + "'}",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+
+                $('#YearCode').val(data.YearCode);
+                $('#CertificateCopy').val(data.CertificateCopy);
+                $('#EffDate').val(data.EffDate);
+                $('#Status').val(data.Status);
+            },
+            error: function (data) {
+                alert(data.responseText);
+            }
+        });
+    }
+
+</script>
+<script>
+    $("#file").on('change', function () {
+
+        //Get count of selected files
+        var countFiles = $(this)[0].files.length;
+        debugger;
+        $("#hdnimg").val($("#file"));
+        var imgPath = $(this)[0].value;
+        var extn = imgPath.substring(imgPath.lastIndexOf('.') + 1).toLowerCase();
+        var image_holder = $("#image-holder");
+        image_holder.empty();
+
+        if (extn == "gif" || extn == "png" || extn == "jpg" || extn == "jpeg" || extn == "pdf") {
+            if (typeof (FileReader) != "undefined") {
+
+                //loop for each file selected for uploaded.
+                for (var i = 0; i < countFiles; i++) {
+
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        $("<img />", {
+                            "src": e.target.result,
+                            "class": "img-rounded thumb-image",
+                            "style": "height:140px",
+                        }).appendTo(image_holder);
+                    }
+
+                    image_holder.show();
+                    reader.readAsDataURL($(this)[0].files[i]);
+                }
+
+            } else {
+                alert("This browser does not support FileReader.");
+            }
+        } else {
+            $("#file").val('');
+            alert("Pls select only images");
+        }
+    });
+
+    function checkformExist() {
+        debugger;
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("CheckExists", "LifeCertificate")',
+            data: JSON.stringify({ model: { YearCode: $("#YearCode").val() } }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                showErr("YearCode", "Year Code Already Exists");
+                $('#YearCode').val('');
+                $('#Value').val('no');
+                $('#YearCode').focus();
+            },
+            error: function (data) {
+                $('#Value').val('yes');
+
+            }
+        });
+    }
+</script>

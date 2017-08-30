@@ -1,0 +1,315 @@
+﻿@model  Pension.Models.ViewModel.CompWiseAllowViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Plan";
+    ViewBag.PageTitle = "Create/Manage Language";
+}
+@using (Html.BeginForm("Index", "CompWiseAllow", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    
+    @Html.HiddenFor(m => m.hdnCompAlloid)
+    <section class="content-header">
+        <h1>Company <small>Allowance</small>
+        </h1>
+
+    </section>
+    <div class="panel panel-info" id="dvAdd">
+        <div class="panel-heading">
+            Company Details
+            <input type="button" id="btnBack" value="Back" class="btnAdd btn btn-primary" />
+        </div>
+        <div class="panel-body">
+            @*<div class="form-group">
+                <div class="col-sm-4">
+                     Company
+                </div>
+                <div class="col-sm-6">
+                    @Html.DropDownListFor(m => m.CompID, new SelectList(Model.lstComp, "id", "CompName"), "--Select Company--", new { @class = "form-control" })
+                </div>
+            </div>*@
+            <br />
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-4">
+                    Grade Change
+                </div>
+                <div class="col-sm-6">
+                    @Html.DropDownListFor(m => m.GradeID, new SelectList(Model.lstgrade, "id", "Grade_Name"), "--Select Grade--", new { @class = "form-control", @onblur = "return checkAllowExist();" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-4">
+                    Effective Date
+                </div>
+                <div class="col-sm-6">
+                    @Html.TextBoxFor(m => m.EffDeate, new { @class = "form-control pull-right datepicker" })
+                    <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                </div>
+            </div>
+
+            <div class="col-sm-12">
+                <fieldset class="scheduler-border">
+                    <style>
+                        #Checkboxlist1 tr
+                        {
+                            float: left;
+                            margin-right: 20px;
+                        }
+                    </style>
+                    <legend class="scheduler-border">Allowance to be appear in :(Please <i class="fa fa-check"></i>tick the relevant Allowance)</legend>
+                    <table id="Checkboxlist1">
+                        @for (var m = 0; m < Model.lstAllo.Count(); m++)
+                        {                                    
+                            <tr>
+                                <td>
+                                    @{var allo = Model.lstAllo[m];
+                                        @Html.HiddenFor(model => model.lstAllo[m].id)
+
+                                        <div class="checkbox checkbox-primary" style="position: relative;">
+
+
+                                            @Html.CheckBoxFor(model => model.lstAllo[m].IsChecked, new { @id = "chk", @style = "margin-left:-5px;" })
+
+                                            @*<i class="fa fa-user" aria-hidden="true"></i>*@
+                                            @Html.LabelFor(model => model.lstAllo[m].AllowanceName, allo.AllowanceName, new { @style = "font-weight: bold;" })&nbsp;&nbsp;&nbsp;
+
+                                        </div>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                </fieldset>
+            </div>
+            <br />
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-4">
+                    Status
+                </div>
+                <div class="col-sm-6">
+                    @Html.RadioButtonFor(m => m.Status, "1", new { @checked = "checked" })Active
+                    @Html.RadioButtonFor(m => m.Status, "0")In-Active
+                </div>
+            </div>
+            <br />
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+            <br />
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <input type="submit" name="Button" value="Save" id="btnSave" class="btn btn-primary" onclick="return Validation();" />
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    
+    <!-- Advanced Tables -->
+    <div class="panel panel-info" id="dvGrid">
+        <div class="panel-heading">
+
+            <input type="button" id="btnAdd" value="Add New" class="btnAdd btn btn-primary" />
+        </div>
+        <div class="panel-heading" style="height: 54px;">
+            <div class="panel-body">
+                <div class="table-responsive" id="Grid">
+
+                    <table class="table" id="tbl">
+                        <thead>
+                            <tr>
+                                @*<th>Company</th>*@
+                                <th>Allowance</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach (var item in Model.lstCompAllo)
+                            {
+                                <tr>
+                                    @*<td>@item.CompName</td>*@
+                                    <td>@item.AllowName</td>
+                                    @if (@item.Status == 0)
+                                    {
+                                        <td>In-Active</td>
+                                    }
+                                    else
+                                    {
+                                        <td>Active</td>
+                                    }
+                                    <td>
+                                        <a  id="btnEdit" class="fa fa-pencil-square fa-lg" onclick="HiddenField('@item.id')"  style="height:20px;width:20px;" />
+                                        @*  <button type="button"   name="Button" value="Edit" ></button>*@
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script>
+    $(function () { // will trigger when the document is ready
+        //$('.RetireDate').datepicker(); //Initialise any date pickers
+        $('.datepicker').datepicker(); //Initialise any date pickers
+
+    });
+    $('#btnAdd').click(function () {
+        $('#GradeID').val('');
+        $('#chk').val('uncheck all');
+        $('#Status').val('');
+        $('#EffDeate').val('');
+
+        $('#hdnCompAlloid').val('');
+        removeErr("err_GradeID");
+        removeErr("err_EffDeate");
+        removeErr("err_chk");
+    });
+
+    function Validation() {
+        debugger;
+        var Grade_Name = $('#GradeID').val();
+        var effdate = $('#EffDeate').val();
+        var chk = $('#chk').val();
+        if (Grade_Name == "") {
+            showErr("GradeID", "Please Select valid Grade Name");
+            return false;
+        }
+        if (effdate == "") {
+            showErr("EffDate", "Please Enter Effective Date");
+            removeErr("err_EffDeate");
+            removeErr("err_GradeID");
+            ValidateMsg = false;
+        }
+        if (chk == "") {
+            showErr("chk", "Please Select atleast one Allowance");
+            removeErr("err_EffDeate");
+            removeErr("err_GradeID");
+            ValidateMsg = false;
+        }
+        else {
+            removeErr("err_GradeID");
+            removeErr("err_EffDeate");
+            removeErr("err_chk");
+            return true;
+        }
+    }
+
+    function HiddenField(id) {
+        $("#dvGrid").hide();
+        $("#dvAdd").show(1000);
+        debugger;
+        $('#hdnCompAlloid').val(id);
+        var id = $('#hdnCompAlloid').val();
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("GetDataById", "CompWiseAllow")',
+            data: "{'id': '" + id + "'}",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                debugger;
+                var value = new Date(parseInt(data.EffDeate.replace(/(^.*\()|([+-].*$)/g, '')));
+                var EffDeate = value.getMonth() + 1 + "/" + value.getDate() + "/" + value.getFullYear();
+
+                $('#chk').val(data.AllowanceID);
+                $('#EffDeate').val(EffDeate);
+                $('#Status').val(data.Status);
+            },
+            error: function (data) {
+                alert(data.responseText);
+            }
+        });
+    }
+</script>
+<script>
+    function checkAllowExist() {
+        debugger;
+        //var serviceURL = '/CompWiseAlloService/GetAllow';
+        $.ajax({
+
+            type: "POST",
+            url: '@Url.Action("GetAllow", "CompWiseAllow")',
+            data: JSON.stringify({ mod: { GradeId: $("#GradeId").val() } }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                //var Allow = JSON.parse(data.d);
+                //var AllowOptions = "";
+                //for (var i = 0; i < cities.length; i++) {
+                //    AllowOptions += '<option value="' + Allow[i].Value + '">' + Allow[i].Text + '</option>';
+                //}
+                //$('#<%= cmb_City.ClientID %>').html(AllowOptions);
+                debugger;
+                for (var i = 0; i < data.length; i++) {
+                    $('#chk').append($('<option>').text(this.AllowanceName).attr('value', this.id));
+                };
+            },
+            error: function (data) {
+            }
+        });
+    }
+    $(document).ready(function () {
+        debugger;
+        var rid = '@Request.RequestContext.HttpContext.Session["RID"]';
+
+        if (rid == 3) {
+            $("#accordion :input").attr("disabled", true);
+            $("#btnAdd").hide();
+            $("#btnEdit").hide();
+        }
+        else {
+            $('#accordion :input').removeAttr('disabled');
+        }
+    });
+</script>
+<link rel="stylesheet" href="~/assets/js/dataTables/dataTables.bootstrap.css" />
+<script src="~/assets/js/dataTables/jquery.dataTables.js"></script>
+<script src="~/assets/js/dataTables/dataTables.bootstrap.js"></script>
+
+<!--end-->
+<script>
+    $(document).ready(function () {
+        //$('#tbl').DataTable({
+        //    dom: 'Bfrtip',
+        //    buttons: [
+        //        {
+        //            extend: 'copyHtml5',
+        //            exportOptions: {
+        //                columns: ':contains("Office")'
+        //            }
+        //        },
+        //        'excelHtml5',
+        //        'csvHtml5',
+        //        'pdfHtml5'
+        //    ]
+        //});
+    });
+</script>

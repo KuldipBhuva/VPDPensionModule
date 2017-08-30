@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PensionModule", "PensionModule\PensionModule.csproj", "{DC1FA428-D921-4156-A686-1894B720F22E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PensionModel", "PensionModel\PensionModel.csproj", "{EB1194B8-469C-485A-84E4-F9003621F0A7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PensionServices", "PensionServices\PensionServices.csproj", "{D2D02108-8DA8-41E5-AA8D-AD8ED4B2BC70}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DC1FA428-D921-4156-A686-1894B720F22E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC1FA428-D921-4156-A686-1894B720F22E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC1FA428-D921-4156-A686-1894B720F22E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC1FA428-D921-4156-A686-1894B720F22E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB1194B8-469C-485A-84E4-F9003621F0A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB1194B8-469C-485A-84E4-F9003621F0A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB1194B8-469C-485A-84E4-F9003621F0A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB1194B8-469C-485A-84E4-F9003621F0A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2D02108-8DA8-41E5-AA8D-AD8ED4B2BC70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2D02108-8DA8-41E5-AA8D-AD8ED4B2BC70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2D02108-8DA8-41E5-AA8D-AD8ED4B2BC70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2D02108-8DA8-41E5-AA8D-AD8ED4B2BC70}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,229 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{EB1194B8-469C-485A-84E4-F9003621F0A7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PensionModel</RootNamespace>
+    <AssemblyName>PensionModel</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AllowanceMaster.cs">
+      <DependentUpon>ModelOffline.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Annuity.cs">
+      <DependentUpon>ModelOffline.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ColunmMapMaster.cs">
+      <DependentUpon>ModelOffline.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CompanyMaster.cs">
+      <DependentUpon>ModelOffline.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CompWiseAllowance.cs">
+      <DependentUpon>ModelOffline.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EmployeeMaster.cs">
+      <DependentUpon>ModelOffline.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EmployeePlan.cs">
+      <DependentUpon>ModelOffline.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EmployerMaster.cs">
+      <DependentUpon>ModelOffline.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ErrorMsgMaster.cs">
+      <DependentUpon>ModelOffline.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GradeChange.cs">
+      <DependentUpon>ModelOffline.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GradeMaster.cs">
+      <DependentUpon>ModelOffline.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Incentive.cs">
+      <DependentUpon>ModelOffline.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InsuranceMaster.cs">
+      <DependentUpon>ModelOffline.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LifeCertificate.cs">
+      <DependentUpon>ModelOffline.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LoginMaster.cs">
+      <DependentUpon>ModelOffline.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MergingCompany.cs">
+      <DependentUpon>ModelOffline.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SAContribution.cs">
+      <DependentUpon>ModelOffline.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SAEmpDetail.cs">
+      <DependentUpon>ModelOffline.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SAInterest.cs">
+      <DependentUpon>ModelOffline.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModel\MergingCompanyViewModel.cs" />
+    <Compile Include="ModelOffline.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModelOffline.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModelOffline.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModelOffline.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModelOffline.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModelOffline.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="NomineeMaster.cs">
+      <DependentUpon>ModelOffline.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PaymentType.cs">
+      <DependentUpon>ModelOffline.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PensionLimit.cs">
+      <DependentUpon>ModelOffline.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PensionMaster.cs">
+      <DependentUpon>ModelOffline.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PensionType.cs">
+      <DependentUpon>ModelOffline.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PlanMaster.cs">
+      <DependentUpon>ModelOffline.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RetirementType_Master.cs">
+      <DependentUpon>ModelOffline.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoleMaster.cs">
+      <DependentUpon>ModelOffline.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SalaryMaster.cs">
+      <DependentUpon>ModelOffline.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TaxMaster.cs">
+      <DependentUpon>ModelOffline.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TaxValue.cs">
+      <DependentUpon>ModelOffline.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModel\AllowanceViewModel.cs" />
+    <Compile Include="ViewModel\AnnuityViewModel.cs" />
+    <Compile Include="ViewModel\ColunmMapModel.cs" />
+    <Compile Include="ViewModel\CompanyModel.cs" />
+    <Compile Include="ViewModel\CompWiseAllowViewModel.cs" />
+    <Compile Include="ViewModel\EmployeePensionVM.cs" />
+    <Compile Include="ViewModel\EmployeePlanViewModel.cs" />
+    <Compile Include="ViewModel\EmployeerViewModel.cs" />
+    <Compile Include="ViewModel\EmployeeViewModel.cs" />
+    <Compile Include="ViewModel\ErrorLogClass.cs" />
+    <Compile Include="ViewModel\GradeChangeViewModel.cs" />
+    <Compile Include="ViewModel\GradeViewModel.cs" />
+    <Compile Include="ViewModel\IncentiveViewModel.cs" />
+    <Compile Include="ViewModel\InsuranceViewModel.cs" />
+    <Compile Include="ViewModel\LifeCertificateViewModel.cs" />
+    <Compile Include="ViewModel\LoginModel.cs" />
+    <Compile Include="ViewModel\NomineeViewModel.cs" />
+    <Compile Include="ViewModel\PaymentTypeModel.cs" />
+    <Compile Include="ViewModel\PensionLimitViewModel.cs" />
+    <Compile Include="ViewModel\PensionMasterModel.cs" />
+    <Compile Include="ViewModel\PensionTypeViewModel.cs" />
+    <Compile Include="ViewModel\PlanViewModel.cs" />
+    <Compile Include="ViewModel\ReportViewModel.cs" />
+    <Compile Include="ViewModel\RetirementTypeViewModel.cs" />
+    <Compile Include="ViewModel\RoleModel.cs" />
+    <Compile Include="ViewModel\SAContributionModel.cs" />
+    <Compile Include="ViewModel\SAContributionViewModel.cs" />
+    <Compile Include="ViewModel\SAEmpDetailsModel.cs" />
+    <Compile Include="ViewModel\SAEmpDetailsViewModel.cs" />
+    <Compile Include="ViewModel\SAInterestViewModel.cs" />
+    <Compile Include="ViewModel\SalaryModel.cs" />
+    <Compile Include="ViewModel\SalaryViewModel.cs" />
+    <Compile Include="ViewModel\TableColunm.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EntityDeploy Include="ModelOffline.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ModelOffline.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="ModelOffline.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ModelOffline.edmx</DependentUpon>
+      <LastGenOutput>ModelOffline.Context.cs</LastGenOutput>
+    </None>
+    <None Include="ModelOffline.edmx.diagram">
+      <DependentUpon>ModelOffline.edmx</DependentUpon>
+    </None>
+    <None Include="ModelOffline.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ModelOffline.edmx</DependentUpon>
+      <LastGenOutput>ModelOffline.cs</LastGenOutput>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

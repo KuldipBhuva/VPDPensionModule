@@ -1,0 +1,50 @@
+﻿@{
+    ViewBag.Title = "Colunm Mapping Master";
+    Layout = "~/Views/Shared/_Layout.cshtml";   
+}
+
+@using PensionModel.ViewModel
+@model ColunmMapModel
+
+<!-- Bootstrap 3.3.5 -->
+<link rel="stylesheet" href="/UI/bootstrap/css/bootstrap.min.css">
+@using (Html.BeginForm("InsertColunm", "ColunmMapping", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="col-sm-3"></div>
+    <div id="dvData" class="col-sm-6">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>DB Column</th>
+                    <th>DB DataType</th>
+                    @*<th>DB Index</th>*@
+                    <th>ExcelColumn</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+
+                @Html.HiddenFor(model => model.TblName)
+                @for (var m = 0; m < Model.ListClm.Count(); m++)
+                {
+                    var name = Model.ListClm[m];
+                    @Html.HiddenFor(model => model.ListClm[m].ORDINAL_POSITION)
+                    @Html.HiddenFor(model => model.ListClm[m].COLUMN_NAME)
+                
+                    var lst = @ViewBag.Header;
+              
+                    <tr style="margin-bottom:10px;">
+                        <td>@name.COLUMN_NAME</td>
+                        <td>@name.DATA_TYPE</td>
+                       @* <th>@name.ORDINAL_POSITION</th>*@
+
+                        <td>@Html.DropDownListFor(model => model.ListClm[m].ExlClmName, new SelectList(lst, "Value", "Value"), "--NA--")</td>                        
+                    </tr>
+                }
+                <tr><td></td><td></td><td style="float:right;">@Html.CheckBoxFor(m=>m.OverWrite) Overwrite?<input type="submit" value="Save" class="btn btn-primary" /></td></tr>
+            </tbody>
+        </table>
+        
+    </div>
+    <div class="col-sm-3"></div>
+}

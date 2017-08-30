@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="d2b316efe50b4e61b018f21d4fae67da" Name="Diagram1" ZoomLevel="68" ShowGrid="false">
+        <EntityTypeShape EntityType="VPDPensionModel.AllowanceMaster" Width="1.5" PointX="1.125" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="VPDPensionModel.CompWiseAllowance" Width="1.5" PointX="4.875" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="VPDPensionModel.EmployerMaster" Width="1.5" PointX="4.875" PointY="11.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="VPDPensionModel.ErrorMsgMaster" Width="1.5" PointX="3" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="VPDPensionModel.GradeMaster" Width="1.5" PointX="1.125" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="VPDPensionModel.InsuranceMaster" Width="1.5" PointX="1.125" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="VPDPensionModel.PlanMaster" Width="1.5" PointX="4.875" PointY="9.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="VPDPensionModel.RetirementType_Master" Width="1.5" PointX="1.125" PointY="9.25" IsExpanded="true" />
+<<<<<<< HEAD
+        <EntityTypeShape EntityType="VPDPensionModel.LoginMaster" Width="1.5" PointX="10.5" PointY="0.75" />
+=======
+        
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; origin/master
+        <EntityTypeShape EntityType="VPDPensionModel.RoleMaster" Width="1.5" PointX="1.125" PointY="2.875" />
+        <EntityTypeShape EntityType="VPDPensionModel.LifeCertificate" Width="1.5" PointX="4.875" PointY="3.375" />
+        <EntityTypeShape EntityType="VPDPensionModel.NomineeMaster" Width="1.5" PointX="6.75" PointY="5.125" />
+        <EntityTypeShape EntityType="VPDPensionModel.PensionMaster" Width="1.5" PointX="8.625" PointY="0.75" />
+        <EntityTypeShape EntityType="VPDPensionModel.GradeChange" Width="1.5" PointX="3" PointY="0.75" />
+        <EntityTypeShape EntityType="VPDPensionModel.PensionType" Width="1.5" PointX="1.125" PointY="17.75" />
+        <EntityTypeShape EntityType="VPDPensionModel.PaymentType" Width="1.5" PointX="1.125" PointY="13.625" />
+        <EntityTypeShape EntityType="VPDPensionModel.MergingCompany" Width="1.5" PointX="3" PointY="5.25" />
+        <EntityTypeShape EntityType="VPDPensionModel.PensionLimit" Width="1.5" PointX="4.875" PointY="6.25" />
+        <EntityTypeShape EntityType="VPDPensionModel.SalaryMaster" Width="1.5" PointX="8.625" PointY="5.125" />
+        <EntityTypeShape EntityType="VPDPensionModel.TaxMaster" Width="1.5" PointX="1.125" PointY="15.875" />
+        <EntityTypeShape EntityType="VPDPensionModel.TaxValue" Width="1.5" PointX="1.125" PointY="11.375" />
+<<<<<<< HEAD
+        <EntityTypeShape EntityType="VPDPensionModel.Incentive" Width="1.5" PointX="10.5" PointY="9" />
+        <EntityTypeShape EntityType="VPDPensionModel.EmployeePlan" Width="1.5" PointX="10.5" PointY="4.75" />
+        <EntityTypeShape EntityType="VPDPensionModel.ColunmMapMaster" Width="1.5" PointX="6.75" PointY="9.375" />
+        <EntityTypeShape EntityType="VPDPensionModel.CompanyMaster" Width="1.5" PointX="6.75" PointY="0.75" />
+        
+=======
+        
+        
+        
+        
+        
+        
+        
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; origin/master
+        &gt;&gt;&gt;&gt;&gt;&gt;&gt; origin/master
+        <EntityTypeShape EntityType="VPDPensionModel.EmployeeMaster" Width="1.5" PointX="12.25" PointY="0.75" />
+        <EntityTypeShape EntityType="VPDPensionModel.SAContribution" Width="1.5" PointX="10.925677868968657" PointY="10.003826593050652" />
+        <EntityTypeShape EntityType="VPDPensionModel.SAEmpDetail" Width="1.5" PointX="9.3233254986458114" PointY="15.902803190007248" />
+        <EntityTypeShape EntityType="VPDPensionModel.SAInterest" Width="1.5" PointX="0.47193834766370168" PointY="30.722495048643321" />
+        <EntityTypeShape EntityType="VPDPensionModel.Annuity" Width="1.5" PointX="7.326093002839988" PointY="5.7887694713607285" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

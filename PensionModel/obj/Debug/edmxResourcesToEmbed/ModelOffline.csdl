@@ -1,0 +1,475 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="VPDPensionModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="VPDPensionEntities" p1:LazyLoadingEnabled="true">
+    <EntitySet Name="AllowanceMasters" EntityType="VPDPensionModel.AllowanceMaster" />
+    <EntitySet Name="CompWiseAllowances" EntityType="VPDPensionModel.CompWiseAllowance" />
+    <EntitySet Name="EmployerMasters" EntityType="VPDPensionModel.EmployerMaster" />
+    <EntitySet Name="ErrorMsgMasters" EntityType="VPDPensionModel.ErrorMsgMaster" />
+    <EntitySet Name="GradeMasters" EntityType="VPDPensionModel.GradeMaster" />
+    <EntitySet Name="InsuranceMasters" EntityType="VPDPensionModel.InsuranceMaster" />
+    <EntitySet Name="PlanMasters" EntityType="VPDPensionModel.PlanMaster" />
+    <EntitySet Name="RetirementType_Master" EntityType="VPDPensionModel.RetirementType_Master" />
+    <EntitySet Name="LoginMasters" EntityType="VPDPensionModel.LoginMaster" />
+    <EntitySet Name="RoleMasters" EntityType="VPDPensionModel.RoleMaster" />
+    <EntitySet Name="LifeCertificates" EntityType="VPDPensionModel.LifeCertificate" />
+    <EntitySet Name="NomineeMasters" EntityType="VPDPensionModel.NomineeMaster" />
+    <EntitySet Name="PensionMasters" EntityType="VPDPensionModel.PensionMaster" />
+    <EntitySet Name="GradeChanges" EntityType="VPDPensionModel.GradeChange" />
+    <EntitySet Name="PensionTypes" EntityType="VPDPensionModel.PensionType" />
+    <EntitySet Name="PaymentTypes" EntityType="VPDPensionModel.PaymentType" />
+    <EntitySet Name="MergingCompanies" EntityType="VPDPensionModel.MergingCompany" />
+    <EntitySet Name="PensionLimits" EntityType="VPDPensionModel.PensionLimit" />
+    <EntitySet Name="SalaryMasters" EntityType="VPDPensionModel.SalaryMaster" />
+    <EntitySet Name="TaxMasters" EntityType="VPDPensionModel.TaxMaster" />
+    <EntitySet Name="TaxValues" EntityType="VPDPensionModel.TaxValue" />
+    <EntitySet Name="Incentives" EntityType="VPDPensionModel.Incentive" />
+    <EntitySet Name="EmployeePlans" EntityType="VPDPensionModel.EmployeePlan" />
+    <EntitySet Name="ColunmMapMasters" EntityType="VPDPensionModel.ColunmMapMaster" />
+    <EntitySet Name="CompanyMasters" EntityType="VPDPensionModel.CompanyMaster" />
+    <EntitySet Name="EmployeeMasters" EntityType="VPDPensionModel.EmployeeMaster" />
+    <EntitySet Name="SAContributions" EntityType="VPDPensionModel.SAContribution" />
+    <EntitySet Name="SAEmpDetails" EntityType="VPDPensionModel.SAEmpDetail" />
+    <EntitySet Name="SAInterests" EntityType="VPDPensionModel.SAInterest" />
+    <EntitySet Name="Annuities" EntityType="VPDPensionModel.Annuity" />
+  </EntityContainer>
+  <EntityType Name="AllowanceMaster">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="AllowanceName" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="Description" Type="String" MaxLength="500" Unicode="true" FixedLength="false" />
+    <Property Name="Status" Type="Int32" />
+  </EntityType>
+  <EntityType Name="CompWiseAllowance">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="CompID" Type="Int32" />
+    <Property Name="AllowanceID" Type="Int32" />
+    <Property Name="EffDeate" Type="DateTime" Precision="3" />
+    <Property Name="Status" Type="Int32" />
+    <Property Name="IsChecked" Type="Boolean" />
+    <Property Name="GradeID" Type="Int32" />
+  </EntityType>
+  <EntityType Name="EmployerMaster">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="CompID" Type="Int32" />
+    <Property Name="Name" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="Email" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="Mobile" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="UserName" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="Password" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="Type" Type="Int32" />
+    <Property Name="Status" Type="Int32" />
+  </EntityType>
+  <EntityType Name="ErrorMsgMaster">
+    <Key>
+      <PropertyRef Name="EId" />
+    </Key>
+    <Property Name="EId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="Int32" />
+    <Property Name="IPAddress" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="ErrorMsg" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <Property Name="ExceptiionMsg" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="GradeMaster">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="Grade_Name" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="Description" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="Status" Type="Int32" />
+  </EntityType>
+  <EntityType Name="InsuranceMaster">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="InsuranceCompany" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="HO" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="Status" Type="Int32" />
+  </EntityType>
+  <EntityType Name="PlanMaster">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="CompID" Type="Int32" />
+    <Property Name="PlanName" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="Details" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="Formula" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="EffDate" Type="DateTime" Precision="3" />
+    <Property Name="Status" Type="Int32" />
+  </EntityType>
+  <EntityType Name="RetirementType_Master">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="RetirementType" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="Description" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="Status" Type="Int32" />
+  </EntityType>
+  <EntityType Name="LoginMaster">
+    <Key>
+      <PropertyRef Name="UID" />
+    </Key>
+    <Property Type="Int32" Name="UID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="RID" />
+    <Property Type="String" Name="Name" MaxLength="450" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="UserID" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Password" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Email" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Type="Decimal" Name="Mobile" Precision="11" Scale="0" />
+    <Property Type="String" Name="Address" MaxLength="550" FixedLength="false" Unicode="false" />
+    <Property Type="Boolean" Name="Status" />
+    <Property Type="Int32" Name="CreatedBy" />
+    <Property Type="DateTime" Name="CreatedDate" Precision="0" />
+    <Property Type="Int32" Name="UpdatedBy" />
+    <Property Type="DateTime" Name="UpdatedDate" Precision="0" />
+    <Property Type="Int32" Name="CompID" />
+  </EntityType>
+  <EntityType Name="RoleMaster">
+    <Key>
+      <PropertyRef Name="RID" />
+    </Key>
+    <Property Type="Int32" Name="RID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="Role" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Description" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="Boolean" Name="Status" />
+  </EntityType>
+  <EntityType Name="LifeCertificate">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="InsCompId" Type="Int32" />
+    <Property Name="EmpId" Type="Int32" />
+    <Property Name="YearCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CertificateCopy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="EffDate" Type="DateTime" Precision="0" />
+    <Property Name="Status" Type="Int32" />
+    <Property Name="ToDate" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="NomineeMaster">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Relation" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="DOB" Type="DateTime" Precision="0" />
+    <Property Name="Addess" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Contact" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Mobile" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+    <Property Name="Adharnumber" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Pan" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+    <Property Name="BankName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Branch" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="AccountNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="IFSC" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CompId" Type="Int64" />
+    <Property Name="EmpId" Type="Int64" />
+  </EntityType>
+  <EntityType Name="PensionMaster">
+    <Key>
+      <PropertyRef Name="PID" />
+    </Key>
+    <Property Name="PID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="EmpNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="PolicyNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="AnnuityNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="GrossAmt" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="ITAmt" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="CheqAmt" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="PensionMonth" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Year" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="VPDCheqAmt" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="OtherCharge" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="ProcessDate" Type="DateTime" Precision="0" />
+    <Property Name="IsProcessed" Type="Boolean" Nullable="false" />
+    <Property Name="UploadedDate" Type="DateTime" Precision="3" />
+    <Property Name="UploadedBy" Type="Int32" />
+    <Property Name="SettelmentDate" Type="DateTime" Precision="0" />
+  </EntityType>
+  <EntityType Name="GradeChange">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Compnay_id" Type="Int32" />
+    <Property Name="EmpNo" Type="Int32" />
+    <Property Name="GradeChangeTo" Type="Int32" />
+    <Property Name="EffDate" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="PensionType">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Status" Type="Int32" />
+  </EntityType>
+  <EntityType Name="PaymentType">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PaymentType1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="OtherCharge" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Status" Type="Int32" />
+  </EntityType>
+  <EntityType Name="MergingCompany">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CmyID" Type="Int64" />
+    <Property Name="MCmyID" Type="Int64" />
+    <Property Name="EffDate" Type="DateTime" Precision="3" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <Property Name="Status" Type="Int32" />
+  </EntityType>
+  <EntityType Name="PensionLimit">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CmyID" Type="Int64" />
+    <Property Name="EmployeementType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="GradeID" Type="Int64" />
+    <Property Name="Pension_Limit" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="EffDate" Type="DateTime" Precision="3" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <Property Name="Status" Type="Int32" />
+  </EntityType>
+  <EntityType Name="SalaryMaster">
+    <Key>
+      <PropertyRef Name="SID" />
+    </Key>
+    <Property Name="SID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="EmpNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="EmpName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="Basic" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="HRA" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="DA" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="EA" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Conveyance" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Overtime" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="PF" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Medical" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="CompID" Type="Int32" />
+    <Property Name="SalaryMonth" Type="Int32" />
+    <Property Name="Year" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="UploadedBy" Type="Int32" />
+    <Property Name="UploadedDate" Type="DateTime" Precision="0" />
+  </EntityType>
+  <EntityType Name="TaxMaster">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Type="Int64" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="TaxName" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="Status" />
+  </EntityType>
+  <EntityType Name="TaxValue">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Type="Int64" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int64" Name="TID" />
+    <Property Type="Decimal" Name="Rate" Precision="18" Scale="3" />
+    <Property Type="DateTime" Name="EffDate" Precision="3" />
+    <Property Type="Int32" Name="Status" />
+  </EntityType>
+  <EntityType Name="Incentive">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Type="Int64" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="From" />
+    <Property Type="Int32" Name="To" />
+    <Property Type="Decimal" Name="Yly" Precision="18" Scale="3" />
+    <Property Type="Decimal" Name="Hly" Precision="18" Scale="3" />
+    <Property Type="Decimal" Name="Qly" Precision="18" Scale="3" />
+    <Property Type="Decimal" Name="Mly" Precision="18" Scale="3" />
+    <Property Type="DateTime" Name="EffDate" Precision="3" />
+    <Property Type="Int32" Name="Status" />
+  </EntityType>
+  <EntityType Name="EmployeePlan">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="EmpId" Type="Int64" />
+    <Property Name="PensionId" Type="Int64" />
+    <Property Name="LicId" Type="Int64" />
+    <Property Name="PlanId" Type="Int64" />
+    <Property Name="AnnuityNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="InsuranceOffife" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="PolicyId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="PolicyDate" Type="DateTime" Precision="3" />
+    <Property Name="Amount" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="PolicyStatus" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="HoldDate" Type="DateTime" Precision="3" />
+    <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="RPensionType" Type="Int32" />
+  </EntityType>
+  <EntityType Name="ColunmMapMaster">
+    <Key>
+      <PropertyRef Name="CMID" />
+    </Key>
+    <Property Name="CMID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CompID" Type="Int32" />
+    <Property Name="TblName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="TblClmName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="TblClmIndex" Type="Int32" />
+    <Property Name="ExlClmName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="ExlClmIndex" Type="Int32" />
+    <Property Name="MappedBy" Type="Int32" />
+    <Property Name="MappedDate" Type="DateTime" Precision="0" />
+  </EntityType>
+  <EntityType Name="CompanyMaster">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="CompCode" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="CompName" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="Address" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="Email" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="ContactPerson" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="Type" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="WidowPension" />
+    <Property Type="Int32" Name="PensionEligibityYears" />
+    <Property Type="Int32" Name="Status" />
+    <Property Type="String" Name="PensionLimit" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="Merging" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="SAIntMethod" />
+    <Property Type="Decimal" Name="SAContriRate" Precision="18" Scale="2" />
+    <Property Type="Int32" Name="SAStopIntType" />
+    <Property Type="Int32" Name="SAContriMethod" />
+  </EntityType>
+  <EntityType Name="EmployeeMaster">
+    <Key>
+      <PropertyRef Name="EmpId" />
+    </Key>
+    <Property Name="EmpId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CompId" Type="Int32" />
+    <Property Name="EmpNo" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="EmpName" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="DOB" Type="DateTime" Precision="3" />
+    <Property Name="DOJ" Type="DateTime" Precision="3" />
+    <Property Name="RetireTypeId" Type="Int32" />
+    <Property Name="RetireDate" Type="DateTime" Precision="3" />
+    <Property Name="DeathDate" Type="DateTime" Precision="3" />
+    <Property Name="Gender" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="MaritalStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="FHStatus" Type="Int32" />
+    <Property Name="FHName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="Relation" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Location" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="ContactO" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="ContactR" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="AadharNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="PANNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="BankAcNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="BankName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="AccType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="IFSC" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="BranchName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="BranchAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="PensionStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Status" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="CreatedBy" Type="Int32" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <Property Name="UpdatedBy" Type="Int32" />
+    <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+    <Property Name="PentionTypeID" Type="Int64" />
+    <Property Name="LicId" Type="Int64" />
+    <Property Name="PaymentType" Type="Int32" />
+    <Property Name="EmployeementType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="GradeId" Type="Int64" />
+    <Property Name="EmployeeType" Type="Int32" />
+    <Property Name="HoldDate" Type="DateTime" Precision="3" />
+    <Property Name="Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="AnnuityMode" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Merged" Type="Int32" />
+    <Property Name="FromMerger" Type="Int32" />
+    <Property Name="MDOJ" Type="DateTime" Precision="3" />
+    <Property Name="MDOL" Type="DateTime" Precision="3" />
+    <Property Name="FrozenAmt" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="FrozenPensionAmt" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="Benefits" Type="Int32" />
+    <Property Name="Contribution" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="RPensionAmt" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="SASettleDate" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="SAContribution">
+    <Key>
+      <PropertyRef Name="SAID" />
+    </Key>
+    <Property Name="SAID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="EmpNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Basic" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="CompCont" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="EmpCont" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="CompID" Type="Int32" />
+    <Property Name="Month" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Year" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="UploadedDate" Type="DateTime" Precision="3" />
+    <Property Name="UploadedBy" Type="Int32" />
+  </EntityType>
+  <EntityType Name="SAEmpDetail">
+    <Key>
+      <PropertyRef Name="SAOBID" />
+    </Key>
+    <Property Name="SAOBID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="EmpNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="OpeningBalance" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Year" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="SAID" Type="Int32" />
+    <Property Name="CompID" Type="Int32" />
+    <Property Name="SASettalDate" Type="DateTime" Precision="3" />
+    <Property Name="UploadedDate" Type="DateTime" Precision="3" />
+    <Property Name="UploadedBy" Type="Int32" />
+  </EntityType>
+  <EntityType Name="SAInterest">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CompID" Type="Int64" />
+    <Property Name="LiveEmpInt" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="LeftEmpInt" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="LiveEffYear" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="LeftEffYear" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Status" Type="Int32" />
+  </EntityType>
+  <EntityType Name="Annuity">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Age" Type="Int32" />
+    <Property Name="Yly" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Hly" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Qly" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Mly" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="LICId" Type="Int64" />
+    <Property Name="PlanID" Type="Int64" />
+    <Property Name="EffDate" Type="DateTime" Precision="3" />
+    <Property Name="Status" Type="Int32" />
+  </EntityType>
+</Schema>

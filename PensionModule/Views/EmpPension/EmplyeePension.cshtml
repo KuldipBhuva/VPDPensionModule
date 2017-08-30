@@ -1,0 +1,267 @@
+﻿@model  Pension.Models.ViewModel.EmployeePensionVM
+@{
+    ViewBag.Title = "Pension Process Master";
+    ViewBag.PageTitle = "Pension Process Master";
+}
+
+@using (Html.BeginForm("EmplyeePension", "EmpPension", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <section class="content-header">
+        <h1>Employee Wise Pension Process <small>Master</small>
+        </h1>
+    </section>
+    
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            Employee Wise Pension Process Details
+            @*<input type="button" id="btnBack" value="Back" class="btnAdd btn btn-primary" />*@
+        </div>
+        <div class="panel-body">
+            <div class="col-sm-12">
+
+                <div class="form-group col-sm-3">
+                    @Html.Label("*Year", new { @class = "col-sm-2 control-label" })
+
+                    @Html.DropDownListFor(m => m.Year, new List<SelectListItem>() { new SelectListItem() { Text = "--Select Year--", Value = "" }, new SelectListItem() { Text = "2013", Value = "2013" }, new SelectListItem() { Text = "2014", Value = "2014" }, new SelectListItem() { Text = "2015", Value = "2015" }, new SelectListItem() { Text = "2016", Value = "2016" }, new SelectListItem() { Text = "2017", Value = "2017" }, new SelectListItem() { Text = "2018", Value = "2018" }, new SelectListItem() { Text = "2019", Value = "2019" }, new SelectListItem() { Text = "2020", Value = "2020" } }, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Year)
+
+                </div>
+                @*  <div class="form-group col-sm-3">
+                    @Html.Label("*Month", new { @class = "col-sm-2 control-label" })
+
+                    <div class="input-group">
+                  
+                        @{var mm = Model.ListPowerData[0].LastReading.Value.Month;}
+                        @Html.DropDownListFor(m => m.Month, new List<SelectListItem>() { new SelectListItem() { Text = "--Select Month--", Value = "" }, new SelectListItem() { Text = "January", Value = "1" }, new SelectListItem() { Text = "February", Value = "2" }, new SelectListItem() { Text = "March", Value = "3" }, new SelectListItem() { Text = "April", Value = "4" }, new SelectListItem() { Text = "May", Value = "5" }, new SelectListItem() { Text = "June", Value = "6" }, new SelectListItem() { Text = "July", Value = "7" }, new SelectListItem() { Text = "August", Value = "8" }, new SelectListItem() { Text = "September", Value = "9" }, new SelectListItem() { Text = "October", Value = "10" }, new SelectListItem() { Text = "November", Value = "11" }, new SelectListItem() { Text = "December", Value = "12" } }, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Month)
+                        <span class="input-group-btn">
+                            <input type="Submit" value="View" class="btn btn-primary" />
+                        </span>
+
+                    </div>
+                </div>
+                *@
+
+                <div class="col-sm-5" style="top: 22px;" id="divview">
+                    <input type="submit" value="View" class="btn btn-primary" id="btnSave" />
+                    <button type="button" id="btnpension" style="top: 0px; left: 85px;" class="btnAdd btn btn-primary">View Pension</button>
+                    @*<a class="details" href="javascript:;">View Pension</a>*@
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-info" id="gridvw">
+        <div class="panel-heading">
+            Pension Data      
+            @Html.ActionLink("View Pension", "ViewPension", "EmpPension", null, new { @class = "btn btn-info" })
+        </div>
+        <div class="panel-body">
+            <div class="table-responsive" id="Grid">
+                <table class="table" id="tbl">
+                    <thead>
+                        <tr>
+                            <th>Month</th>
+                            @*<th>Annuity No</th>*@
+                            <th>Cheq Amt</th>
+                            @*<th>PolicyNo</th>*@
+                            <th>GrossAmt</th>
+                            <th>Flag</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.lstemppension != null)
+                        {
+                            foreach (var item in Model.lstemppension)
+                            {
+                            <tr>
+                                <td>@item.Month</td>
+                                @*<td>@item.AnnuityNo</td>*@
+                                <td>@item.CheqAmt</td>
+                                @*<td>@item.PolicyNo</td>*@
+                                <td>@item.GrossAmt</td>
+                                @if (@item.IsProcessed == Convert.ToBoolean(0))
+                                {
+                                    <td>UnProcessed</td>
+                                }
+                                else
+                                {
+                                    <td>Processed</td>
+                                }
+                            </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>    
+    <div id="modal-container" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-content">
+            <div id="dialog" style="width: 100%">
+                <div class="panel panel-info" id="dvGrid">
+                    <div class="panel-heading">
+                        Employee Pension             
+                        <button type="button" id="btnclose" class="close">×</button>
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-responsive" id="Grid1">
+
+                            <table class="table" id="tbl1">
+                                <thead>
+                                    <tr>
+                                        <th>Insurance</th>
+                                        <th>Plan</th>
+                                        <th>Annuity No</th>
+                                        <th>InsuranceOffife</th>
+                                        @*<th>Email</th>*@
+                                        <th>PolicyID</th>
+                                        @*<th>Policy Date</th>*@
+                                        @*<th>Amount</th>*@
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.lstempplan)
+                                    {
+                                        <tr>
+                                            <td>@item.Insurance</td>
+                                            <td>@item.Plan</td>
+                                            <td>@item.AnnuityNo</td>
+                                            <td>@item.InsuranceOffife</td>
+                                            <td>@item.PolicyId</td>
+                                            @*@if (@item.PolicyDate.HasValue)
+                                    {
+                                        <td>@item.PolicyDate.Value.ToString("dd/MM/yyyy")</td>
+                                    }
+                                    else
+                                    {
+                                        <td>@item.PolicyDate</td>    
+                                    }
+                                    <td>@item.Amount</td>*@
+                                            @*<td>
+                                        <a  id="btnEdit" class="fa fa-pencil-square fa-lg" onclick="HiddenField('@item.Id')"  style="height:20px;width:20px;" />
+                                    </td>*@
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script type="text/javascript">
+    $(function () {
+        // Initialize numeric spinner input boxes
+        //$(".numeric-spinner").spinedit();
+
+        // Initalize modal dialog
+        // attach modal-container bootstrap attributes to links with .modal-link class.
+        // when a link is clicked with these attributes, bootstrap will display the href content in a modal dialog.
+        $('body').on('click', '.modal-link', function (e) {
+            e.preventDefault();
+            $(this).attr('data-target', '#modal-container');
+            //$(this).attr('data-toggle', 'modal');
+        });
+
+        // Attach listener to .modal-close-btn's so that when the button is pressed the modal dialog disappears
+        $('body').on('click', '.modal-close-btn', function () {
+            $('#modal-container').modal('hide');
+        });
+
+        //clear modal cache, so that new content can be loaded
+        $('#modal-container').on('hidden.bs.modal', function () {
+            $(this).removeData('bs.modal');
+        });
+
+        //$('#CancelModal').on('click', function () {
+        //    return false;
+        //});
+        $("#btnclose").click(function () {
+            $("#dialog").hide();
+        });
+    });
+</script>
+<script type="text/javascript">
+    $(function () {
+        $("#dialog").hide();
+    });
+
+    //$("#divview .details").click(function () {
+    //    $("#dialog").show();
+    //});
+
+    $("#btnpension").click(function () {
+        $("#dialog").show();
+    });
+
+    $("#btnclose").click(function () {
+        $("#dialog").hide();
+    });
+</script>
+@*<script type="text/javascript">
+    $(function () {
+
+        debugger;
+        $("#dialog").dialog({
+        autoOpen: false,
+        modal: true,
+        title: "Pension Details"
+    });
+    $("#divview .details").click(function () {
+        debugger;
+        //var customerId = $(this).closest("tr").find("td").eq(0).html();
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("EmployeePlan", "EmpPension")',
+            data: '',
+            contentType: "application/json; charset=utf-8",
+            dataType: "html",
+            success: function (response) {
+                $('#dialog').html(response);
+                $('#dialog').dialog('open');
+            },
+            failure: function (response) {
+                alert(response.responseText);
+            },
+            error: function (response) {
+                alert(response.responseText);
+            }
+        });
+    });
+
+    });
+</script>*@
+<script lang="javascript" type="text/javascript">
+    $(document).ready(function () {
+
+        @*$('#btnSave').click(function () {
+            $("#divLoading").show();
+            debugger;
+            var py = $('#Year').val();
+            var pm = $('#PensionMonth').val();
+            var pt = $('#ddlPay').val();
+            if (pt == "") {
+                pt = 0;
+            }
+            $.ajax(
+            {
+                url: '@Url.Action("getPension", "Pension")',
+                type: "GET",
+                datatype: "JSON",
+                data: { year: py, month: pm, pay: pt },
+
+                success: function (gr) {
+                    debugger;
+                    $("#dvData").html("");  // clear before appending new list 
+                    $("#dvData").append(gr);
+                    $("#divLoading").hide();
+
+                }
+            });
+
+        });*@
+    });
+</script>

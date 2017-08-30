@@ -1,0 +1,38 @@
+﻿@using PensionModel.ViewModel
+ @model List<SAEmpDetailsModel>
+ 
+ <script>
+     $(document).ready(function () {
+         $('#tblData').DataTable({
+             sorting: false,
+             dom: 'Bfrtip',
+             buttons: [
+                 'excel', 'pdf'
+              //'copy', 'csv', , 'print'
+             ]
+         });
+     });
+     </script>
+ <div class="table-responsive" id="dvData">
+     <table class="table" id="tblData">
+         <thead>
+             <tr>
+                 <th>EmpNo</th>
+                 <th>EmpName</th>
+                 <th>Balance</th>  
+                 <th>Year</th>                                               
+             </tr>
+         </thead>
+         <tbody>
+             @foreach (var item in Model)
+             {
+                 <tr>
+                     <td>@item.EmpNo</td>
+                     <td>@item.EmpDetails.EmpName</td>
+                     <td>@item.OpeningBalance</td>   
+                     <td>@item.Year</td>                    
+                 </tr>
+             }
+         </tbody>
+     </table>
+ </div>

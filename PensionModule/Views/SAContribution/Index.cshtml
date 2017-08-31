@@ -1,6 +1,7 @@
 ﻿@{
      ViewBag.Title = "SA Contribution Master";
      ViewBag.PageTitle = "SA Contribution Master";
+     Layout = "~/Views/Shared/_Layout.cshtml";
  }
  @using PensionModel.ViewModel
  @model PensionModel.ViewModel.SAContributionModel
@@ -142,14 +143,9 @@
                      debugger;
                      $("#dvData").html("");  // clear before appending new list 
                      $("#dvData").append(gr);
-                     $("#divLoading").hide();
- 
+                     $("#divLoading").hide(); 
                  }
- 
-             });
- 
-             
-         });
-         
+             });             
+         });         
      });
  </script>

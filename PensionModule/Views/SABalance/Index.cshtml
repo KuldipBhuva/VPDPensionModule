@@ -1,6 +1,7 @@
 ﻿@{
      ViewBag.Title = "SA Opening Balance Master";
      ViewBag.PageTitle = "SA Opening Balance Master";
+     Layout = "~/Views/Shared/_Layout.cshtml";
  }
  @using PensionModel.ViewModel
  @model PensionModel.ViewModel.SAEmpDetailsModel
@@ -121,14 +122,9 @@
                      debugger;
                      $("#dvData").html("");  // clear before appending new list 
                      $("#dvData").append(gr);
-                     $("#divLoading").hide();
- 
-                 }
- 
-             });
- 
- 
-         });
- 
+                     $("#divLoading").hide(); 
+                 } 
+             }); 
+         }); 
      });
  </script>

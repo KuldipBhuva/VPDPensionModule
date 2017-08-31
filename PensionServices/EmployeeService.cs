@@ -37,7 +37,6 @@ namespace PensionServices
                                 HoldDate = em.HoldDate,
                                 Remarks = em.Remarks,
                                 Status = em.Status,
-                                //GradeName = gm.Grade_Name,
                                 GradeId = em.GradeId,
                                 Benefits = em.Benefits,
                                 Contribution = em.Contribution,

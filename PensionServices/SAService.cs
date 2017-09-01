@@ -13,7 +13,7 @@ namespace PensionServices
     public class SAService
     {
         VPDPensionEntities DbContext = new VPDPensionEntities();
-        public List<SAContributionModel> getSA(int cid, string year, string Month)
+        public List<SAContributionModel> getSA(int cid, string year, int? Month)
         {
             try
             {                //Mapper.CreateMap<SAContribution, SAContributionModel>();
@@ -72,7 +72,7 @@ namespace PensionServices
 
 
         }
-        public int Update(string year, string month, int cid, int uid, int said)
+        public int Update(string year, int? month, int cid, int uid, int said)
         {
             try
             {

@@ -4,6 +4,7 @@ using PensionModel.ViewModel;
 using PensionServices;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.OleDb;
 using System.Data.SqlClient;
 using System.Linq;
@@ -17,7 +18,8 @@ namespace PensionModule.Controllers
         //
         // GET: /SABalance/
 
-        string sqlConnectionString = @"data source=TESTSERVERVPD;initial catalog=VPDPension;user id =sa;password=newtech009;MultipleActiveResultSets=True;App=EntityFramework";
+        //string sqlConnectionString = @"data source=TESTSERVERVPD;initial catalog=VPDPension;user id =sa;password=newtech009;MultipleActiveResultSets=True;App=EntityFramework";
+        string sqlConnectionString = @"Data Source=KP;Database=VPDPension;Trusted_Connection=true;Persist Security Info=True";
         VPDPensionEntities DbContext = new VPDPensionEntities();
         List<SAEmpDetailsModel> lstSA = new List<SAEmpDetailsModel>();
         SAEmpDetailsModel objModel = new SAEmpDetailsModel();
@@ -92,16 +94,49 @@ namespace PensionModule.Controllers
                             //Microsoft.Office.Interop.Excel.Worksheet wSheet = excelBook.Sheets.Item[1];
                             ////Create OleDbCommand to fetch data from Excel
 
-                            OleDbCommand cmd = new OleDbCommand("Select ID,emp_no,SA_op_balance from [Sheet1$]", excelConnection);
+                            OleDbCommand cmd = new OleDbCommand("Select ID,emp_no,name,SA_op_balance from [Sheet1$]", excelConnection);
 
                             excelConnection.Open();
-                            OleDbDataReader dReader;
-                            dReader = cmd.ExecuteReader();
+                            //string header = null;
+                            OleDbDataAdapter objAdapter = new OleDbDataAdapter(cmd);
+                            DataTable Dt = new DataTable();
+                            objAdapter.Fill(Dt);
+                            //foreach (DataColumn dc in Dt.Columns)
+                            //{
+                            //    header += dc.ColumnName + ",";
+                            //}
+                            DataTable dtInsertRows = Dt;
+                            string emp = null;
+                            for (int i = 0; i < dtInsertRows.Rows.Count; i++)
+                            {
+                                DataRow row = dtInsertRows.Rows[i];
+                                string no = row["emp_no"].ToString();
+                                string name = row["name"].ToString();
+                                var empList = DbContext.EmployeeMasters.Where(m => m.CompId == cid && m.EmpNo == no).ToList();
+
+                                if (empList.Count <= 0)
+                                {
+                                    //emp += "(" + no + "," + name + ")\n,";
+                                    emp += no + "   ,   " + name + "<br/>";
+                                    //dtInsertRows.Rows.Remove(row);
+                                    dtInsertRows.Rows[i].Delete();
+                                }
+                            }
+                            dtInsertRows.AcceptChanges();
+
+
+
+
+
+
+
+                            //OleDbDataReader dReader;
+                            //dReader = cmd.ExecuteReader();
 
                             SqlBulkCopy sqlBulk = new SqlBulkCopy(sqlConnectionString);
                             //Give your Destination table name
                             sqlBulk.DestinationTableName = "SAEmpDetails";
-                            sqlBulk.WriteToServer(dReader);
+                            sqlBulk.WriteToServer(dtInsertRows);
                             excelConnection.Close();
                             file = null;
 
@@ -111,14 +146,24 @@ namespace PensionModule.Controllers
                             foreach (var a in objModel.ListSA)
                             {
                                 string year = model.Year;
-                                
 
-                                objService.Update(year,cid,uid,a.SAOBID);
+
+                                objService.Update(year, cid, uid, a.SAOBID);
                             }
 
-                            TempData["AMsg"] = filename + " Uploaded Successfully.";
+                            //TempData["AMsg"] = filename + " Uploaded Successfully." + "\\nBelow employee(s)are invalid :-\\n" + emp;
+                            if (emp == null)
+                            {
+                                ViewBag.Message = filename + " Uploaded Successfully.";
+                            }
+                            else
+                            {
+                                ViewBag.Message = filename + " Uploaded Successfully." + "<br/><b>Below employee(s)are invalid :-</b><br/>" + emp;
+                            }
                         }
+
                     }
+
                 }
                 else if (SAList.Count > 0)
                 {
@@ -126,7 +171,7 @@ namespace PensionModule.Controllers
                     TempData["AMsg"] = "Data allready exist in database,If you want to overwrite then tick overwrite.";
                     //ViewBag.Msg = "Data allready exist in database,If you want to overwrite then tick overwrite.";
                     //Response.Redirect("Salary/Index");
-                    //return View("Index");
+
                 }
                 else
                 {
@@ -156,16 +201,47 @@ namespace PensionModule.Controllers
                             //Microsoft.Office.Interop.Excel.Worksheet wSheet = excelBook.Sheets.Item[1];
                             ////Create OleDbCommand to fetch data from Excel
 
-                            OleDbCommand cmd = new OleDbCommand("Select ID,emp_no,SA_op_balance from [Sheet1$]", excelConnection);
+                            OleDbCommand cmd = new OleDbCommand("Select ID,emp_no,name,SA_op_balance from [Sheet1$]", excelConnection);
 
                             excelConnection.Open();
-                            OleDbDataReader dReader;
-                            dReader = cmd.ExecuteReader();
+                            //string header = null;
+                            OleDbDataAdapter objAdapter = new OleDbDataAdapter(cmd);
+                            DataTable Dt = new DataTable();
+                            objAdapter.Fill(Dt);
+                            //foreach (DataColumn dc in Dt.Columns)
+                            //{
+                            //    header += dc.ColumnName + ",";
+                            //}
+                            DataTable dtInsertRows = Dt;
+                            string emp = null;
+                            for (int i = 0; i < dtInsertRows.Rows.Count; i++)
+                            {
+                                DataRow row = dtInsertRows.Rows[i];
+                                string no = row["emp_no"].ToString();
+                                string name = row["name"].ToString();
+                                var empList = DbContext.EmployeeMasters.Where(m => m.CompId == cid && m.EmpNo == no).ToList();
+
+                                if (empList.Count <= 0)
+                                {
+                                    emp += no + "  ,   " + name + "<br/>";
+                                    //dtInsertRows.Rows.Remove(row);
+                                    dtInsertRows.Rows[i].Delete();
+                                }
+                            }
+                            dtInsertRows.AcceptChanges();
+
+
+
+
+
+
+                            //OleDbDataReader dReader;
+                            //dReader = cmd.ExecuteReader();
 
                             SqlBulkCopy sqlBulk = new SqlBulkCopy(sqlConnectionString);
                             //Give your Destination table name
                             sqlBulk.DestinationTableName = "SAEmpDetails";
-                            sqlBulk.WriteToServer(dReader);
+                            sqlBulk.WriteToServer(dtInsertRows);
                             excelConnection.Close();
                             file = null;
 
@@ -174,14 +250,23 @@ namespace PensionModule.Controllers
                             objModel.ListSA.AddRange(lstSA);
                             foreach (var a in objModel.ListSA)
                             {
-                                string year = model.Year;                                
+                                string year = model.Year;
                                 objService.Update(year, cid, uid, a.SAOBID);
                             }
-                            TempData["AMsg"] = filename + " Uploaded Successfully.";
+                            //TempData["AMsg"] = filename + " Uploaded Successfully." + "\\nBelow employee(s)are invalid :-\\n" + emp;
+                            if (emp == null)
+                            {
+                                ViewBag.Message = filename + " Uploaded Successfully.";
+                            }
+                            else
+                            {
+                                ViewBag.Message = filename + " Uploaded Successfully." + "<br/><b>Below employee(s)are invalid :-</b><br/>" + emp;
+                            }
                         }
                     }
 
                 }
+
             }
             catch (Exception ex)
             {
@@ -189,7 +274,7 @@ namespace PensionModule.Controllers
                 ErrorLogClass.WriteErrorLog("AdminManagement", "SABalMaster", "SheetUpload", ex);
                 return View("Index");
             }
-            return RedirectToAction("Index");
+            return View("Index");
         }
         public ActionResult getData(string year)
         {

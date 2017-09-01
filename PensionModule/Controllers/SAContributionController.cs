@@ -4,6 +4,7 @@ using PensionModel.ViewModel;
 using PensionServices;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.OleDb;
 using System.Data.SqlClient;
 using System.Linq;
@@ -16,7 +17,8 @@ namespace PensionModule.Controllers
     {
         //
         // GET: /SAContribution/
-        string sqlConnectionString = @"data source=TESTSERVERVPD;initial catalog=VPDPension;user id =sa;password=newtech009;MultipleActiveResultSets=True;App=EntityFramework";
+        //string sqlConnectionString = @"data source=TESTSERVERVPD;initial catalog=VPDPension;user id =sa;password=newtech009;MultipleActiveResultSets=True;App=EntityFramework";
+        string sqlConnectionString = @"Data Source=KP;Database=VPDPension;Trusted_Connection=true;Persist Security Info=True";
         VPDPensionEntities DbContext = new VPDPensionEntities();
         List<SAContributionModel> lstSA = new List<SAContributionModel>();
         SAContributionModel objModel = new SAContributionModel();
@@ -31,7 +33,7 @@ namespace PensionModule.Controllers
                 uid = Convert.ToInt32(Session["UID"].ToString());
             }
             objModel.Year = Convert.ToString(System.DateTime.Today.Year);
-            objModel.Month = Convert.ToString(System.DateTime.Today.Month);
+            objModel.Month = System.DateTime.Today.Month;
             lstSA = objService.getSA(cid, objModel.Year,objModel.Month);
             objModel.ListSA = new List<SAContributionModel>();
             objModel.ListSA.AddRange(lstSA);
@@ -90,16 +92,46 @@ namespace PensionModule.Controllers
                             //Microsoft.Office.Interop.Excel.Worksheet wSheet = excelBook.Sheets.Item[1];
                             ////Create OleDbCommand to fetch data from Excel
 
-                            OleDbCommand cmd = new OleDbCommand("Select SAID,emp_no,sa_basic,sa_contribution,emp_contribution from [Sheet1$]", excelConnection);
+                            OleDbCommand cmd = new OleDbCommand("Select SAID,emp_no,name,sa_basic,sa_contribution,emp_contribution from [Sheet1$]", excelConnection);
 
                             excelConnection.Open();
-                            OleDbDataReader dReader;
-                            dReader = cmd.ExecuteReader();
+                            //string header = null;
+                            OleDbDataAdapter objAdapter = new OleDbDataAdapter(cmd);
+                            DataTable Dt = new DataTable();
+                            objAdapter.Fill(Dt);
+                            //foreach (DataColumn dc in Dt.Columns)
+                            //{
+                            //    header += dc.ColumnName + ",";
+                            //}
+                            DataTable dtInsertRows = Dt;
+                            string emp = null;
+                            for (int i = 0; i < dtInsertRows.Rows.Count; i++)
+                            {
+                                DataRow row = dtInsertRows.Rows[i];
+                                string no = row["emp_no"].ToString();
+                                string name = row["name"].ToString();
+                                var empList = DbContext.EmployeeMasters.Where(m => m.CompId == cid && m.EmpNo == no).ToList();
+
+                                if (empList.Count <= 0)
+                                {
+                                    //emp += "(" + no + "," + name + ")\n,";
+                                    //emp += no + "," + name + "\n";
+                                    emp += no + "  ,   " + name + "<br/>";
+                                    //dtInsertRows.Rows.Remove(row);
+                                    dtInsertRows.Rows[i].Delete();
+                                }
+                            }
+                            dtInsertRows.AcceptChanges();
+
+
+
+                            //OleDbDataReader dReader;
+                            //dReader = cmd.ExecuteReader();
 
                             SqlBulkCopy sqlBulk = new SqlBulkCopy(sqlConnectionString);
                             //Give your Destination table name
                             sqlBulk.DestinationTableName = "SAContribution";
-                            sqlBulk.WriteToServer(dReader);
+                            sqlBulk.WriteToServer(dtInsertRows);
                             excelConnection.Close();
                             file = null;
 
@@ -109,14 +141,22 @@ namespace PensionModule.Controllers
                             foreach (var a in objModel.ListSA)
                             {
                                 string year = model.Year;
-                                string month = model.Month;
+                                int? month = model.Month;
 
                                 objService.Update(year, month, cid, uid, a.SAID);
                             }
-
-                            TempData["AMsg"] = filename + " Uploaded Successfully.";
+                            //TempData["AMsg"] = filename + " Uploaded Successfully.\\nBelow employee(s)are invalid :-\\n" + emp;                            
+                            if (emp == null)
+                            {
+                                ViewBag.Message = filename + " Uploaded Successfully.";
+                            }
+                            else
+                            {
+                                ViewBag.Message = filename + " Uploaded Successfully." + "<br/><b>Below employee(s)are invalid :-</b><br/>" + emp;
+                            }
                         }
-                    }                    
+                    }
+                    
                 }
                 else if (SAList.Count > 0)
                 {
@@ -154,16 +194,46 @@ namespace PensionModule.Controllers
                             //Microsoft.Office.Interop.Excel.Worksheet wSheet = excelBook.Sheets.Item[1];
                             ////Create OleDbCommand to fetch data from Excel
 
-                            OleDbCommand cmd = new OleDbCommand("Select SAID,emp_no,sa_basic,sa_contribution,emp_contribution from [Sheet1$]", excelConnection);
+                            OleDbCommand cmd = new OleDbCommand("Select SAID,emp_no,name,sa_basic,sa_contribution,emp_contribution from [Sheet1$]", excelConnection);
 
                             excelConnection.Open();
-                            OleDbDataReader dReader;
-                            dReader = cmd.ExecuteReader();
+                            //string header = null;
+                            OleDbDataAdapter objAdapter = new OleDbDataAdapter(cmd);
+                            DataTable Dt = new DataTable();
+                            objAdapter.Fill(Dt);
+                            //foreach (DataColumn dc in Dt.Columns)
+                            //{
+                            //    header += dc.ColumnName + ",";
+                            //}
+                            DataTable dtInsertRows = Dt;
+                            string emp = null;
+                            for (int i = 0; i < dtInsertRows.Rows.Count; i++)
+                            {
+                                DataRow row = dtInsertRows.Rows[i];
+                                string no = row["emp_no"].ToString();
+                                string name = row["name"].ToString();
+                                var empList = DbContext.EmployeeMasters.Where(m => m.CompId == cid && m.EmpNo == no).ToList();
+
+                                if (empList.Count <= 0)
+                                {
+                                    //emp += "(" + no + "," + name + ")\n,";
+                                    //emp += no + "," + name + "\n";
+                                    emp += no + "  ,   " + name + "<br/>";
+                                    //dtInsertRows.Rows.Remove(row);
+                                    dtInsertRows.Rows[i].Delete();
+                                }
+                            }
+                            dtInsertRows.AcceptChanges();
+
+
+
+                            //OleDbDataReader dReader;
+                            //dReader = cmd.ExecuteReader();
 
                             SqlBulkCopy sqlBulk = new SqlBulkCopy(sqlConnectionString);
                             //Give your Destination table name
                             sqlBulk.DestinationTableName = "SAContribution";
-                            sqlBulk.WriteToServer(dReader);
+                            sqlBulk.WriteToServer(dtInsertRows);
                             excelConnection.Close();
                             file = null;
 
@@ -173,15 +243,24 @@ namespace PensionModule.Controllers
                             foreach (var a in objModel.ListSA)
                             {
                                 string year = model.Year;
-                                string month = model.Month;
+                                int? month = model.Month;
 
                                 objService.Update(year, month, cid, uid, a.SAID);
                             }
-                            TempData["AMsg"] = filename + " Uploaded Successfully.";
+                            //TempData["AMsg"] = filename + " Uploaded Successfully.\\nBelow employee(s)are invalid :-\\n" + emp;                            
+                            if (emp == null)
+                            {
+                                ViewBag.Message = filename + " Uploaded Successfully.";
+                            }
+                            else
+                            {
+                                ViewBag.Message = filename + " Uploaded Successfully." + "<br/><b>Below employee(s)are invalid :-</b><br/>" + emp;
+                            }
                         }
                     }
-                   
+                    
                 }
+                
             }
             catch (Exception ex)
             {
@@ -189,9 +268,9 @@ namespace PensionModule.Controllers
                 ErrorLogClass.WriteErrorLog("AdminManagement", "SAMaster", "SheetUpload", ex);
                 return View("Index");
             }
-            return RedirectToAction("Index");
+            return View("Index");
         }
-        public ActionResult getData(string year, string month)
+        public ActionResult getData(string year, int month)
         {
             int cid = 0;
             int uid = 0;

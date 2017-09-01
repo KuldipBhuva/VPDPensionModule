@@ -211,6 +211,7 @@ namespace PensionModule.Controllers
                     DateTime mapDate = System.DateTime.Now;
                     objService.Insert(compid, tbl, tblClm, tblIndex, exlClm, mapBy, mapDate);
                 }
+                TempData["AMsg"] = "Data successfully uploaded.";
             }
             else if (lst.Count > 0)
             {
@@ -229,6 +230,7 @@ namespace PensionModule.Controllers
                     DateTime mapDate = System.DateTime.Now;
                     objService.Insert(compid, tbl, tblClm, tblIndex, exlClm, mapBy, mapDate);
                 }
+                TempData["AMsg"] = "Data successfully uploaded.";
             }
             return View("Index");            
         }

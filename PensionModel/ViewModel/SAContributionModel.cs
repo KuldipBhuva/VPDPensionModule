@@ -16,7 +16,7 @@ namespace PensionModel.ViewModel
             public Nullable<decimal> CompCont { get; set; }
             public Nullable<decimal> EmpCont { get; set; }
             public Nullable<int> CompID { get; set; }
-            public string Month { get; set; }
+            public int? Month { get; set; }
             public string Year { get; set; }
             public Nullable<System.DateTime> UploadedDate { get; set; }
             public Nullable<int> UploadedBy { get; set; }

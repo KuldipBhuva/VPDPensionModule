@@ -132,7 +132,7 @@ namespace PensionModule.Controllers
                                     dtInsertRows.Rows[i].Delete();
                                 }
                             }
-                            //dtInsertRows.AcceptChanges();
+                            dtInsertRows.AcceptChanges();
                             //using (SqlBulkCopy sbc = new SqlBulkCopy(sqlConnectionString, SqlBulkCopyOptions.KeepIdentity))
                             //{
                             //    sbc.DestinationTableName = "SalaryMaster";
@@ -333,7 +333,7 @@ namespace PensionModule.Controllers
                             List<InvalidEmpModel> lstInvalidEmp = new List<InvalidEmpModel>();
                             foreach (string strDropdown in emp11)
                             {
-                                if (strDropdown != "")
+                                if (strDropdown != "" && strDropdown!="/")
                                 {
                                     var no = strDropdown.Split('/');
                                     lstInvalidEmp.Add(new InvalidEmpModel() { No = Convert.ToInt32(no[0]), Name = no[1] });

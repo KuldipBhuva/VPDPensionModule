@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Pension.Models.ViewModel;
 using PensionModel;
 using PensionModel.ViewModel;
 using System;
@@ -52,6 +53,26 @@ namespace PensionServices
                 throw ex;
             }
         }
+        public List<RoleModel> getRole()
+        {
+            try
+            {
+                Mapper.CreateMap<RoleMaster, RoleModel>();
+                List<RoleMaster> tblMaster = DBContext.RoleMasters.Where(m => m.Status == true).ToList();
+                List<RoleModel> lstmasterdata = Mapper.Map<List<RoleModel>>(tblMaster);
+                return lstmasterdata;
+
+
+            }
+
+            catch (Exception ex)
+            {
+                ErrorLogClass.WriteErrorLog("UserMaster", "LoginService", "getRole", ex);
+                return null;
+            }
+
+
+        }
         public int Insert(LoginModel model)
         {
             try
@@ -76,6 +97,20 @@ namespace PensionServices
             LoginMaster Login = DBContext.LoginMasters.FirstOrDefault(m => m.UserID == UserName && m.Password == Password);
             LoginModel objLogin = Mapper.Map<LoginModel>(Login);
             return objLogin;
+        }
+        public LoginModel GetById(int id)
+        {
+            Mapper.CreateMap<LoginMaster, LoginModel>();
+            LoginMaster objBranch = DBContext.LoginMasters.SingleOrDefault(m => m.UID == id);
+            LoginModel objBItem = Mapper.Map<LoginModel>(objBranch);
+            return objBItem;            
+        }
+        public int Update(LoginModel model)
+        {
+            Mapper.CreateMap<LoginModel, LoginMaster>();
+            LoginMaster objBranch = DBContext.LoginMasters.SingleOrDefault(m => m.UID == model.UID);
+            objBranch = Mapper.Map(model, objBranch);
+            return DBContext.SaveChanges();
         }
     }
 }

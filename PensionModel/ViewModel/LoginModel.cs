@@ -12,7 +12,9 @@ namespace PensionModel.ViewModel
     {
         public int UID { get; set; }
         public Nullable<int> CompID { get; set; }
+        [Required(ErrorMessage = "Role Required")]
         public Nullable<int> RID { get; set; }
+        [Required(ErrorMessage = "Name Required")]
         public string Name { get; set; }
         [Required(ErrorMessage = "User Name Required")]
         public string UserID { get; set; }
@@ -29,5 +31,6 @@ namespace PensionModel.ViewModel
 
         public RoleModel RoleDetails { get; set; }
         public List<LoginModel> LoginList{get;set;}
+        public List<RoleModel> ListRole { get; set; }
     }
 }

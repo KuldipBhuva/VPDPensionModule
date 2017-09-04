@@ -118,7 +118,7 @@ else
                       if (rid == 3)
                       {
                           var co = DbContext.CompanyMasters.Where(m => m.id == cid).SingleOrDefault();
-                        <label style="padding-top: 13px; font-size: medium;">@co.CompName</label>
+                        <label style="padding-top: 13px; color:aqua; font-size: medium;">@co.CompName</label>
                         
                       }
                       else
@@ -156,11 +156,11 @@ else
                                     <span class="fa fa-caret-down" title="Toggle dropdown menu"></span>
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="#" data-toggle="modal" data-target="#myModal"><i class="fa fa-phone-square" aria-hidden="true"></i>Contacts</a></li>
-                                    <li><a href="#"><i class="fa fa-cogs" aria-hidden="true"></i>Settings</a></li>
+                                   @* <li><a href="#" data-toggle="modal" data-target="#myModal"><i class="fa fa-phone-square" aria-hidden="true"></i>Contacts</a></li>
+                                    <li><a href="#"><i class="fa fa-cogs" aria-hidden="true"></i>Settings</a></li>*@
                                     @*<li><a href="#"><i class="fa fa-trash-o fa-fw" aria-hidden="true"></i>Delete</a></li>
                                 <li><a href="#"><i class="fa fa-ban fa-fw" aria-hidden="true"></i>Ban</a></li>*@
-                                    <li class="divider"></li>
+                                    @*<li class="divider"></li>*@
                                     <li><a href="~/Login/Logout"><i class="fa fa-sign-out" aria-hidden="true"></i>Logout</a></li>
                                 </ul>
 
@@ -223,7 +223,16 @@ else
                                     </li>
                                 </ul>
                             </li>
-                                
+                                <li class="treeview">
+                                <a href="#">
+                                    <i class="fa fa-cogs"></i><span>Masters</span> <i class="fa fa-angle-left pull-right"></i>
+                                </a>
+                                <ul class="treeview-menu">
+                                  
+                                    <li><a href="~/Annuity/Annuity"><i class="fa fa-circle-o"></i>Table Formula</a></li>
+                                    <li><a href="~/Incentive/Incentive"><i class="fa fa-circle-o"></i>Incentive</a></li>
+                                </ul>
+                            </li>
                               }
                               else
                               {
@@ -376,6 +385,7 @@ else
                                     <li><a href="~/RetireType/Retire"><i class="fa fa-circle-o"></i>Retirement Type</a></li>
                                     <li><a href="~/Annuity/Annuity"><i class="fa fa-circle-o"></i>Table Formula</a></li>
                                     <li><a href="~/Incentive/Incentive"><i class="fa fa-circle-o"></i>Incentive</a></li>
+                                    <li><a href="~/User/Index"><i class="fa fa-user"></i>User</a></li>
                                 </ul>
                             </li>
                         }

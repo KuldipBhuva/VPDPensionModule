@@ -231,7 +231,20 @@
     </div>
 
 }
+<script>
 
+    $(document).ready(function () {
+        debugger;
+        var rid = '@Request.RequestContext.HttpContext.Session["RID"]';
+
+        if (rid == 3) {
+            $(".panel-body :input").attr("disabled", true);
+        }
+        else {
+            $('.panel-body :input').removeAttr('disabled');
+        }
+    });
+</script>
 <script src="~/assets/js/jquery-1.10.2.js"></script>
 <script src="~/assets/js/jquery.min.js"></script>
 <script src="~/Scripts/jquery.validate.js"></script>
@@ -324,6 +337,21 @@
                 $('#Branch').val(data.Branch);
                 $('#AccountNo').val(data.AccountNo);
                 $('#IFSC').val(data.IFSC);
+
+            
+
+   
+     
+        var rid = '@Request.RequestContext.HttpContext.Session["RID"]';
+
+        if (rid == 3) {
+            $(".panel-body").attr("disabled", true);
+        }
+        else {
+            $('#accordion :input').removeAttr('disabled');
+        }
+
+
             },
             error: function (data) {
                 alert(data.responseText);

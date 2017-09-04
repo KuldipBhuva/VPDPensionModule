@@ -151,3 +151,20 @@
     }
 
 </script>
+
+<script>
+
+    $(document).ready(function () {
+        debugger;
+        var rid = '@Request.RequestContext.HttpContext.Session["RID"]';
+
+        if (rid == 3) {
+            
+            $("#btnAdd").hide();
+        }
+        else {
+            
+            $("#btnAdd").show();
+        }
+    });
+</script>

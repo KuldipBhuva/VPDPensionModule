@@ -309,3 +309,20 @@
         });
     }
 </script>
+
+<script>
+
+    $(document).ready(function () {
+        debugger;
+        var rid = '@Request.RequestContext.HttpContext.Session["RID"]';
+
+        if (rid == 3) {
+            $(".panel-body :input").attr("disabled", true);
+            $("#btnAdd").hide();
+        }
+        else {
+            $('.panel-body :input').removeAttr('disabled');
+            $("#btnAdd").show();
+        }
+    });
+</script>

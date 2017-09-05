@@ -18,6 +18,7 @@
             Annuity Addition
             <input type="button" id="btnBack" value="Back" class="btnAdd btn btn-primary" />
         </div>
+        @ViewData["alert"]
         @Html.HiddenFor(m => m.hdnempplan)
         <div class="panel-body">
             <br />
@@ -38,7 +39,7 @@
                 <div class="col-sm-2">
                     Insurance  
                 </div>
-                <div class="col-sm-4" style="font-weight:bold; font-size:14px;">
+                <div class="col-sm-4" style="font-weight: bold; font-size: 14px;">
                     @*@Html.DropDownListFor(m => m.LicId, new SelectList(Model.ListIns, "id", "InsuranceCompany"), "--Select Insurance--", new { @class = "form-control", @OnChange = "return bindplan();" })*@
                     @Html.DisplayFor(m => m.Insurance, new { @class = "form-control" })
                 </div>
@@ -53,7 +54,7 @@
                 <div class="col-sm-2">
                     Plan 
                 </div>
-                <div class="col-sm-4" style="font-weight:bold; font-size:14px;">
+                <div class="col-sm-4" style="font-weight: bold; font-size: 14px;">
                     @*@Html.DropDownListFor(m => m.PlanId, new SelectList(Model.ListPlan, "id", "PlanName"), "--Select Plan--", new { @class = "form-control" })*@
                     @Html.DisplayFor(m => m.Plan, new { @class = "form-control" })
                 </div>
@@ -66,7 +67,7 @@
 
             <div class="form-group">
                 <div class="col-sm-2">
-                    Annouity No
+                    Annuity No
                 </div>
                 <div class="col-sm-4">
                     @Html.TextBoxFor(m => m.AnnuityNo, new { @class = "form-control" })
@@ -218,7 +219,7 @@
             <div class="panel-body">
                 <div class="table-responsive" id="Grid">
 
-                    <table class="table" id="tbl">
+                    <table class="table" id="tblno">
                         <thead>
                             <tr>
                                 <th>Insurance</th>
@@ -382,16 +383,7 @@
         var Amount = $('#Amount').val();
         var PolicyStatus = $('#PolicyStatus').val();
 
-
-        if (LicId == "") {
-            showErr("LicId", "Please select Insurance");
-            return false;
-        }
-        else if (PlanId == "") {
-            showErr("PlanId", "Please select Plan");
-            return false;
-        }
-        else if (AnnuityNo == "") {
+        if (AnnuityNo == "") {
             showErr("AnnuityNo", "Please enter AnnuityNo");
             return false;
         }
@@ -428,7 +420,6 @@
     function HiddenField(id) {
         $('#dvAdd').show(1000);
         $('#dvGrid').hide();
-        debugger;
         $('#hdnempplan').val(id);
         var ids = $('#hdnempplan').val();
 
@@ -441,9 +432,8 @@
             success: function (data) {
                 var value = new Date(parseInt(data.PolicyDate.replace(/(^.*\()|([+-].*$)/g, '')));
                 var PolicyDate = value.getMonth() + 1 + "/" + value.getDate() + "/" + value.getFullYear();
-                var value = new Date(parseInt(data.HoldDate.replace(/(^.*\()|([+-].*$)/g, '')));
-                var HoldDate = value.getMonth() + 1 + "/" + value.getDate() + "/" + value.getFullYear();
 
+                debugger;
                 $('#LicId').val(data.LicId);
                 $('#AnnuityNo').val(data.AnnuityNo);
                 $('#InsuranceOffife').val(data.InsuranceOffife);
@@ -452,17 +442,26 @@
                 $('#PolicyDate').val(PolicyDate);
                 $('#Amount').val(data.Amount);
                 $('#PolicyStatus').val(data.PolicyStatus);
-                $('#HoldDate').val(HoldDate);
-                $('#Remark').val(data.Remark);
+                var ps = $('#PolicyStatus').val();
+                if (ps == 1) {
 
-                $('#PlanId').empty();
-                debugger;
-                for (var i = 0; i < data.ListPlan.length; i++) {
-                    var opt = new Option(data.ListPlan[i].PlanName, data.ListPlan[i].id);
-                    $('#PlanId').append(opt);
+                    var value = new Date(parseInt(data.HoldDate.replace(/(^.*\()|([+-].*$)/g, '')));
+                    var HoldDate = value.getMonth() + 1 + "/" + value.getDate() + "/" + value.getFullYear();
+                    $('#HoldDate').val(HoldDate);
+                    $('#Remark').val(data.Remark);
+                    $('#divhold').show();
                 }
+                else {
+                    $('#divhold').hide();
+                }
+                //$('#PlanId').empty();
+                //debugger;
+                //for (var i = 0; i < data.ListPlan.length; i++) {
+                //    var opt = new Option(data.ListPlan[i].PlanName, data.ListPlan[i].id);
+                //    $('#PlanId').append(opt);
+                //}
 
-                $('#PlanId').val(data.PlanId);
+                //$('#PlanId').val(data.PlanId);
             },
             error: function (data) {
                 alert(data.responseText);

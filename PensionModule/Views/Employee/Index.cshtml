@@ -229,7 +229,7 @@
                                     @Html.ValidationMessageFor(m => m.ContactO)
                                 </div>
                                 <div class="col-sm-2">
-                                    Contact of office
+                                    Contact of residence
                                 </div>
                                 <div class="col-sm-4">
                                     @Html.TextBoxFor(m => m.ContactR, new { @class = "form-control" })
@@ -499,7 +499,7 @@
                                 <div class="col-sm-4">
                                     @Html.DropDownListFor(m => m.AnnuityMode, new List<SelectListItem>() { new SelectListItem() { Text = "--Select Pension--", Value = "" },
                      new SelectListItem() { Text = "Yearly", Value = "1" }, 
-                     new SelectListItem() { Text = "Half Yearly", Selected=true, Value = "2"},
+                     new SelectListItem() { Text = "Half Yearly", Value = "2"},
                      new SelectListItem() { Text = "Quaterly", Value = "3" }, 
                      new SelectListItem() { Text = "Monthly", Selected=true, Value = "4"}},
                      new { @class = "form-control" })
@@ -559,7 +559,8 @@
                                 <div class="col-sm-4">
                                     @Html.DropDownListFor(m => m.Benefits, new List<SelectListItem>() { new SelectListItem() { Text = "--Select Pension--", Value = "" },
                      new SelectListItem() { Text = "1/3 Pension", Value = "1" }, 
-                     new SelectListItem() { Text = "1/2 Pension", Selected=true, Value = "2"},},
+                     new SelectListItem() { Text = "1/2 Pension", Value = "2"},
+                     new SelectListItem() { Text = "100% Pension", Value = "3" }},
                      new { @class = "form-control" })
                                 </div>
                                 <div class="col-sm-4"></div>
@@ -1063,11 +1064,16 @@
                 <table class="table" id="tbl">
                     <thead>
                         <tr>
+                            <th>Employee No
+                            </th>
                             <th>Employee
                             </th>
-                            <th>Company
+                            <th>DOJ
                             </th>
-                            <th>Email</th>
+                            <th>DOL
+                            </th>
+                            @*<th>Company</th>*@
+                            @*<th>Email</th>*@
                             <th>Status
                             </th>
                             <th>Action
@@ -1079,9 +1085,26 @@
                         @foreach (var item in Model.ListEmp)
                         {
                             <tr>
+                                <td>@item.EmpNo</td>
                                 <td>@item.EmpName</td>
-                                <td>@item.CompDetails.CompName</td>
-                                <td>@item.Email</td>
+                                @if (@item.DOJ.HasValue)
+                                {
+                                    <td>@item.DOJ.Value.ToString("dd/MM/yyyy")</td>
+                                }
+                                else
+                                {
+                                    <td>@item.DOJ.ToString()</td>
+                                }
+                                @if (@item.RetireDate.HasValue)
+                                {
+                                    <td>@item.RetireDate.Value.ToString("dd/MM/yyyy")</td>
+                                }
+                                else
+                                {
+                                    <td>@item.RetireDate.ToString()</td>
+                                }
+                                @*<td>@item.CompDetails.CompName</td>*@
+                                @*<td>@item.Email</td>*@
                                 @if (@item.Status == "0")
                                 {
                                     <td>In-Active</td>
@@ -1261,12 +1284,12 @@
             debugger;
             var rid = '@Request.RequestContext.HttpContext.Session["RID"]';
 
-        if (rid == 3) {
-            $("#btnAdd").hide();
-        }
-        else {
-            $("#btnAdd").show();
-        }
-    });
-</script>
+         if (rid == 3) {
+             $(".panel-body :input").attr("disabled", true);
+         }
+         else {
+             $('.panel-body :input').removeAttr('disabled');
+         }
+     });
+ </script>
 }

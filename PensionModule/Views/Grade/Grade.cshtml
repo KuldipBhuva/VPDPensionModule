@@ -20,18 +20,13 @@
             <input type="button" id="btnBack" value="Back" class="btnAdd btn btn-primary" />
         </div>
         <div class="panel-body">
-
-
             <div class="form-group">
                 <div class="col-sm-4">
                     Grade Name
                 </div>
                 <div class="col-sm-6">
                     @Html.TextBoxFor(m => m.Grade_Name, new { @class = "form-control" , @onblur = "return CheckExist();" })
-
                 </div>
-
-
             </div>
             <br />
             <div class="form-group">
@@ -45,10 +40,12 @@
                 <div class="col-sm-6">
                     @Html.TextAreaFor(m => m.Description, new { @class = "form-control" })
                 </div>
-
-
+            </div>            
+            <br />
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
             </div>
-
             <div class="form-group">
                 <div class="col-sm-4">
                     Status
@@ -57,18 +54,12 @@
                     @Html.RadioButtonFor(m => m.Status, "1", new { @checked = "checked" })Active
                     @Html.RadioButtonFor(m => m.Status, "0")In-Active    
                 </div>
-
-
             </div>
-
-
             <br />
             <div class="form-group">
                 <div class="col-sm-12">
                 </div>
             </div>
-
-
             <br />
             <div class="form-group">
                 <div class="col-sm-12">
@@ -79,11 +70,9 @@
                     <input type="submit" name="Button" value="Save" id="btnSave" class="btn btn-primary" onclick="return Validation();" />
                 </div>
             </div>
-
         </div>
     </div>
-
-
+    
 
     <!-- Advanced Tables -->
     <div class="panel panel-info" id="dvGrid">
@@ -95,7 +84,7 @@
             <div class="panel-body">
                 <div class="table-responsive" id="Grid">
 
-                    <table class="table" id="tbl">
+                    <table class="table" id="tblno">
                         <thead>
                             <tr>
                                 <th>Grade Name

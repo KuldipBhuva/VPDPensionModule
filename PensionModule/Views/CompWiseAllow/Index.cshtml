@@ -35,7 +35,7 @@
 
             <div class="form-group">
                 <div class="col-sm-4">
-                    Grade Change
+                    Grade
                 </div>
                 <div class="col-sm-6">
                     @Html.DropDownListFor(m => m.GradeID, new SelectList(Model.lstgrade, "id", "Grade_Name"), "--Select Grade--", new { @class = "form-control", @onblur = "return checkAllowExist();" })
@@ -134,7 +134,7 @@
                     <table class="table" id="tbl">
                         <thead>
                             <tr>
-                                @*<th>Company</th>*@
+                                <th>Grade</th>
                                 <th>Allowance</th>
                                 <th>Status</th>
                                 <th>Action</th>
@@ -145,7 +145,7 @@
                             @foreach (var item in Model.lstCompAllo)
                             {
                                 <tr>
-                                    @*<td>@item.CompName</td>*@
+                                    <td>@item.Grade</td>
                                     <td>@item.AllowName</td>
                                     @if (@item.Status == 0)
                                     {
@@ -319,11 +319,11 @@
         debugger;
         var rid = '@Request.RequestContext.HttpContext.Session["RID"]';
 
-        if (rid == 3) {
-            $(".panel-body :input").attr("disabled", true);
-        }
-        else {
-            $('.panel-body :input').removeAttr('disabled');
-        }
-    });
-</script>
+         if (rid == 3) {
+             $(".panel-body :input").attr("disabled", true);
+         }
+         else {
+             $('.panel-body :input').removeAttr('disabled');
+         }
+     });
+ </script>

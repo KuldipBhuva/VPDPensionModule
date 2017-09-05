@@ -41,7 +41,9 @@ namespace PensionServices
                                 Benefits = em.Benefits,
                                 Contribution = em.Contribution,
                                 EmployeementType = em.EmployeementType,
-                                AnnuityMode = em.AnnuityMode
+                                AnnuityMode = em.AnnuityMode,
+                                DOJ=em.DOJ,
+                                RetireDate=em.RetireDate
                             }).ToList();
                 return data;
             }
@@ -128,7 +130,8 @@ namespace PensionServices
                                 RPensionAmt = em.RPensionAmt,
                                 SASettleDate = em.SASettleDate,
                                 GradeName = gm.Grade_Name,
-                                LicId=em.LicId
+                                LicId=em.LicId,
+                                PaymentType=em.PaymentType
                             }).SingleOrDefault();
                 return data;
             }

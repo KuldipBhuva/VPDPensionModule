@@ -31,15 +31,6 @@
         <h1>SA <small>Report</small></h1>
     </section>  
         
-    <div class="panel panel-info" id="div">
-        <form action="/Report/setyr" method="post">
-            @*@Html.DropDownList("setyr", new List<SelectListItem>() { new SelectListItem() { Text = "--Select Year--", Value = "" },
-                     new SelectListItem() { Text = "2015-2016", Value = "2015-2016" }, 
-                     new SelectListItem() { Text = "2016-2017", Value = "2016-2017" }, 
-                     new SelectListItem() { Text = "2017-2018", Selected=true, Value = "2017-2018"}},
-                     new { @class = "form-control" })*@
-        </form>
-    </div>
     <div class="panel panel-info" id="dvGrid">
         <div class="panel-heading">
             SA Report
@@ -103,9 +94,9 @@
                                 string opbal = "0";
                                 string ttl = "0";
                                 string Int = "0";
-
-                                foreach (var row in Model)
-                                {
+                            }
+                            @foreach (var row in Model)
+                            {
                                 <tr>
                                     @foreach (var column in row)
                                     {
@@ -141,8 +132,6 @@
                                         }
                                     }
                                 </tr>
-                                }
-                                var cbal = Convert.ToDecimal((Convert.ToDecimal(opbal) + Convert.ToDecimal(ttl)) + Convert.ToDecimal(Int));
                             }
                         </tbody>
                     </table>
@@ -159,13 +148,13 @@
                         <div class="col-md-4">Openning Balance</div>
                         <div class="col-md-2">
                         </div>
-                        <div class="col-md-8">@Html.DisplayFor(m => opbal)</div>
+                        <div class="col-md-8"></div>
                     </div>
                     <div class="col-md-12">
                         <div class="col-md-4">ADD : Current Year Contribution</div>
                         <div class="col-md-2">
                         </div>
-                        <div class="col-md-8">@Html.DisplayFor(m => ttl)</div>
+                        <div class="col-md-8"></div>
                     </div>
                     <div class="col-md-12">
                         <div class="col-md-3">ADD : Interest Earned</div>
@@ -174,7 +163,7 @@
                         </div>
                         <div class="col-md-2">
                         </div>
-                        <div class="col-md-8">@Html.DisplayFor(m => Int)</div>
+                        <div class="col-md-8"></div>
                     </div>
                     <div class="col-md-12">
                         <div class="col-md-4">Transfer - In</div>
@@ -187,7 +176,7 @@
                         <div class="col-md-4">Closing Balance</div>
                         <div class="col-md-2">
                         </div>
-                        <div class="col-md-8">@Html.DisplayFor(m => cbal)</div>
+                        <div class="col-md-8"></div>
                     </div>
                 </div>
             </div>

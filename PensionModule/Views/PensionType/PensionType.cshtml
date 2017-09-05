@@ -2,6 +2,7 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "Pension Type";
+    ViewBag.PageTitle = "Create/Manage Language";
 }
 
 @using (Html.BeginForm("PensionType", "PensionType", FormMethod.Post))
@@ -14,7 +15,7 @@
     </section>  
     <div class="panel panel-info" id="dvAdd">
         <div class="panel-heading">
-            Life Certificate Master 
+            Pension Type
             <input type="button" id="btnBack" value="Back" class="btnAdd btn btn-primary" />
         </div>
         @Html.HiddenFor(m => m.hdnpentype)
@@ -72,48 +73,46 @@
     </div>
     <div class="panel panel-info" id="dvGrid">
         <div class="panel-heading">
-
+            Pention Type
             <input type="button" id="btnAdd" value="Add New" class="btnAdd btn btn-primary" />
         </div>
-        <div class="panel-heading" style="height: 54px;">
-            <div class="panel-body">
-                <div class="table-responsive" id="Grid">
-
-                    <table class="table" id="tbl">
-                        <thead>
+        <div class="panel-body">
+            <div class="table-responsive" id="Grid">
+                
+                <table class="table" id="tbl">
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Description</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.lstpen)
+                        {
                             <tr>
-                                <th>Type</th>
-                                <th>Description</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model.lstpen)
-                            {
-                                <tr>
-                                    <td>@item.Type</td>
-                                    <td>@item.Description</td>
-                                    @if (@item.Status == 1)
-                                    {
-                                        <td>Active</td>
-                                    }
-                                    else if (@item.Status == 0)
-                                    {
-                                        <td>In-Active</td>
-                                    }
-                                    <td>
-                                        <a  id="btnEdit" class="fa fa-pencil-square fa-lg" onclick="HiddenField('@item.Id')"  style="height:20px;width:20px;" />
-                                    </td>
+                                <td>@item.Type</td>
+                                <td>@item.Description</td>
+                                @if (@item.Status == 1)
+                                {
+                                    <td>Active</td>
+                                }
+                                else if (@item.Status == 0)
+                                {
+                                    <td>In-Active</td>
+                                }
+                                <td>
+                                    <a  id="btnEdit" class="fa fa-pencil-square fa-lg" onclick="HiddenField('@item.Id')"  style="height:20px;width:20px;" />
+                                </td>
 
-                                    @*<td>
+                                @*<td>
                                         <img  id="btnremove" onclick="HiddenField1('@item.id')"  style="height:20px;width:20px;" />
                                     </td>*@
-                                </tr>   
-                            }
-                        </tbody>
-                    </table>
+                            </tr>   
+                        }
+                    </tbody>
+                </table>
 
-                </div>
             </div>
         </div>
     </div>

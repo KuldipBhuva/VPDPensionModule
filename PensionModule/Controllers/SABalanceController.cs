@@ -18,8 +18,9 @@ namespace PensionModule.Controllers
         //
         // GET: /SABalance/
 
-        //string sqlConnectionString = @"data source=TESTSERVERVPD;initial catalog=VPDPension;user id =sa;password=newtech009;MultipleActiveResultSets=True;App=EntityFramework";
-        string sqlConnectionString = @"Data Source=KP;Database=VPDPension;Trusted_Connection=true;Persist Security Info=True";
+        string sqlConnectionString = @"data source=TESTSERVERVPD;initial catalog=VPDPension;user id =sa;password=newtech009;MultipleActiveResultSets=True;App=EntityFramework";
+        //string sqlConnectionString = @"Data Source=KP;Database=VPDPension;Trusted_Connection=true;Persist Security Info=True";
+        //string sqlConnectionString = @"data source=46.105.241.192,1533;initial catalog=VPDPENSION;user id=pension;password=Newtech@009;MultipleActiveResultSets=True;App=EntityFramework";
         VPDPensionEntities DbContext = new VPDPensionEntities();
         List<SAEmpDetailsModel> lstSA = new List<SAEmpDetailsModel>();
         SAEmpDetailsModel objModel = new SAEmpDetailsModel();

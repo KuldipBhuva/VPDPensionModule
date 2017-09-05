@@ -17,7 +17,8 @@ namespace Pension.Models.ViewModel
         public Nullable<int> Status { get; set; }
         public Nullable<int> GradeID { get; set; }
 
-        public string CompName{ get; set; }
+        public string CompName { get; set; }
+        public string Grade { get; set; }
         public string AllowName { get; set; }
         public string Desc { get; set; }
         public List<CompanyModel> lstComp { get; set; }

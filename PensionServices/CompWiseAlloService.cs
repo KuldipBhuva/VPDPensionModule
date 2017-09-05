@@ -67,6 +67,7 @@ namespace Pension.Services
                 var lstAllow = (from Allo in DbContext.CompWiseAllowances
                                 join Comp in DbContext.CompanyMasters on Allo.CompID equals Comp.id
                                 join Allow in DbContext.AllowanceMasters on Allo.AllowanceID equals Allow.id
+                                join grd in DbContext.GradeMasters on Allo.GradeID equals grd.id
                                 where Comp.id == id //&& Allo.IsChecked == true
                                 select new CompWiseAllowViewModel()
                                 {
@@ -77,6 +78,7 @@ namespace Pension.Services
                                     AllowName = Allow.AllowanceName,
                                     EffDeate = Allo.EffDeate,
                                     GradeID = Allo.GradeID,
+                                    Grade = grd.Grade_Name,
                                     Status = Allo.Status
                                 }).ToList();
 
@@ -126,7 +128,6 @@ namespace Pension.Services
                                    EffDeate = Allo.EffDeate,
                                    GradeID = Allo.GradeID,
                                    Status = Allo.Status
-
                                }).FirstOrDefault();
 
                 return lstcomp;

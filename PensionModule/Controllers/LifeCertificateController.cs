@@ -76,7 +76,7 @@ namespace PensionModule.Controllers
                     model.EmpId = Convert.ToInt32(Session["Emp"].ToString());
                     model.InsCompId = Convert.ToInt32(Session["Comp"].ToString());
                     model.EffDate = System.DateTime.Now;
-                    string date = "31/12/" + model.YearCode + "";
+                    string date = "12/31/" + model.YearCode + "";
                     model.ToDate = Convert.ToDateTime(date);
 
                     HttpPostedFileBase file = Request.Files["file"];
@@ -85,9 +85,9 @@ namespace PensionModule.Controllers
                         var fileName = Path.GetFileName(file.FileName);
                         if (fileName != "")
                         {
-                            var path = Path.Combine(Server.MapPath("../PhotoUpload/"), fileName);
+                            var path = Path.Combine(Server.MapPath("../Upload/CertificateImg/"), fileName);
                             file.SaveAs(path);
-                            model.CertificateCopy = "../PhotoUpload/" + fileName;
+                            model.CertificateCopy = "../Upload/CertificateImg/" + fileName;
                         }
                         if (model.hdnlife == 0)
                         {

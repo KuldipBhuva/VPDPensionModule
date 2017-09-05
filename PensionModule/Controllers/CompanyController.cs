@@ -19,6 +19,7 @@ namespace PensionModule.Controllers
         CompanyServices objService = new CompanyServices();
         CompanyModel objModel = new CompanyModel();
         List<CompanyModel> lstComp = new List<CompanyModel>();
+        List<CompanyModel> lstCmy = new List<CompanyModel>();
         int cmy = 0;
         int said = 0;
         public ActionResult Index()
@@ -27,7 +28,6 @@ namespace PensionModule.Controllers
             objModel.ListComp = new List<CompanyModel>();
             objModel.ListComp.AddRange(lstComp);
 
-            List<CompanyModel> lstCmy = new List<CompanyModel>();
             if (Session["Comp"] != null)
             {
                 cmy = Convert.ToInt32(Session["Comp"].ToString());
@@ -78,6 +78,9 @@ namespace PensionModule.Controllers
             objModel.ListComp = new List<CompanyModel>();
             objModel.ListComp.AddRange(lstComp);
 
+            lstCmy = objService.lstCmy(cmy);
+            objModel.LstCmy = new List<CompanyModel>();
+            objModel.LstCmy.AddRange(lstCmy);
             return View(objModel);
         }
 
@@ -98,6 +101,9 @@ namespace PensionModule.Controllers
                 objModel.ListMergeComp = objService.GetMergerByCmyId(id);
                 bindgrade();
                 objModel.Listgrade = ViewBag.Listgrade;
+                Session["SaID"] = 0;
+                Session["Penid"] = 0;
+                Session["Merid"] = 0;
             }
             catch (Exception ex)
             {
@@ -114,7 +120,9 @@ namespace PensionModule.Controllers
             {
                 mergemodel.EffDate = model.MergeEffDate;
                 penmodel.EffDate = model.PenEffDate;
-                int SaID = Convert.ToInt32(Session["SaID"]);
+                int SaID = Convert.ToInt32(Session["SaID"].ToString());
+                model.PenId = Convert.ToInt32(Session["Penid"].ToString());
+                model.MerId = Convert.ToInt32(Session["Merid"].ToString());
                 objService.UpdateCompanyData(model.id, SaID, model, penmodel, mergemodel, samodel);
             }
             catch (Exception ex)
@@ -152,6 +160,15 @@ namespace PensionModule.Controllers
         }
 
         [HttpPost]
+        public ActionResult ChangeYear(FormCollection All)
+        {
+            string year = (All["Yr"]);
+            Session["setyr"] = year;
+            TempData["AMsg"] = "Financial Year set successfully.";
+            return RedirectToAction("Index", "Employee");
+        }
+
+        [HttpPost]
         public JsonResult GetPension(CompanyModel model)
         {
             int cmyid = Convert.ToInt32(Session["Comp"].ToString());
@@ -164,6 +181,7 @@ namespace PensionModule.Controllers
             objModel.Listgrade = ViewBag.Listgrade;
             int penid = Convert.ToInt32(model.PenId);
             objModel = objService.GetPenById(cmyid, penid);
+            Session["Penid"] = penid;
 
             if (objModel == null)
             {
@@ -185,6 +203,7 @@ namespace PensionModule.Controllers
             objModel.Listgrade = ViewBag.Listgrade;
             int merid = Convert.ToInt32(model.MerId);
             objModel = objService.GetMergerById(cmyid, merid);
+            Session["Merid"] = merid;
 
             if (objModel == null)
             {
@@ -206,7 +225,7 @@ namespace PensionModule.Controllers
             objModel.Listgrade = ViewBag.Listgrade;
             said = Convert.ToInt32(model.SaID);
             objModel = objService.GetSaById(cmyid, said);
-            Session["SaID"] = said;
+            Session["Said"] = said;
             if (objModel == null)
             {
                 objModel = objService.GetById(cmyid);

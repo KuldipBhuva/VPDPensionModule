@@ -455,24 +455,24 @@
                                     <div class="col-sm-12">
                                     </div>
                                 </div>
-                                    <div class="form-group">
-                                        <div class="col-sm-4">
-                                            SA Shceme
-                                        </div>
-                                        <div class="col-sm-6">
-                                            @Html.DropDownListFor(m => m.SAContriMethod, new List<SelectListItem>() { new SelectListItem() { Text = "--Select Interest--", Value = "" },
+                                <div class="form-group">
+                                    <div class="col-sm-4">
+                                        SA Schema
+                                    </div>
+                                    <div class="col-sm-6">
+                                        @Html.DropDownListFor(m => m.SAContriMethod, new List<SelectListItem>() { new SelectListItem() { Text = "--Select Interest--", Value = "" },
                      new SelectListItem() { Text = "Contributory Scheme", Value = "0" }, 
                      new SelectListItem() { Text = "Non-Contributory Scheme", Value = "1"}},
                      new { @class = "form-control" })
-                                        </div>
                                     </div>
+                                </div>
 
-                                    <br />
-                                    <br />
-                                    <div class="form-group">
-                                        <div class="col-sm-12">
-                                        </div>
+                                <br />
+                                <br />
+                                <div class="form-group">
+                                    <div class="col-sm-12">
                                     </div>
+                                </div>
                                 <div class="form-group">
                                     <div class="form-group">
                                         <div class="col-sm-4">
@@ -495,8 +495,11 @@
                                         </div>
                                         <div class="col-sm-6">
                                             @Html.DropDownListFor(m => m.SAIntMethod, new List<SelectListItem>() { new SelectListItem() { Text = "--Select Interest--", Value = "" },
-                     new SelectListItem() { Text = "Month", Value = "0" }, 
-                     new SelectListItem() { Text = "Opening-Closing Balance", Value = "1"}},
+                     new SelectListItem() { Text = "Day wise Balance", Value = "0" }, 
+                     new SelectListItem() { Text = "Monthly running Balance", Value = "1" }, 
+                     new SelectListItem() { Text = "Quaterly Balance", Value = "2" }, 
+                     new SelectListItem() { Text = "Opening Balance", Value = "3"},
+                     new SelectListItem() { Text = "Closing Balance", Value = "4"}},
                      new { @class = "form-control" })
                                         </div>
                                     </div>
@@ -549,7 +552,7 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="col-sm-4">
-                                            Live Employee Interest
+                                            Live Employee
                                         </div>
                                         <div class="col-sm-3">
                                             @Html.TextBoxFor(m => m.LiveEmpInt, new { @class = "form-control pull-right" })
@@ -568,7 +571,7 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="col-sm-4">
-                                            Left Employee Interest
+                                            Left Employee
                                         </div>
                                         <div class="col-sm-3">
                                             @Html.TextBoxFor(m => m.LeftEmpInt, new { @class = "form-control pull-right" })

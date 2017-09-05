@@ -17,8 +17,8 @@ namespace PensionModule.Controllers
     {
         //
         // GET: /Salary/
-        string sqlConnectionString = @"Data Source=KP;Database=VPDPension;Trusted_Connection=true;Persist Security Info=True";
-        //string sqlConnectionString = @"data source=TESTSERVERVPD;initial catalog=VPDPension;user id=sa;password=newtech009;MultipleActiveResultSets=True;App=EntityFramework";
+        //string sqlConnectionString = @"Data Source=KP;Database=VPDPension;Trusted_Connection=true;Persist Security Info=True";
+        string sqlConnectionString = @"data source=TESTSERVERVPD;initial catalog=VPDPension;user id=sa;password=newtech009;MultipleActiveResultSets=True;App=EntityFramework";
         //string sqlConnectionString = @"data source=46.105.241.192,1533;initial catalog=VPDPENSION;user id=pension;password=Newtech@009;MultipleActiveResultSets=True;App=EntityFramework";
         //string sqlConnectionString = @"data source=208.91.198.59;initial catalog=techflow;user id=techflow;password=Newtech@009;MultipleActiveResultSets=True;App=EntityFramework";
         //string sqlConnectionString = @"data source=mydbinstance.c0cgp66jg3yv.ap-southeast-2.rds.amazonaws.com;initial catalog=techflow_online;user id=techflowdbun;password=TFpassw0rd16;MultipleActiveResultSets=True;App=EntityFramework";

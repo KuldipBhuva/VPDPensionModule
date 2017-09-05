@@ -23,10 +23,10 @@
 
             <div class="form-group">
                 <div class="col-sm-4">
-                  Allowance Name
+                    Allowance Name
                 </div>
                 <div class="col-sm-6">
-                    @Html.TextBoxFor(m => m.AllowanceName, new { @class = "form-control" , @onblur = "return CheckExist();" })
+                    @Html.TextBoxFor(m => m.AllowanceName, new { @class = "form-control", @onblur = "return CheckExist();" })
 
                 </div>
 
@@ -45,13 +45,13 @@
                     @Html.TextAreaFor(m => m.Description, new { @class = "form-control" })
                 </div>
             </div>
-         
+
             <div class="form-group">
                 <div class="col-sm-4">
                     Status
                 </div>
                 <div class="col-sm-6">
-                    @Html.RadioButtonFor(m => m.Status, "1",new { @checked = "checked" })Active
+                    @Html.RadioButtonFor(m => m.Status, "1", new { @checked = "checked" })Active
                     @Html.RadioButtonFor(m => m.Status, "0")In-Active    
                 </div>
             </div>
@@ -72,73 +72,66 @@
             </div>
         </div>
     </div>
-
-
-
+    
     <!-- Advanced Tables -->
     <div class="panel panel-info" id="dvGrid">
         <div class="panel-heading">
             Allowance Data
             <input type="button" id="btnAdd" value="Add New" class="btnAdd btn btn-primary" />
         </div>
-        
-            <div class="panel-body">
-                <div class="table-responsive" id="Grid">
+        <div class="panel-body">
+            <div class="table-responsive" id="Grid">
 
-                    <table class="table" id="tbl">
-                        <thead>
+                <table class="table" id="tbl">
+                    <thead>
+                        <tr>
+                            <th>Allowance Name
+                            </th>
+                            <th>Description
+                            </th>
+                            <th>Status
+                            </th>
+                            <th>Action
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var item in Model.lstAllowace)
+                        {
                             <tr>
-                                <th>Allowance Name
-                                </th>
-                                <th>Description
-                                </th>
-                                <th>Status
-                                </th>
-                                <th>Action
-                                </th>
+                                <td>@item.AllowanceName</td>
+                                <td>@item.Description</td>
+                                @if (@item.Status == 0)
+                                {
+                                    <td>In-Active</td>
+                                }
+                                else
+                                {
+                                    <td>Active</td>
+                                }
+                                <td>
+                                    <a  id="btnEdit" class="fa fa-pencil-square fa-lg" onclick="HiddenField('@item.id')"  style="height:20px;width:20px;" />
+                                    @*  <button type="button"   name="Button" value="Edit" ></button>*@
+                                </td>
                             </tr>
-                        </thead>
-
-                        <tbody>
-                            @foreach (var item in Model.lstAllowace)
-                            {
-                                <tr>
-                                    <td>@item.AllowanceName</td>
-                                    <td>@item.Description</td>
-                                    @if (@item.Status == 0)
-                                    {
-                                        <td>In-Active</td>
-                                    }
-                                    else
-                                    {
-                                        <td>Active</td>
-                                    }
-                                    <td>
-                                        <a  id="btnEdit" class="fa fa-pencil-square fa-lg" onclick="HiddenField('@item.id')"  style="height:20px;width:20px;" />
-                                        @*  <button type="button"   name="Button" value="Edit" ></button>*@
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-
-                
+                        }
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
 
 }
 
-
 <script src="~/assets/js/jquery-1.10.2.js"></script>
 <script src="~/assets/js/jquery.min.js"></script>
 <script>
-
     $('#btnBack').click(function () {
         $('#Status').val('');
         $('#AllowanceName').val('');
         $('#Description').val('');
-      
+
         $('#HdnAlloid').val('');
         removeErr("err_LangSName");
         removeErr("err_LangFName");
@@ -157,7 +150,6 @@
         }
     }
 
-
     function ValidAllowName() {
         var ValidateMsg = true;
         var LangName = $('#AllowanceName').val();
@@ -172,18 +164,14 @@
         return ValidateMsg;
     }
 
-
     function CheckExist() {
         if (ValidAllowName() == true) {
             checkformExist()
         }
-
         else {
             showErr("AllowanceName", "Please enter valid Allowance name");
-
         }
     }
-
 
     function checkformExist() {
         debugger;
@@ -201,17 +189,9 @@
                 $('#AllowanceName').focus();
             },
             error: function (data) {
-
-
             }
-          
-
         });
-
-      
     }
-
-
 
     function HiddenField(id) {
         $("#dvGrid").hide();
@@ -227,20 +207,14 @@
             dataType: "json",
             contentType: "application/json; charset=utf-8",
             success: function (data) {
-
                 $('#AllowanceName').val(data.AllowanceName);
                 $('#Description').val(data.Description);
                 $('#Status').val(data.Status);
-               
             },
             error: function (data) {
                 alert(data.responseText);
             }
-
         });
-
     }
-
-
 </script>
 

@@ -46,14 +46,14 @@ namespace PensionModule.Controllers
                     string filename = Request.Files["file"].FileName;
                     if (extension != "")
                     {
-                        string path1 = string.Format("{0}/{1}", Server.MapPath("~/AnnuityData"), Request.Files["file"].FileName);
+                        string path1 = string.Format("{0}/{1}", Server.MapPath("~/DataFiles/AnnuityData/"), Request.Files["file"].FileName);
                         if (System.IO.File.Exists(path1))
                             System.IO.File.Delete(path1);
 
                         Request.Files["file"].SaveAs(path1);
                         //string sqlConnectionString = @"Data Source=KP;Database=VPDPension;Trusted_Connection=true;Persist Security Info=True";
-                        //string sqlConnectionString = @"data source=TESTSERVERVPD;initial catalog=VPDPension;user id=sa;password=newtech009;MultipleActiveResultSets=True;App=EntityFramework";
-                        string sqlConnectionString = @"data source=46.105.241.192,1533;initial catalog=VPDPENSION;user id=pension;password=Newtech@009;MultipleActiveResultSets=True;App=EntityFramework";
+                        string sqlConnectionString = @"data source=TESTSERVERVPD;initial catalog=VPDPension;user id=sa;password=newtech009;MultipleActiveResultSets=True;App=EntityFramework";
+                        //string sqlConnectionString = @"data source=46.105.241.192,1533;initial catalog=VPDPENSION;user id=pension;password=Newtech@009;MultipleActiveResultSets=True;App=EntityFramework";
                         //string sqlConnectionString = @"data source=208.91.198.59;initial catalog=techflow;user id=techflow;password=Newtech@009;MultipleActiveResultSets=True;App=EntityFramework";
                         //string sqlConnectionString = @"data source=mydbinstance.c0cgp66jg3yv.ap-southeast-2.rds.amazonaws.com;initial catalog=techflow_online;user id=techflowdbun;password=TFpassw0rd16;MultipleActiveResultSets=True;App=EntityFramework";
                         //Create connection string to Excel work book

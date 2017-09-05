@@ -366,7 +366,14 @@ namespace Pension.Services
                 objcomp.SAContriMethod = model.SAContriMethod;
                 if (penmodel.Pension_Limit != null && penmodel.EmployeementType != null && penmodel.GradeID != null && penmodel.EffDate != null)
                 {
-                    penlimit = DbContext.PensionLimits.SingleOrDefault(m => m.CmyID == Id);
+                    if (model.PenId != 0)
+                    {
+                        penlimit = DbContext.PensionLimits.SingleOrDefault(m => m.Id == model.PenId);
+                    }
+                    else
+                    {
+                        penlimit = DbContext.PensionLimits.SingleOrDefault(m => m.CmyID == Id && m.EmployeementType == penmodel.EmployeementType && m.GradeID == penmodel.GradeID);
+                    }
                     if (penlimit == null)
                     {
                         penlimit = new PensionLimit();
@@ -389,7 +396,14 @@ namespace Pension.Services
                 }
                 if (mergemodel.EffDate != null && mergemodel.MCmyID != null)
                 {
-                    Mergecomp = DbContext.MergingCompanies.SingleOrDefault(m => m.CmyID == Id);
+                    if (model.MerId != 0)
+                    {
+                        Mergecomp = DbContext.MergingCompanies.SingleOrDefault(m => m.Id == model.MerId);
+                    }
+                    else
+                    {
+                        Mergecomp = DbContext.MergingCompanies.SingleOrDefault(m => m.CmyID == Id && m.MCmyID == mergemodel.MCmyID);
+                    }
                     if (Mergecomp == null)
                     {
                         Mergecomp = new MergingCompany();
@@ -406,16 +420,20 @@ namespace Pension.Services
                         DbContext.SaveChanges();
                     }
                 }
-                if (model.LiveEmpInt != 0 && model.LeftEmpInt != 0)
+                if (model.LiveEmpInt != null)
                 {
-                    if (Said != null)
+                    if (Said != 0)
                     {
                         saint = DbContext.SAInterests.Where(m => m.ID == Said).FirstOrDefault();
+                    }
+                    else
+                    {
+                        saint = DbContext.SAInterests.Where(m => m.LiveEffYear == model.LiveEffYear && m.CompID == Id).FirstOrDefault();
+                    }
+                    if (saint != null)
+                    {
                         saint.LiveEmpInt = samodel.LiveEmpInt;
-                        saint.LiveEffYear = samodel.LiveEffYear;
-                        saint.LeftEmpInt = samodel.LeftEmpInt;
-                        saint.LeftEffYear = samodel.LeftEffYear;
-                        DbContext.SaveChanges();
+                        //saint.LiveEffYear = samodel.LiveEffYear;
                     }
                     else
                     {
@@ -423,10 +441,33 @@ namespace Pension.Services
                         saint.CompID = Id;
                         saint.LiveEmpInt = samodel.LiveEmpInt;
                         saint.LiveEffYear = samodel.LiveEffYear;
+                        saint.LeftEffYear = samodel.LeftEffYear;
+                        DbContext.SAInterests.Add(saint);
+                    }
+                }
+                if (model.LeftEmpInt != null)
+                {
+                    if (Said != 0)
+                    {
+                        saint = DbContext.SAInterests.Where(m => m.ID == Said).FirstOrDefault();
+                    }
+                    else
+                    {
+                        saint = DbContext.SAInterests.Where(m => m.LeftEffYear == model.LeftEffYear && m.CompID == Id).FirstOrDefault();
+                    }
+                    if (saint != null)
+                    {
+                        saint.LeftEmpInt = samodel.LeftEmpInt;
+                        //saint.LeftEffYear = samodel.LeftEffYear;
+                    }
+                    else
+                    {
+                        saint = new SAInterest();
+                        saint.CompID = Id;
+                        saint.LiveEffYear = samodel.LiveEffYear;
                         saint.LeftEmpInt = samodel.LeftEmpInt;
                         saint.LeftEffYear = samodel.LeftEffYear;
                         DbContext.SAInterests.Add(saint);
-                        DbContext.SaveChanges();
                     }
                 }
                 return DbContext.SaveChanges();

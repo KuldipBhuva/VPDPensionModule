@@ -10,10 +10,10 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
     <link href="~/UI/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/assets/css/font-awesome.min.css">
     <!-- Ionicons -->
     <link href="~/assets/css/animate.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="~/assets/css/ionicons.min.css">
     <!-- Theme style -->
  
     <!-- iCheck -->
@@ -62,17 +62,17 @@
         </div>
     </div>
     <div style="background-color:#2B76A2;height:30px;color:white;padding-top: 5px;bottom: 1px;position: fixed;width: 100%;"><center>&copy; @DateTime.Now.Year Powered By : <a target="_blank" style="color:rgba(131, 228, 234, 0.96);" href="http://n-techsolution.com/">N-Tech Solution</a> | Version : 1.0</center></div>
-    <script src="../plugins/jQuery/jQuery-2.1.4.min.js"></script>
-    <script src="../Content/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    <script src="~/Content/bootstrap/js/bootstrap.min.js"></script>
     <!-- Bootstrap 3.3.5 -->
 
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
-     <script src="Scripts/jquery-1.7.1.min.js"></script>
-    <script src="Scripts/jquery.validate.min.js"></script>
-    <script src="assets/js/CustomValidation.js"></script>
-    <link href="assets/css/CommonCSS.css" rel="stylesheet" />
+     <script src="~/Scripts/jquery-1.7.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/assets/js/CustomValidation.js"></script>
+    <link href="~/assets/css/CommonCSS.css" rel="stylesheet" />
     @RenderSection("scripts", required: false)
 </body>
 </html>

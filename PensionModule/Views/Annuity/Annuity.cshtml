@@ -151,20 +151,17 @@
     }
 
 </script>
-
 <script>
 
     $(document).ready(function () {
         debugger;
         var rid = '@Request.RequestContext.HttpContext.Session["RID"]';
 
-        if (rid == 3) {
-            
-            $("#btnAdd").hide();
-        }
-        else {
-            
-            $("#btnAdd").show();
-        }
-    });
-</script>
+         if (rid == 3) {
+             $(".panel-body :input").attr("disabled", true);
+         }
+         else {
+             $('.panel-body :input').removeAttr('disabled');
+         }
+     });
+ </script>

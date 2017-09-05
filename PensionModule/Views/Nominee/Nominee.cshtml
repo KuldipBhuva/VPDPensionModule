@@ -38,6 +38,8 @@
                      new SelectListItem() { Text = "Father", Value = "Father" }, 
                      new SelectListItem() { Text = "Mother", Value = "Mother" },
                      new SelectListItem() { Text = "Son", Value = "Son" },
+                     new SelectListItem() { Text = "Wife", Value = "Wife" },
+                     new SelectListItem() { Text = "Husband", Value = "Husband" },
                      new SelectListItem() { Text = "Dauther", Value = "Dauther" }},
                      new { @class = "form-control" })
                 </div>
@@ -139,7 +141,7 @@
                     Account No
                 </div>
                 <div class="col-sm-4">
-                    @Html.TextBoxFor(m => m.AccountNo, new { @class = "form-control"})
+                    @Html.TextBoxFor(m => m.AccountNo, new { @class = "form-control" })
                 </div>
                 <div class="col-sm-2">
                     IFSC Code
@@ -171,7 +173,7 @@
             <div class="panel-body">
                 <div class="table-responsive" id="Grid">
 
-                    <table class="table" id="tbl">
+                    <table class="table" id="tblno">
                         <thead>
                             <tr>
                                 @*<th>Company Name</th>*@
@@ -231,20 +233,7 @@
     </div>
 
 }
-<script>
 
-    $(document).ready(function () {
-        debugger;
-        var rid = '@Request.RequestContext.HttpContext.Session["RID"]';
-
-        if (rid == 3) {
-            $(".panel-body :input").attr("disabled", true);
-        }
-        else {
-            $('.panel-body :input').removeAttr('disabled');
-        }
-    });
-</script>
 <script src="~/assets/js/jquery-1.10.2.js"></script>
 <script src="~/assets/js/jquery.min.js"></script>
 <script src="~/Scripts/jquery.validate.js"></script>
@@ -279,8 +268,8 @@
     });
 </script>
 <script>
-    $(function () { 
-        $('.datepicker').datepicker(); 
+    $(function () {
+        $('.datepicker').datepicker();
 
     });
     function Validation() {
@@ -338,18 +327,15 @@
                 $('#AccountNo').val(data.AccountNo);
                 $('#IFSC').val(data.IFSC);
 
-            
 
-   
-     
-        var rid = '@Request.RequestContext.HttpContext.Session["RID"]';
+                var rid = '@Request.RequestContext.HttpContext.Session["RID"]';
 
-        if (rid == 3) {
-            $(".panel-body").attr("disabled", true);
-        }
-        else {
-            $('#accordion :input').removeAttr('disabled');
-        }
+                if (rid == 3) {
+                    $(".panel-body").attr("disabled", true);
+                }
+                else {
+                    $('#accordion :input').removeAttr('disabled');
+                }
 
 
             },
@@ -382,3 +368,17 @@
     //    $('#IFSC').val('');
     //}
 </script>
+<script>
+
+    $(document).ready(function () {
+        debugger;
+        var rid = '@Request.RequestContext.HttpContext.Session["RID"]';
+
+         if (rid == 3) {
+             $(".panel-body :input").attr("disabled", true);
+         }
+         else {
+             $('.panel-body :input').removeAttr('disabled');
+         }
+     });
+ </script>

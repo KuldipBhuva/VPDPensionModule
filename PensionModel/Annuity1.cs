@@ -12,7 +12,7 @@ namespace PensionModel
     using System;
     using System.Collections.Generic;
     
-    public partial class Annuity
+    public partial class Annuity1
     {
         public long Id { get; set; }
         public Nullable<int> Age { get; set; }

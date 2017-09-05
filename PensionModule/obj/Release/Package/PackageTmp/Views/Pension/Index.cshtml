@@ -1,6 +1,7 @@
 ﻿@{
     ViewBag.Title = "Pension Master";
     ViewBag.PageTitle = "Pension Master";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @using PensionModel.ViewModel
 @model PensionModel.ViewModel.PensionMasterModel
@@ -42,10 +43,7 @@
             <fieldset class="scheduler-border">
                 <legend class="scheduler-border">Upload Data Sheet</legend>
                 <div class="alert alert-danger">
-                    <strong>Note : </strong>
-                    <p>1. Excel sheet colunm structure must be as sample sheet.&nbsp;<a target="_blank" href="/DataFiles/Pension_Sample_Sheet.xlsx"><i class="fa fa-file-excel-o" aria-hidden="true"></i>&nbsp;Download Sample Sheet</a></p>
-                    <p>2. Upload single sheet excel file. Sheet name must be 'Sheet1', remember this is sheet name not a file name.</p>
-                    <p>3. In Sheet first colunm 'PUID' and ninth colunm 'Over/Under(kW)' keep blank.</p>
+                     <p><strong>Note : </strong> Upload single sheet excel file. Sheet name must be 'Sheet1', remember this is sheet name not a file name.</p>
                 </div>
                 @*<form method="post" action="/PowerUsage/addFile">*@
                 @*@using (Html.BeginForm("uploadFile", "Pension", FormMethod.Post, new { enctype = "multipart/form-data" }))

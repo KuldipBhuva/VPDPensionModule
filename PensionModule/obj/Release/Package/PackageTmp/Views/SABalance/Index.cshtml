@@ -1,0 +1,166 @@
+﻿@{
+    ViewBag.Title = "SA Opening Balance Master";
+    ViewBag.PageTitle = "SA Opening Balance Master";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using PensionModel.ViewModel
+@model PensionModel.ViewModel.SAEmpDetailsModel
+@using (Html.BeginForm("Index", "SABalance", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+     
+    <section class="content-header">
+        <h1>SA Opening Balance<small>Master</small>
+        </h1>
+
+    </section>
+     
+    <div class="panel panel-info" id="dvAdd">
+        <div class="panel-heading">
+            SA Opening Balance Details 
+             <input type="button" id="btnBack" value="Back" class="btnAdd btn btn-primary" />
+        </div>
+        <div class="panel-body">
+            <div class="col-sm-12">
+                @Html.Label("* Year", new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-4">
+
+                    @Html.DropDownListFor(m => m.Year, new List<SelectListItem>() { new SelectListItem() { Text = "--Select Year--", Value = "" }, new SelectListItem() { Text = "2013-2014", Value = "2013-2014" }, new SelectListItem() { Text = "2014-2015", Value = "2014-2015" }, new SelectListItem() { Text = "2015-2016", Value = "2015-2016" }, new SelectListItem() { Text = "2016-2017", Value = "2016-2017" }, new SelectListItem() { Text = "2017-2018", Value = "2017-2018" }, new SelectListItem() { Text = "2018-2019", Value = "2018-2019" }, new SelectListItem() { Text = "2019-2020", Value = "2019-2020" }, new SelectListItem() { Text = "2020-2021", Value = "2020-2021" } }, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Year)
+                </div>
+
+            </div>
+            <fieldset class="scheduler-border">
+                <legend class="scheduler-border">Upload Data Sheet</legend>
+                <div class="alert alert-danger">
+                    <strong>Note : </strong>
+                    <p>1. Excel sheet colunm structure must be as sample sheet.&nbsp;<a target="_blank" href="/DataFiles/Sample_Sheets/SA_op_Bal_Sample.xlsx"><i class="fa fa-file-excel-o" aria-hidden="true"></i>&nbsp;Download Sample Sheet</a></p>
+                    <p>2. Upload single sheet excel file. Sheet name must be 'Sheet1', remember this is sheet name not a file name.</p>
+                    <p>3. First column 'ID' keep blank.</p>
+                </div>
+                @*<form method="post" action="/PowerUsage/addFile">*@
+                @*@using (Html.BeginForm("uploadFile", "Pension", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                 {*@
+                @Html.Label("Select Excel File", new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    @*<input type="file" id="file" name="files" multiple="multiple" value="" class="btn btn-info" />*@
+                    <input type="file" value="" id="fle" name="file" class="btn btn-info" />
+                    @Html.CheckBoxFor(m => m.OverWrite) Overwrite?
+                </div>
+
+                @*}*@
+            </fieldset>
+            <div class="col-sm-3">
+                <input type="Submit" value="Save" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+    <!-- Advanced Tables -->
+    <div class="panel panel-info" id="dvGrid">
+        <div class="panel-heading">
+            SA Opening Balance Data 
+             <input type="button" id="btnAdd" value="Add New" class="btnAdd btn btn-primary" />
+        </div>
+
+
+        <div class="panel-body">
+
+            <div class="col-sm-12">
+                <fieldset class="scheduler-border">
+                    <legend class="scheduler-border">Filter</legend>
+                    @Html.Label("* Year", new { @class = "col-sm-2 control-label" })
+
+                    <div class="col-sm-4">
+                        <div class="input-group">
+                            @Html.DropDownListFor(m => m.Year, new List<SelectListItem>() { new SelectListItem() { Text = "--Select Year--", Value = "" }, new SelectListItem() { Text = "2013-2014", Value = "2013-2014" }, new SelectListItem() { Text = "2014-2015", Value = "2014-2015" }, new SelectListItem() { Text = "2015-2016", Value = "2015-2016" }, new SelectListItem() { Text = "2016-2017", Value = "2016-2017" }, new SelectListItem() { Text = "2017-2018", Value = "2017-2018" }, new SelectListItem() { Text = "2018-2019", Value = "2018-2019" }, new SelectListItem() { Text = "2019-2020", Value = "2019-2020" }, new SelectListItem() { Text = "2020-2021", Value = "2020-2021" } }, new { @class = "form-control", @id = "drpYear" })
+                            @Html.ValidationMessageFor(m => m.Year)
+                            <span class="input-group-btn">
+                                <button class="btn btn-success" id="btnView" type="button">View</button>
+                            </span>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="col-sm-12" style="height: 10px;"></div>
+            <fieldset class="scheduler-border">
+                <legend class="scheduler-border">SA Contribution Data</legend>
+                @if (Model != null)
+                {
+                    <div class="col-sm-12" id="dvData">@Html.Partial("_SABalData", Model.ListSA)</div>
+                }
+            </fieldset>
+        </div>
+
+    </div>
+                if (ViewBag.Message != null)
+                {
+    <!-- Modal -->
+    <div id="myModal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Alert!!</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+
+                        
+                        @Html.Raw(@ViewBag.Message)
+                        
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+                }
+}
+<script type="text/javascript">
+
+    $(window).on('load', function () {
+
+        $('#myModal').modal('show');
+
+    });
+
+</script>
+<script lang="javascript" type="text/javascript">
+    $('#btnAdd').click(function () {
+        $('#drpYear').val('');
+    });
+    $(document).ready(function () {
+
+        //$("#btnSave").click(function () {
+        $('#btnView').click(function () {
+            $("#divLoading").show();
+            debugger;
+
+            var mm = $('#drpMonth').val();
+            var yr = $('#drpYear').val();
+
+            if (mm == "") {
+                mm = 0;
+            }
+            $.ajax(
+            {
+                url: '@Url.Action("getData", "SABalance")',
+                type: "GET",
+                datatype: "JSON",
+                data: { year: yr },
+
+                success: function (gr) {
+                    debugger;
+                    $("#dvData").html("");  // clear before appending new list 
+                    $("#dvData").append(gr);
+                    $("#divLoading").hide();
+                }
+            });
+        });
+    });
+</script>

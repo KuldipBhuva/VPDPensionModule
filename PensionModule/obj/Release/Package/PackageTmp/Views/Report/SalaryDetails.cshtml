@@ -1,5 +1,4 @@
 ﻿@model List<Dictionary<string, object>>
-@*@using PensionModel.ViewModel.ReportViewModel*@
 @using PensionModel
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -24,6 +23,7 @@
                 <label><strong>Last 12 Months Salary Details</strong></label>
             </div>
             @{
+                
             var id = Convert.ToInt32(Session["Emp"]);
             var lst = DbContext.EmployeeMasters.Where(k => k.EmpId == id).SingleOrDefault();
                 
@@ -52,10 +52,13 @@
                 </div>*@
         <div class="panel-body">
             <div class="table-responsive">
-                <div style="text-align: right; font-size: 15px; margin: 0px 11px;">
-                    <a href="~/Report/Illustration">Illustration</a>
-                </div>
-                @if (Model.Count > 0)
+                @if (lst.LicId != null && lst.PentionTypeID != null)
+                {
+                    <div style="text-align: right; font-size: 15px; margin: 0px 11px;">
+                        <a href="~/Report/Illustration">Illustration</a>
+                    </div>
+                }
+                @if (Model.Count > 4)
                 {
                     <table class="table" style="width: 60%;" id="tbl1">
                         <thead>
@@ -64,14 +67,6 @@
                                 {              
                                     <th>@row.Key</th>
                                 }
-                                @*<th>Months</th>
-                                        <th>Basic</th>
-                                        <th>HRA</th>
-                                        <th>DA</th>
-                                        <th>EA</th>
-                                        <th>Conveyance</th>
-                                        <th>Overtime</th>
-                                        <th>Medical</th>*@
                             </tr>
                         </thead>
                         <tbody>
@@ -93,70 +88,16 @@
                                         }
                                         else if (no == 1)
                                         {
-                                            sum += Convert.ToDecimal(column.Value);
+                                            string s = Convert.ToString(column.Value);
+                                            if (s != "")
+                                            {
+                                                sum += Convert.ToDecimal(column.Value);
+                                            }
                                         }
-                                    }                                    
+                                    }
                                 </tr>
                             }
-                            @*@foreach (var item in Model.lstSalary)
-                                    {
-                                        <tr>
-                                            <td>@item.SalaryMonth</td>
-                                            <td class="BasicTotal">@item.Basic</td>
-                                            <td class="HRATotal">@item.HRA</td>
-                                            <td class="DATotal">@item.DA</td>
-                                            <td class="EATotal">@item.EA</td>
-                                            <td class="ConTotal">@item.Conveyance</td>
-                                            <td class="OverTotal">@item.Overtime</td>
-                                            <td class="MedTotal">@item.Medical</td>
-                                        </tr>
-                                    }*@
                         </tbody>
-                        <tfoot>
-                            @*<tr>
-                                <td colspan="8"></td>
-                            </tr>
-                            <tr>
-                                <td>12 MTH TOT</td>
-                                <td>240000</td>
-                                <td>12000</td>
-                                <td>0</td>
-                                <td>0</td>
-                                <td>6000</td>
-                                <td>2400</td>
-                                <td>1200</td>
-                            </tr>
-                            <tr>
-                                <td>10 MTH TOT</td>
-                                <td>200000</td>
-                                <td>10000</td>
-                                <td>0</td>
-                                <td>0</td>
-                                <td>5000</td>
-                                <td>2000</td>
-                                <td>1000</td>
-                            </tr>
-                            <tr>
-                                <td>12 MTH AVG</td>
-                                <td>20000</td>
-                                <td>1000</td>
-                                <td>0</td>
-                                <td>0</td>
-                                <td>500</td>
-                                <td>200</td>
-                                <td>100</td>
-                            </tr>
-                            <tr>
-                                <td>10 MTH AVG</td>
-                                <td>20000</td>
-                                <td>1000</td>
-                                <td>0</td>
-                                <td>0</td>
-                                <td>500</td>
-                                <td>200</td>
-                                <td>100</td>
-                            </tr>
-                        </tfoot>*@
                     </table>
                 }
 
@@ -197,7 +138,7 @@
                             @Html.DisplayFor(m => lst.EmpName)
                             <br />
                             <label>Branch :</label>
-                            @Html.DisplayFor(m => lst.EmpName, new { @style = "text-align:right;" })
+                            @*@Html.DisplayFor(m => lst.EmpName, new { @style = "text-align:right;" })*@
                             <br />
                             @if (lst.Merged == 0 || lst.Merged == null)
                             {
@@ -208,6 +149,7 @@
                             else
                             {
                                 <label>DOJ :</label>
+                                doj = lst.DOJ.HasValue ? lst.DOJ.Value.ToString("dd/MM/yyyy") : "-";
                                 @Html.DisplayFor(m => doj, new { @style = "text-align:right;" })
                                 <br />
                                 <label>Merge DOJ :</label>
@@ -237,6 +179,7 @@
                             else
                             {
                                 <label>DOL :</label>
+                                dol = lst.RetireDate.HasValue ? lst.RetireDate.Value.ToString("dd/MM/yyyy") : "-";
                                 @Html.DisplayFor(m => dol, new { @style = "text-align:right;" })
                                 <br />
                                 <label>Merge DOL :</label>
@@ -251,6 +194,7 @@
                         <div class="col-sm-5">
                             <label class="col-sm-5">Total Service :</label>
                             @{
+                    Nullable<decimal> famt = 0;
                     if (lst.Merged == 0 || lst.Merged == null)
                     {
                         if (lst.RetireDate.Value.Month > lst.DOJ.Value.Month)
@@ -289,6 +233,7 @@
                             Myear += 1;
                             Mmonth = 0;
                         }
+                        famt = lst.FrozenAmt;
                     }                                
                             }
                             <div class="col-sm-3">
@@ -324,20 +269,28 @@
                         <label class="col-sm-5">Cause of Exit :</label>
                         <div class="col-sm-3">
                             @{
+                    var finalpen = 0;
+                    decimal? Limit = 0;
                     var lst1 = DbContext.RetirementType_Master.Where(k => k.id == lst.RetireTypeId).SingleOrDefault();
                     var AVG = Convert.ToInt32(sum);
                     var pension = (2 * (AVG * year) / 100);
                     var list = DbContext.GradeChanges.Where(k => k.Compnay_id == lst.CompId && k.EmpNo == lst.EmpId).OrderByDescending(k => k.EffDate).FirstOrDefault();
-                    var lst2 = DbContext.PensionLimits.Where(k => k.CmyID == lst.CompId && k.GradeID == list.GradeChangeTo && k.EmployeementType == lst.EmployeementType).SingleOrDefault();
-                    var Limit = lst2.Pension_Limit;
-                    var finalpen = 0;
-                    if (pension < Limit)
+                    if (list != null)
                     {
-                        finalpen = pension;
-                    }
-                    else
-                    {
-                        finalpen = Convert.ToInt32(Limit);
+                        var lst2 = DbContext.PensionLimits.Where(k => k.CmyID == lst.CompId && k.GradeID == list.GradeChangeTo && k.EmployeementType == lst.EmployeementType).SingleOrDefault();
+                        if (lst2 != null)
+                        {
+                            Limit = lst2.Pension_Limit;
+                        }
+                        if (pension > Limit)
+                        {
+                            finalpen = pension;
+                        }
+                        else
+                        {
+                            finalpen = Convert.ToInt32(Limit);
+                        }
+                        Session["Pension"] = finalpen;
                     }
                             }
                             @Html.DisplayFor(m => lst1.RetirementType)
@@ -427,70 +380,81 @@
                         double one3 = 0, two3 = 0, tax = 0, NetAmt = 0;
                         string one3text = "", two3text = "";
                         //Nullable<decimal> TotalCapitalAmt = 0;
-                        var policy = DbContext.Annuities.Where(m => m.Age == age && m.PlanID == lst.PentionTypeID).OrderByDescending(m => m.EffDate).SingleOrDefault();
-
-                        if (lst.AnnuityMode == "1")
+                        var policy = DbContext.Annuity1.Where(m => m.Age == age && m.PlanID == lst.PentionTypeID).OrderByDescending(m => m.EffDate).FirstOrDefault();
+                        if (policy != null)
                         {
-                            mode = policy.Yly;
-                        }
-                        else if (lst.AnnuityMode == "2")
-                        {
-                            mode = policy.Hly;
-                        }
-                        else if (lst.AnnuityMode == "3")
-                        {
-                            mode = policy.Qly;
-                        }
-                        else if (lst.AnnuityMode == "4")
-                        {
-                            mode = policy.Mly;
-                        }
-                        mode1 = ((mode / 1000) / 12);
-                        capital = Convert.ToInt32(Limit / mode1);
-
-                        var lstin = DbContext.Incentives.Where(m => m.To > capital && m.From < capital).SingleOrDefault();
-                        if (lst.AnnuityMode == "1")
-                        {
-                            Insentive = lstin.Yly;
-                        }
-                        else if (lst.AnnuityMode == "2")
-                        {
-                            Insentive = lstin.Hly;
-                        }
-                        else if (lst.AnnuityMode == "3")
-                        {
-                            Insentive = lstin.Qly;
-                        }
-                        else if (lst.AnnuityMode == "4")
-                        {
-                            Insentive = lstin.Mly;
-                        }
-                        LIC = Convert.ToDecimal(mode + Insentive);
-                        LIC = LIC / 1000 / 12;
-                        string val = Convert.ToString(LIC);
-                        var TotalCapitalAmt = Convert.ToInt32(Limit / LIC);
-                        if (lst.Benefits == 1)
-                        {
-                            one3 = Convert.ToInt32(Limit / LIC / 3);
-                            two3 = Convert.ToInt32(((Limit / LIC) * 2) / 3);
-                            one3text = "1/3rd Commutation";
-                            two3text = "2/3rd Annuity Purchase";
-                            tax = one3 * 0.03625;
-                            NetAmt = Convert.ToInt32(one3 - tax);
-                        }
-                        else if (lst.Benefits == 2)
-                        {
-                            one3 = Convert.ToInt32((Limit / LIC) / 2);
-                            two3 = Convert.ToInt32((Limit / LIC) / 2);
-                            one3text = "1/2 Commutation";
-                            two3text = "1/2 Annuity Purchase";
-                            tax = one3 * 0.03625;
-                            NetAmt = Convert.ToInt32(one3 - tax);
-                        }
-                        else
-                        {
-                            tax = TotalCapitalAmt * 0.03625;
-                            NetAmt = Convert.ToInt32(TotalCapitalAmt - tax);
+                            if (lst.AnnuityMode == "1")
+                            {
+                                mode = policy.Yly;
+                            }
+                            else if (lst.AnnuityMode == "2")
+                            {
+                                mode = policy.Hly;
+                            }
+                            else if (lst.AnnuityMode == "3")
+                            {
+                                mode = policy.Qly;
+                            }
+                            else if (lst.AnnuityMode == "4")
+                            {
+                                mode = policy.Mly;
+                            }
+                            mode1 = ((mode / 1000) / 12);
+                            if (Limit == 0)
+                            {
+                                capital = Convert.ToInt32(finalpen / mode1);
+                            }
+                            else
+                            {
+                                capital = Convert.ToInt32(Limit / mode1);
+                            }
+                            var lstin = DbContext.Incentives.Where(m => m.To > capital && m.From < capital).FirstOrDefault();
+                            if (lst.AnnuityMode == "1")
+                            {
+                                Insentive = lstin.Yly;
+                            }
+                            else if (lst.AnnuityMode == "2")
+                            {
+                                Insentive = lstin.Hly;
+                            }
+                            else if (lst.AnnuityMode == "3")
+                            {
+                                Insentive = lstin.Qly;
+                            }
+                            else if (lst.AnnuityMode == "4")
+                            {
+                                Insentive = lstin.Mly;
+                            }
+                            LIC = Convert.ToDecimal(mode + Insentive);
+                            LIC = LIC / 1000 / 12;
+                            string val = Convert.ToString(LIC);
+                            var TotalCapitalAmt = Convert.ToInt32(finalpen / LIC);
+                            if (lst.Benefits == 1)
+                            {
+                                one3 = Convert.ToInt32(finalpen / LIC / 3);
+                                two3 = Convert.ToInt32(((finalpen / LIC) * 2) / 3);
+                                one3text = "1/3rd Commutation";
+                                two3text = "2/3rd Annuity Purchase";
+                                tax = one3 * 0.3090;
+                                NetAmt = Convert.ToInt32(one3 - tax);
+                                NetAmt += (Convert.ToDouble(famt));
+                            }
+                            else if (lst.Benefits == 2)
+                            {
+                                one3 = Convert.ToInt32((finalpen / LIC) / 2);
+                                two3 = Convert.ToInt32((finalpen / LIC) / 2);
+                                one3text = "1/2 Commutation";
+                                two3text = "1/2 Annuity Purchase";
+                                tax = one3 * 0.3090;
+                                NetAmt = Convert.ToInt32(one3 - tax);
+                                NetAmt += (Convert.ToDouble(famt));
+                            }
+                            else
+                            {
+                                tax = TotalCapitalAmt * 0.3090;
+                                NetAmt = Convert.ToInt32(TotalCapitalAmt - tax);
+                                NetAmt += (Convert.ToDouble(famt));
+                            }
                         }
                     }
                 </div>
@@ -511,17 +475,26 @@
                     <div class="col-sm-7"></div>
                 </div>
                 <div class="col-sm-12" style="text-align: left; font-size: 13px; font-family: -webkit-pictograph;">
-                    <label class="col-sm-3">GST (%)</label>
+                    <label class="col-sm-3">TDS (%)</label>
                     <label class="col-sm-1" style="text-align: right;"><strong></strong></label>
-                    <label class="col-sm-2"><strong>3.625%</strong></label>
+                    <label class="col-sm-2"><strong>30.90%</strong></label>
                     <div class="col-sm-7"></div>
                 </div>
                 <div class="col-sm-12" style="text-align: left; font-size: 13px; font-family: -webkit-pictograph;">
-                    <label class="col-sm-3">GST Amount</label>
+                    <label class="col-sm-3">TDS Rate</label>
                     <label class="col-sm-1" style="text-align: right;"><strong>Rs.</strong></label>
                     <label class="col-sm-2"><strong>@Html.DisplayFor(m => tax, new { @class = "col-sm-2" })</strong></label>
                     <div class="col-sm-7"></div>
                 </div>
+                        if (lst.Merged != 0 && lst.Merged != null && lst.FrozenAmt != null)
+                        {
+                <div class="col-sm-12" style="text-align: left; font-size: 13px; font-family: -webkit-pictograph;">
+                    <label class="col-sm-3">Frozen Amount</label>
+                    <label class="col-sm-1" style="text-align: right;"><strong>Rs.</strong></label>
+                    <label class="col-sm-2"><strong>@Html.DisplayFor(m => famt, new { @class = "col-sm-2" })</strong></label>
+                    <div class="col-sm-7"></div>
+                </div>
+                        }
                 <div class="col-sm-12" style="height: 35px; text-align: left; font-size: 13px; font-family: -webkit-pictograph;">
                     <label class="col-sm-3">Net Amount</label>
                     <label class="col-sm-1" style="text-align: right;"><strong>Rs.</strong></label>

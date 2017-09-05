@@ -1,0 +1,187 @@
+﻿@{
+     ViewBag.Title = "SA Contribution Master";
+     ViewBag.PageTitle = "SA Contribution Master";
+     
+ }
+
+ @using PensionModel.ViewModel
+ @model PensionModel.ViewModel.SAContributionModel
+ @using (Html.BeginForm("Index", "SAContribution", FormMethod.Post, new { enctype = "multipart/form-data" }))
+ {
+     <section class="content-header">
+         <h1>SA Contribution<small>Master</small>
+         </h1>
+ 
+     </section>
+     
+     <div class="panel panel-info" id="dvAdd">
+         <div class="panel-heading">
+             SA Contribution Details 
+             <input type="button" id="btnBack" value="Back" class="btnAdd btn btn-primary" />
+         </div>
+         <div class="panel-body">
+             <div class="col-sm-12">
+                 @Html.Label("* Year", new { @class = "col-sm-2 control-label" })
+                 <div class="col-sm-4">
+ 
+                     @Html.DropDownListFor(m => m.Year, new List<SelectListItem>() { new SelectListItem() { Text = "--Select Year--", Value = "" }, new SelectListItem() { Text = "2013", Value = "2013" }, new SelectListItem() { Text = "2014", Value = "2014" }, new SelectListItem() { Text = "2015", Value = "2015" }, new SelectListItem() { Text = "2016", Value = "2016" }, new SelectListItem() { Text = "2017", Value = "2017" }, new SelectListItem() { Text = "2018", Value = "2018" }, new SelectListItem() { Text = "2019", Value = "2019" }, new SelectListItem() { Text = "2020", Value = "2020" } }, new { @class = "form-control" })
+                     @Html.ValidationMessageFor(m => m.Year)
+                 </div>
+                 <div class="col-sm-2">
+                     @Html.Label("*Month", new { @class = "col-sm-2 control-label" })
+                 </div>
+                 <div class="col-sm-4">
+                     @*<div class="input-group">*@
+                     @* @{var mm = Model.ListPowerData[0].LastReading.Value.Month;}*@
+                     @Html.DropDownListFor(m => m.Month, new List<SelectListItem>() { new SelectListItem() { Text = "--Select Month--", Value = "" }, new SelectListItem() { Text = "January", Value = "1" }, new SelectListItem() { Text = "February", Value = "2" }, new SelectListItem() { Text = "March", Value = "3" }, new SelectListItem() { Text = "April", Value = "4" }, new SelectListItem() { Text = "May", Value = "5" }, new SelectListItem() { Text = "June", Value = "6" }, new SelectListItem() { Text = "July", Value = "7" }, new SelectListItem() { Text = "August", Value = "8" }, new SelectListItem() { Text = "September", Value = "9" }, new SelectListItem() { Text = "October", Value = "10" }, new SelectListItem() { Text = "November", Value = "11" }, new SelectListItem() { Text = "December", Value = "12" } }, new { @class = "form-control" })
+                     @Html.ValidationMessageFor(m => m.Month)
+                     @*  <span class="input-group-btn">
+                                     <button class="btn btn-danger" onclick="return confirm('Do you really want to delete?')" id="btnDel" type="submit">Delete!</button>
+                                 </span>
+                             </div>*@
+                 </div>
+             </div>
+             <fieldset class="scheduler-border">
+                 <legend class="scheduler-border">Upload Data Sheet</legend>
+                 <div class="alert alert-danger">
+                     <strong>Note : </strong>
+                     <p>1. Excel sheet colunm structure must be as sample sheet.&nbsp;<a target="_blank" href="/DataFiles/Sample_Sheets/sa_cont_sample.xlsx"><i class="fa fa-file-excel-o" aria-hidden="true"></i>&nbsp;Download Sample Sheet</a></p>
+                     <p>2. Upload single sheet excel file. Sheet name must be 'Sheet1', remember this is sheet name not a file name.</p>
+                     <p>3. First column 'SAID' keep blank.</p>
+                 </div>
+                 @*<form method="post" action="/PowerUsage/addFile">*@
+                 @*@using (Html.BeginForm("uploadFile", "Pension", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                 {*@
+                 @Html.Label("Select Excel File", new { @class = "col-sm-2 control-label" })
+                 <div class="col-sm-10">
+                     @*<input type="file" id="file" name="files" multiple="multiple" value="" class="btn btn-info" />*@
+                     <input type="file" value="" id="fle" name="file" class="btn btn-info" />
+                     @Html.CheckBoxFor(m=>m.OverWrite) Overwrite?
+                 </div>
+ 
+                 @*}*@
+             </fieldset>
+             <div class="col-sm-3">
+                 <input type="Submit" value="Save" class="btn btn-primary" />
+             </div>
+         </div>
+     </div>
+     <!-- Advanced Tables -->
+     <div class="panel panel-info" id="dvGrid">
+         <div class="panel-heading">
+             SA Contribution Data 
+             <input type="button" id="btnAdd" value="Add New" class="btnAdd btn btn-primary" />
+         </div>
+ 
+        
+             <div class="panel-body">
+ 
+                 <div class="col-sm-12">
+                     <fieldset class="scheduler-border">
+                 <legend class="scheduler-border">Filter</legend>
+                 @Html.Label("* Year", new { @class = "col-sm-2 control-label" })
+                 <div class="col-sm-4">
+ 
+                     @Html.DropDownListFor(m => m.Year, new List<SelectListItem>() { new SelectListItem() { Text = "--Select Year--", Value = "" }, new SelectListItem() { Text = "2013", Value = "2013" }, new SelectListItem() { Text = "2014", Value = "2014" }, new SelectListItem() { Text = "2015", Value = "2015" }, new SelectListItem() { Text = "2016", Value = "2016" }, new SelectListItem() { Text = "2017", Value = "2017" }, new SelectListItem() { Text = "2018", Value = "2018" }, new SelectListItem() { Text = "2019", Value = "2019" }, new SelectListItem() { Text = "2020", Value = "2020" } }, new { @class = "form-control",@id="drpYear"})
+                     @Html.ValidationMessageFor(m => m.Year)
+                 </div>
+                 <div class="col-sm-2">
+                     @Html.Label("*Month", new { @class = "col-sm-2 control-label" })
+                 </div>
+                 <div class="col-sm-4">
+                     <div class="input-group">
+                     @* @{var mm = Model.ListPowerData[0].LastReading.Value.Month;}*@
+                     @Html.DropDownListFor(m => m.Month, new List<SelectListItem>() { new SelectListItem() { Text = "--Select Month--", Value = "" }, new SelectListItem() { Text = "January", Value = "1" }, new SelectListItem() { Text = "February", Value = "2" }, new SelectListItem() { Text = "March", Value = "3" }, new SelectListItem() { Text = "April", Value = "4" }, new SelectListItem() { Text = "May", Value = "5" }, new SelectListItem() { Text = "June", Value = "6" }, new SelectListItem() { Text = "July", Value = "7" }, new SelectListItem() { Text = "August", Value = "8" }, new SelectListItem() { Text = "September", Value = "9" }, new SelectListItem() { Text = "October", Value = "10" }, new SelectListItem() { Text = "November", Value = "11" }, new SelectListItem() { Text = "December", Value = "12" } }, new { @class = "form-control",@id="drpMonth"})
+                     @Html.ValidationMessageFor(m => m.Month)
+                       <span class="input-group-btn">
+                                     <button class="btn btn-success" id="btnView" type="button">View</button>
+                                 </span>
+                             </div>
+                 </div>
+                         </fieldset>
+             </div>
+                 <div class="col-sm-12" style="height:10px;"></div>
+                 <fieldset class="scheduler-border">
+                 <legend class="scheduler-border">SA Contribution Data</legend>
+                     @if(Model!=null)
+                     {
+                 <div class="col-sm-12" id="dvData">@Html.Partial("_SAData",Model.ListSA)</div>
+                     }
+                     </fieldset>
+             </div>
+         
+     </div>
+     if (ViewBag.Message != null)
+                {
+    <!-- Modal -->
+    <div id="myModal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Alert!!</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+
+                        
+                        @Html.Raw(@ViewBag.Message)
+                        
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+                }
+ 
+ }
+ <script type="text/javascript">
+
+     $(window).on('load', function () {
+
+         $('#myModal').modal('show');
+
+     });
+
+</script>
+ <script lang="javascript" type="text/javascript">
+     $('#btnAdd').click(function () {
+         $('#drpMonth').val('');
+         $('#drpYear').val('');
+     });
+     $(document).ready(function () {
+ 
+         //$("#btnSave").click(function () {
+         $('#btnView').click(function () {
+             $("#divLoading").show();
+             debugger;
+             
+             var mm = $('#drpMonth').val();
+             var yr = $('#drpYear').val();
+ 
+             if (mm == "") {
+                 mm = 0;
+             }            
+             $.ajax(
+             {
+                 url: '@Url.Action("getData", "SAContribution")',
+                 type: "GET",
+                 datatype: "JSON",
+                 data: {year:yr,month:mm },
+ 
+                 success: function (gr) {
+                     debugger;
+                     $("#dvData").html("");  // clear before appending new list 
+                     $("#dvData").append(gr);
+                     $("#divLoading").hide(); 
+                 }
+             });             
+         });         
+     });
+ </script>

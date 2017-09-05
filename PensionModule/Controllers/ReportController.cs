@@ -119,25 +119,29 @@ namespace PensionModule.Controllers
                 {
                     if (Session["Emp"] != null)
                     {
-                        //using (var ctx = new VPDPensionEntities())
-                        //using (var cmd = ctx.Database.Connection.CreateCommand())
-                        //{
-                        //    int emp = Convert.ToInt32(Session["Emp"].ToString());
-                        //    int cmp = Convert.ToInt32(Session["Comp"].ToString());
-                        //    ctx.Database.Connection.Open();
-                        //    cmd.CommandType = CommandType.StoredProcedure;
-                        //    cmd.CommandText = "Get_SAData";
+                        using (var ctx = new VPDPensionEntities())
+                        using (var cmd = ctx.Database.Connection.CreateCommand())
+                        {
+                            int emp = Convert.ToInt32(Session["Emp"].ToString());
+                            int cmp = Convert.ToInt32(Session["Comp"].ToString());
+                            int preyr = 2016;
+                            int crtyr = 2017;
+                            string accyr = "2016-2017";
+                            ctx.Database.Connection.Open();
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.CommandText = "Get_SAData";
 
-                        //    //cmd.Parameters.Add(new SqlParameter("@year", SqlDbType.VarChar, 50, ParameterDirection.Input, true, 0, 0, "", DataRowVersion.Proposed, "2016-2017"));
-                        //    cmd.Parameters.Add(new SqlParameter("@empid", SqlDbType.Int, 50, ParameterDirection.Input, true, 0, 0, "", DataRowVersion.Proposed, emp));
-                        //    cmd.Parameters.Add(new SqlParameter("@compid", SqlDbType.Int, 50, ParameterDirection.Input, true, 0, 0, "", DataRowVersion.Proposed, cmp));
-                        //    using (var reader = cmd.ExecuteReader())
-                        //    {
-                        //        var model = this.lstservices.Read(reader).ToList();
-                        //        return View(model);
-                        //    }
-                        //}
-                        return View();
+                            cmd.Parameters.Add(new SqlParameter("@accyr", SqlDbType.Text, 50, ParameterDirection.Input, true, 0, 0, "", DataRowVersion.Proposed, accyr));
+                            cmd.Parameters.Add(new SqlParameter("@preyr", SqlDbType.Int, 50, ParameterDirection.Input, true, 0, 0, "", DataRowVersion.Proposed, preyr));
+                            cmd.Parameters.Add(new SqlParameter("@crtyr", SqlDbType.Int, 50, ParameterDirection.Input, true, 0, 0, "", DataRowVersion.Proposed, crtyr));
+                            cmd.Parameters.Add(new SqlParameter("@empid", SqlDbType.Int, 50, ParameterDirection.Input, true, 0, 0, "", DataRowVersion.Proposed, emp));
+                            cmd.Parameters.Add(new SqlParameter("@compid", SqlDbType.Int, 50, ParameterDirection.Input, true, 0, 0, "", DataRowVersion.Proposed, cmp));
+                            using (var reader = cmd.ExecuteReader())
+                            {
+                                var model = this.lstservices.Read(reader).ToList();
+                                return View(model);
+                            }
+                        }
                     }
                     else
                     {

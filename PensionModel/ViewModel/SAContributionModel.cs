@@ -12,6 +12,7 @@ namespace PensionModel.ViewModel
             public bool OverWrite { get; set; }
             public int SAID { get; set; }
             public string EmpNo { get; set; }
+            public string EmpName { get; set; }
             public Nullable<decimal> Basic { get; set; }
             public Nullable<decimal> CompCont { get; set; }
             public Nullable<decimal> EmpCont { get; set; }

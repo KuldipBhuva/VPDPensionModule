@@ -256,7 +256,16 @@
     });
 </script>
 <script>
+    var rid = '@Request.RequestContext.HttpContext.Session["RID"]';
 
+    if (rid == 3) {
+        $(".panel-body").attr("disabled", true);
+        $("#btnAdd").hide();
+    }
+    else {
+        $('.panel-body').removeAttr('disabled');
+        $("#btnAdd").show();
+    }
     $('#btnBack').click(function () {
 
         $('#id').val('');
@@ -342,14 +351,7 @@
 
    
      
-        var rid = '@Request.RequestContext.HttpContext.Session["RID"]';
 
-        if (rid == 3) {
-            $(".panel-body").attr("disabled", true);
-        }
-        else {
-            $('#accordion :input').removeAttr('disabled');
-        }
 
 
             },

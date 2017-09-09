@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using PensionModel;
 using PensionModel.ViewModel;
+using Pension.Models.ViewModel;
+using AutoMapper;
 
 namespace PensionServices
 {
@@ -90,6 +92,64 @@ namespace PensionServices
                                   Status = val.PensionStatus
                               }).ToList();
             return lstempdata;
+        }
+        public List<SAContributionModel> getSA(int cid, string year, int? Month)
+        {
+            try
+            {                //Mapper.CreateMap<SAContribution, SAContributionModel>();
+                //List<SAContribution> tblMaster = DbContext.SAContributions.Where(m => m.CompID == cid && m.Year == year && m.Month == Month).ToList();
+                //List<SAContributionModel> lstmasterdata = Mapper.Map<List<SAContributionModel>>(tblMaster);
+                //return lstmasterdata;
+
+
+                var data = (from sa in DbContext.SAContributions
+                            join em in DbContext.EmployeeMasters on sa.EmpNo equals em.EmpNo
+                            where sa.CompID == cid && sa.Year == year && sa.Month == Month
+                            select new SAContributionModel()
+                            {
+                                SAID = sa.SAID,
+                                EmpNo = sa.EmpNo,
+                                CompID = sa.CompID,
+                                Basic = sa.Basic,
+                                CompCont = sa.CompCont,
+                                EmpCont = sa.EmpCont,
+                                Month = sa.Month,
+                                Year = sa.Year,
+                                EmpDetails = new EmployeeViewModel()
+                                {
+                                    EmpName = em.EmpName
+                                }
+                            }).ToList();
+                return data;
+
+            }
+
+            catch (Exception ex)
+            {
+                ErrorLogClass.WriteErrorLog("SADisReport", "ReportService", "getSA", ex);
+                return null;
+            }
+
+
+        }
+
+        public List<EmployeeViewModel> getMissInfo(int cid)
+        {
+            try
+            {
+                Mapper.CreateMap<EmployeeMaster, EmployeeViewModel>();
+                List<EmployeeMaster> tblMaster = DbContext.EmployeeMasters.Where(m =>m.CompId==cid && (m.DOB == null || m.DOJ==null || m.GradeId==null || m.GradeId==0 || m.PANNo==null)).ToList();
+                List<EmployeeViewModel> lstmasterdata = Mapper.Map<List<EmployeeViewModel>>(tblMaster);
+                return lstmasterdata;
+            }
+
+            catch (Exception ex)
+            {
+                ErrorLogClass.WriteErrorLog("Reports", "ReportService", "getmissInfo", ex);
+                return null;
+            }
+
+
         }
     }
 }

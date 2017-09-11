@@ -13,8 +13,11 @@ namespace PensionServices
     public interface ILoginService
     {
         List<LoginModel> getUser();
+        List<RoleModel> getRole();
         int Insert(LoginModel model);
         LoginModel GetDetails(string UserName, String Password);
+        LoginModel GetById(int id);
+        int Update(LoginModel model);
     }
 
     public class LoginService : ILoginService

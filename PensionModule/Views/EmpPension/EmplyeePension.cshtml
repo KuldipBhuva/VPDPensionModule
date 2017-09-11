@@ -63,9 +63,11 @@
                         <tr>
                             <th>Month</th>
                             @*<th>Annuity No</th>*@
-                            <th>Cheq Amt</th>
-                            @*<th>PolicyNo</th>*@
                             <th>GrossAmt</th>
+                            <th>ITAmt</th>
+                            <th>CheqAmt</th>
+                            @*<th>PolicyNo</th>*@
+                            
                             <th>Flag</th>
                         </tr>
                     </thead>
@@ -77,9 +79,11 @@
                             <tr>
                                 <td>@item.Month</td>
                                 @*<td>@item.AnnuityNo</td>*@
+                                <td>@item.GrossAmt</td>
+                                <td>@item.ITAmt</td>
                                 <td>@item.CheqAmt</td>
                                 @*<td>@item.PolicyNo</td>*@
-                                <td>@item.GrossAmt</td>
+                                
                                 @if (@item.IsProcessed == Convert.ToBoolean(0))
                                 {
                                     <td>UnProcessed</td>

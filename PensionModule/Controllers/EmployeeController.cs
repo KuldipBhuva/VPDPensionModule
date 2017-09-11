@@ -35,28 +35,27 @@ namespace PensionModule.Controllers
             }
         }
 
-        public void BindIns()
+        public JsonResult BindIns(EmployeeViewModel mod)
         {
-            InsuranceService insservices = new InsuranceService();
-            List<InsuranceViewModel> lstIns = new List<InsuranceViewModel>();
-
-            lstIns = insservices.lstIns();
-            model.ListIns = new List<InsuranceViewModel>();
+            AnnuityServices insservices = new AnnuityServices();
+            List<AnnuityViewModel> lstIns = new List<AnnuityViewModel>();
+            int id = Convert.ToInt32(mod.PentionTypeID);
+            lstIns = insservices.lstInsPlan(id);
+            model.ListIns = new List<AnnuityViewModel>();
             model.ListIns.AddRange(lstIns);
             ViewBag.ListIns = model.ListIns;
+            return Json(model.ListIns, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult BindPension(EmployeeViewModel mod)
+        public void BindPension()
         {
             PlanServices insservices = new PlanServices();
             List<PlanViewModel> Lstpen = new List<PlanViewModel>();
-            int id = Convert.ToInt32(mod.LicId);
-            Lstpen = insservices.lstPlanins(id);
+            //int id = Convert.ToInt32(mod.LicId);
+            Lstpen = insservices.lstPlanins();
             model.Listpen = new List<PlanViewModel>();
             model.Listpen.AddRange(Lstpen);
             ViewBag.Listpen = model.Listpen;
-
-            return Json(model.Listpen, JsonRequestBehavior.AllowGet);
         }
 
         public void BindGrade()
@@ -148,11 +147,11 @@ namespace PensionModule.Controllers
                 model.Listpaytype = ViewBag.Listpaytype;
                 BindCmy();
                 model.lstCmy = ViewBag.lstCmy;
-                BindIns();
-                model.ListIns = ViewBag.ListIns;
-                model.LicId = 0;
-                BindPension(model);
+                BindPension();
                 model.Listpen = ViewBag.Listpen;
+                model.PentionTypeID = 0;
+                BindIns(model);
+                model.ListIns = ViewBag.ListIns;
                 //lstEmp = objService.getAllEmp(CompID);
                 //objModel.ListEmp = new List<EmployeeViewModel>();
                 //objModel.ListEmp.AddRange(lstEmp);
@@ -189,14 +188,15 @@ namespace PensionModule.Controllers
             model.ListEmp = ViewBag.ListEmp;
             BindCmy();
             model.lstCmy = ViewBag.lstCmy;
-            BindIns();
-            model.ListIns = ViewBag.ListIns;
-            model.LicId = 0;
-            BindPension(model);
+            BindPension();
             model.Listpen = ViewBag.Listpen;
+            model.PentionTypeID = 0;
+            BindIns(model);
+            model.ListIns = ViewBag.ListIns;
 
             return View(model);
         }
+
         public ActionResult Edit(int id)
         {
             if (Session["Comp"] != null)
@@ -219,10 +219,10 @@ namespace PensionModule.Controllers
                 model.ListEmp = ViewBag.ListEmp;
                 BindCmy();
                 model.lstCmy = ViewBag.lstCmy;
-                BindIns();
-                model.ListIns = ViewBag.ListIns;
-                BindPension(model);
+                BindPension();
                 model.Listpen = ViewBag.Listpen;
+                BindIns(model);
+                model.ListIns = ViewBag.ListIns;
                 return View(model);
             }
             else
@@ -252,12 +252,20 @@ namespace PensionModule.Controllers
             model.ListEmp = ViewBag.ListEmp;
             BindCmy();
             model.lstCmy = ViewBag.lstCmy;
-            BindIns();
-            model.ListIns = ViewBag.ListIns;
-            model.LicId = 0;
-            BindPension(model);
+            BindPension();
             model.Listpen = ViewBag.Listpen;
+            model.PentionTypeID = 0;
+            BindIns(model);
+            model.ListIns = ViewBag.ListIns;
             return RedirectToAction("Index", "Employee");
+        }
+
+        [HttpPost]
+        public JsonResult CheckENoExists(EmployeeViewModel model)
+        {
+            int cc = Convert.ToInt32(Session["Comp"].ToString());
+            model = objService.CheckExists(model.EmpNo,cc);
+            return Json(model, JsonRequestBehavior.AllowGet);
         }
 
     }

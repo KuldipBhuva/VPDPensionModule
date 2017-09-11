@@ -27,6 +27,7 @@
                 Rate = Convert.ToDecimal(lstcmy.LiveEmpInt);
                 Yr = lstcmy.LiveEffYear;
             }
+            var cmy = DbContent.CompanyMasters.Where(m => m.id == cmyId).SingleOrDefault();
     <section class="content-header">
         <h1>SA <small>Report</small></h1>
     </section>  
@@ -47,10 +48,10 @@
         <div class="panel-body">
             <div class="table-responsive" id="Grid">
                 <div class="col-md-12" style="text-align: center;">
-                    <h4><strong>THE BANK OF TOKYO-MITSUBISHI UFJ, LTD. INDIAN STAFF PENSION FUND</strong></h4>
+                    <h4><strong>@Html.DisplayFor(m => cmy.CompName)</strong></h4>
                 </div>
                 <div class="col-md-12" style="text-align: center; padding-bottom: 15px;">
-                    <h5>5th Floor, Wordmark 2, Asset 8, Aerocity, NH 8, New Delhi -110037</h5>
+                    <h5>@Html.DisplayFor(m => cmy.Address)</h5>
                 </div>
                 <div class="col-md-12" style="text-align: center; padding-bottom: 11px;">
                     <div class="col-md-4">
@@ -61,7 +62,8 @@
                         <b>DOJ :</b>
                         @if (lst.DOJ != null)
                         {
-                            @Html.DisplayFor(m => lst.DOJ)// ? lst.DOJ.Value.ToString("dd/MM/yyyy") : lst.DOJ.ToString())
+                            var doj = lst.DOJ.Value.ToString("dd/MM/yyyy");
+                            @Html.DisplayFor(m => doj)
                         }
                     </div>
                     <div class="col-md-4">
@@ -78,7 +80,8 @@
                         <b>DOL :</b>
                         @if (lst.RetireDate != null)
                         {
-                            @Html.DisplayFor(m => lst.RetireDate)
+                            var dol = lst.RetireDate.Value.ToString("dd/MM/yyyy");
+                            @Html.DisplayFor(m => dol)
                         }
                     </div>
                     <div class="col-md-4">
@@ -87,8 +90,8 @@
                     </div>
                 </div>
 
-                <div class="col-md-12" style="-webkit-padding-before: 27px; margin: 0px 111px; width: 80%;">
-                    <table class="table table-striped">
+                <div class="col-md-12" style="-webkit-padding-before: 27px; margin: 0px 111px; width: 85%;">
+                    <table class="table table-striped" id="tbl1">
                         <thead>
                             <tr>
                                 @foreach (var row in Model.FirstOrDefault())
@@ -124,12 +127,12 @@
                                         {
                                             no = 3;
                                         }
-                                        else if (no == 1 && column.Key == "Defined Contribution")
+                                        else if (no == 1 && column.Key == "Employer Contribution")
                                         {
                                             opbal = val;
                                             no = 0;
                                         }
-                                        else if (no == 2 && column.Key == "Defined Contribution")
+                                        else if (no == 2 && column.Key == "Employer Contribution")
                                         {
                                             ttl = val;
                                             no = 0;
@@ -143,52 +146,41 @@
                                 </tr>
                                 }
                                 var cbal = Convert.ToDecimal((Convert.ToDecimal(opbal) + Convert.ToDecimal(ttl)) + Convert.ToDecimal(Int));
+                            
+                                <tr>
+                                    <td colspan="2"></td>
+                                    <td>
+                                        <b>SA Accumulation</b>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Openning Balance</td>
+                                    <td></td>
+                                    <td>@Html.DisplayFor(m => opbal)</td>
+                                </tr>
+                                <tr>
+                                    <td>ADD : Current Year Contribution</td>
+                                    <td></td>
+                                    <td>@Html.DisplayFor(m => ttl)</td>
+                                </tr>
+                                <tr>
+                                    <td>ADD : Interest Earned</td>
+                                    <td>8.00%</td>
+                                    <td>@Html.DisplayFor(m => Int)</td>
+                                </tr>
+                                <tr>
+                                    <td>Transfer - In</td>
+                                    <td>-</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Closing Balance</td>
+                                    <td></td>
+                                    <td>@Html.DisplayFor(m => cbal)</td>
+                                </tr>
                             }
                         </tbody>
                     </table>
-                </div>
-                <div style="-webkit-padding-before: 27px; margin: 0px 111px; width: 80%;">
-                    <div class="col-md-12">
-                        <div class="col-md-4"></div>
-                        <div class="col-md-2">
-                            <b>SA Accumulation</b>
-                        </div>
-                        <div class="col-md-8"></div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="col-md-4">Openning Balance</div>
-                        <div class="col-md-2">
-                        </div>
-                        <div class="col-md-8">@Html.DisplayFor(m => opbal)</div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="col-md-4">ADD : Current Year Contribution</div>
-                        <div class="col-md-2">
-                        </div>
-                        <div class="col-md-8">@Html.DisplayFor(m => ttl)</div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="col-md-3">ADD : Interest Earned</div>
-                        <div class="col-md-1" style="text-align: right;">
-                            8.00%
-                        </div>
-                        <div class="col-md-2">
-                        </div>
-                        <div class="col-md-8">@Html.DisplayFor(m => Int)</div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="col-md-4">Transfer - In</div>
-                        <div class="col-md-2">
-                            -                        
-                        </div>
-                        <div class="col-md-8"></div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="col-md-4">Closing Balance</div>
-                        <div class="col-md-2">
-                        </div>
-                        <div class="col-md-8">@Html.DisplayFor(m => cbal)</div>
-                    </div>
                 </div>
             </div>
         </div>

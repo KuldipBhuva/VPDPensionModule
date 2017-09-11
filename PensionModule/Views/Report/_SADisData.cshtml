@@ -1,0 +1,60 @@
+﻿@using PensionModel.ViewModel
+@using PensionModel
+ @model List<SAContributionModel>
+ 
+ <script>
+     $(document).ready(function () {
+         $('#tblData').DataTable({
+             sorting: false,
+             dom: 'Bfrtip',
+             buttons: [
+                 'excel', 'pdf'
+              //'copy', 'csv', , 'print'
+             ]
+         });
+     });
+     </script>
+ <div class="table-responsive" id="dvData123">
+     <table class="table" id="tblData">
+         <thead>
+             <tr>
+                 <th>EmpNo</th>
+                 <th>EmpName</th>
+                 <th>Basic</th>
+                 <th>Emp.Cont.</th>  
+                 <th>Cont.As Per Rate</th>       
+                 <th>Diffrence</th>
+                 @*<th>Action</th>*@                                        
+             </tr>
+         </thead>
+         <tbody>
+             @foreach (var item in Model)
+             {      
+                 decimal empCont=0;
+                 if (@item.EmpCont != null)
+                 {
+                     empCont = Convert.ToDecimal(@item.EmpCont);
+                 }
+                 else
+                 {
+                     empCont = Convert.ToDecimal(0.00);
+                 }
+                 <tr>
+                     <td>@item.EmpNo</td>
+                     <td>@item.EmpDetails.EmpName</td>
+                     <td>@item.Basic</td> 
+                  <td>@empCont</td>
+                     @{VPDPensionEntities DbContext = new VPDPensionEntities();
+                         var per = DbContext.CompanyMasters.Where(m => m.id == item.CompID).SingleOrDefault();
+                         decimal? rate = (@item.Basic * per.SAContriRate / 100);  
+                         
+                     <td>@Convert.ToDecimal(@rate).ToString("0.00") (@per.SAContriRate%)</td>
+                         decimal? diff = @empCont - rate;
+                     <td>@Convert.ToDecimal(@diff).ToString("0.00")</td> }
+                    @* <td>@Html.ActionLink(" ", "Edit", new { @id = @item.SAID }, new { @class = "fa fa-pencil-square fa-lg" })</td>   *@               
+                 </tr>  
+             }
+            
+         </tbody>
+     </table>
+ </div>

@@ -18,8 +18,8 @@ namespace PensionServices
         {
             try
             {
-                Mapper.CreateMap<Annuity1, AnnuityViewModel>();
-                List<Annuity1> tblaty = DbContext.Annuity1.Where(m => m.LICId == null).ToList();
+                Mapper.CreateMap<Annuity, AnnuityViewModel>();
+                List<Annuity> tblaty = DbContext.Annuities.Where(m => m.LICId == null).ToList();
                 List<AnnuityViewModel> lstmasterdata = Mapper.Map<List<AnnuityViewModel>>(tblaty);
                 return lstmasterdata;
             }
@@ -34,8 +34,8 @@ namespace PensionServices
         {
             try
             {
-                Annuity1 objAllo = new Annuity1();
-                objAllo = DbContext.Annuity1.SingleOrDefault(m => m.Id == id);
+                Annuity objAllo = new Annuity();
+                objAllo = DbContext.Annuities.SingleOrDefault(m => m.Id == id);
                 objAllo.LICId = licid;
                 objAllo.PlanID = planid;
                 objAllo.EffDate = effdate;
@@ -52,7 +52,7 @@ namespace PensionServices
         {
             try
             {
-                var lstdata = (from val in DbContext.Annuity1
+                var lstdata = (from val in DbContext.Annuities
                                join val1 in DbContext.PlanMasters on val.PlanID equals val1.id
                                join val2 in DbContext.InsuranceMasters on val.LICId equals val2.id
                                select new AnnuityViewModel()
@@ -84,16 +84,16 @@ namespace PensionServices
             {
                 if (flag == 1)
                 {
-                    Mapper.CreateMap<AnnuityViewModel, Annuity1>();
-                    Annuity1 objaty = Mapper.Map<Annuity1>(model);
-                    DbContext.Annuity1.Add(objaty);
+                    Mapper.CreateMap<AnnuityViewModel, Annuity>();
+                    Annuity objaty = Mapper.Map<Annuity>(model);
+                    DbContext.Annuities.Add(objaty);
                     return DbContext.SaveChanges();
                 }
                 else
                 {
                     model.Id = model.hdnannuity;
-                    Mapper.CreateMap<AnnuityViewModel, Annuity1>();
-                    Annuity1 objaty = DbContext.Annuity1.FirstOrDefault(m => m.Id == model.hdnannuity);
+                    Mapper.CreateMap<AnnuityViewModel, Annuity>();
+                    Annuity objaty = DbContext.Annuities.FirstOrDefault(m => m.Id == model.hdnannuity);
                     objaty = Mapper.Map(model, objaty);
                     return DbContext.SaveChanges();
                 }
@@ -102,6 +102,19 @@ namespace PensionServices
             {
                 throw ex;
             }
+        }
+
+        public List<AnnuityViewModel> lstInsPlan(int id)
+        {
+            var lstIns = (from aty in DbContext.Annuities
+                          join ins in DbContext.InsuranceMasters on aty.LICId equals ins.id
+                          where aty.PlanID == id
+                          select new AnnuityViewModel()
+                          {
+                              LICId=aty.LICId,
+                              Insurance=ins.InsuranceCompany
+                          }).Distinct().ToList();
+            return lstIns;
         }
     }
 }

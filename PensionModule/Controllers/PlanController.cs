@@ -45,7 +45,14 @@ namespace Pension.Controllers
                     }
                     else
                     {
-                        int a = services.InsertPlan(model);
+                        foreach (var s in model.lstInsurance)
+                        {
+                            if (s.IsChecked == true)
+                            {
+                                model.CompID = s.id;
+                                int a = services.InsertPlan(model);
+                            }
+                        }
                     }
                     model.lstPlan = services.lstPlan();
                     lstIns = insservices.lstIns();

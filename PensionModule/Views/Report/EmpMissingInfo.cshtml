@@ -1,0 +1,80 @@
+﻿@{
+    ViewBag.Title = "Employee Missing Info Report";
+    ViewBag.PageTitle = "Employee Missing Info Report";
+}
+
+@using PensionModel.ViewModel
+@model Pension.Models.ViewModel.EmployeeViewModel
+
+
+@using (Html.BeginForm("EmpMissingInfo", "Report", FormMethod.Post))
+{
+
+    <section class="content-header">
+        <h1>Employee Missing Info<small>Report</small>
+        </h1>
+
+    </section>
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            Employee Missing Info Report Data
+            
+        </div>
+        <div class="panel-body">
+            <div class="table-responsive" id="Grid">
+
+                    <table class="table" id="tbl">
+                        <thead>
+                            <tr>
+                                <th>Emp.No.</th>
+                                <th>Emp.Name
+                                </th>
+                                <th>DOB
+                                </th>
+                                <th>DOJ
+                                </th>
+                                <th>Grade
+                                </th>
+                                <th>PAN</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach (var item in Model.ListEmp)
+                            {
+                                <tr>
+                                    <td>@item.EmpNo</td>
+                                    <td>@item.EmpName</td>
+                                    @if(@item.DOB!=null)
+                                    {
+                                    <td>@item.DOB.Value.ToString("dd/MM/yyyy")</td>
+                                    }
+                                    else
+                                    {
+                                     <td></td>   
+                                    }
+                                    @if (@item.DOJ!=null)
+                                    {
+                                        <td>@item.DOJ.Value.ToString("dd/MM/yyyy")</td>
+                                    }
+                                    else
+                                    {
+                                        <td></td>
+                                    }
+                                    <td>@item.GradeName</td>
+                                    <td>@item.PANNo</td>
+                                    <td>
+                                        @*<img  id="btnEdit" src="~/1493196377_create.png" onclick="HiddenField('@item.UID')"  style="height:20px;width:20px;" />*@
+                                        @Html.ActionLink(" ", "Edit","Employee", new { @id = @item.EmpId}, new { @class = "fa fa-pencil-square fa-lg" })                                       
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                
+            </div>
+        </div>
+    </div>
+}

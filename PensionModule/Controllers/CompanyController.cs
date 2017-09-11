@@ -16,6 +16,7 @@ namespace PensionModule.Controllers
     {
         //
         // GET: /Company/
+        VPDPensionEntities DbContext = new VPDPensionEntities();
         CompanyServices objService = new CompanyServices();
         CompanyModel objModel = new CompanyModel();
         List<CompanyModel> lstComp = new List<CompanyModel>();
@@ -75,6 +76,7 @@ namespace PensionModule.Controllers
 
             objModel.ListSA = objService.lstSAInt(cmy);
             lstComp = objService.lstCompany();
+
             objModel.ListComp = new List<CompanyModel>();
             objModel.ListComp.AddRange(lstComp);
 
@@ -118,12 +120,25 @@ namespace PensionModule.Controllers
         {
             try
             {
-                mergemodel.EffDate = model.MergeEffDate;
-                penmodel.EffDate = model.PenEffDate;
                 int SaID = Convert.ToInt32(Session["SaID"].ToString());
                 model.PenId = Convert.ToInt32(Session["Penid"].ToString());
                 model.MerId = Convert.ToInt32(Session["Merid"].ToString());
+                mergemodel.EffDate = model.MergeEffDate;
+                if (model.PenEffDate != null && model.PenId == 0)
+                {
+                    var lstpen = DbContext.PensionLimits.Where(m => m.EmployeementType == model.EmployeementType && m.GradeID == model.GradeID && m.CmyID == model.id).OrderByDescending(m => m.EffDate).FirstOrDefault();
+                    Nullable<DateTime> pened = lstpen.EffDate;
+                    if (model.PenEffDate > pened)
+                        penmodel.EffDate = model.PenEffDate;
+                    else if (model.PenEffDate < pened)
+                        return Content("<script language='javascript' type='text/javascript'>alert('Pension Effective date.');</script>");
+                }
+                else
+                    penmodel.EffDate = model.PenEffDate;
                 objService.UpdateCompanyData(model.id, SaID, model, penmodel, mergemodel, samodel);
+                Session["SaID"] = 0;
+                Session["Penid"] = 0;
+                Session["Merid"] = 0;
             }
             catch (Exception ex)
             {
@@ -195,15 +210,16 @@ namespace PensionModule.Controllers
         {
             int cmyid = Convert.ToInt32(Session["Comp"].ToString());
             List<CompanyModel> lstCmy = new List<CompanyModel>();
-            lstCmy = objService.lstCmy(cmyid);
-            objModel.LstCmy = new List<CompanyModel>();
-            objModel.LstCmy.AddRange(lstCmy);
 
             bindgrade();
             objModel.Listgrade = ViewBag.Listgrade;
             int merid = Convert.ToInt32(model.MerId);
             objModel = objService.GetMergerById(cmyid, merid);
             Session["Merid"] = merid;
+
+            lstCmy = objService.lstMergeCmy(cmyid);
+            objModel.LstCmy = new List<CompanyModel>();
+            objModel.LstCmy.AddRange(lstCmy);
 
             if (objModel == null)
             {
@@ -231,6 +247,13 @@ namespace PensionModule.Controllers
                 objModel = objService.GetById(cmyid);
             }
             return Json(objModel, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult CheckCCExists(CompanyMaster model)
+        {
+            objModel = objService.CheckExists(model.CompCode);
+            return Json(model, JsonRequestBehavior.AllowGet);
         }
     }
 }

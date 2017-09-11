@@ -28,7 +28,8 @@ namespace PensionServices
                                   PolicyNo = EP.PolicyId,
                                   GrossAmt = PM.GrossAmt,
                                   Month = PM.PensionMonth,
-                                  IsProcessed=PM.IsProcessed
+                                  IsProcessed=PM.IsProcessed,
+                                  ITAmt=PM.ITAmt,
 
                               }).ToList();
                return lstdata;

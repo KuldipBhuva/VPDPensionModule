@@ -46,9 +46,7 @@ namespace PensionModule.Controllers
             return View();
         }
         public ActionResult Edit(int id)
-        {
-            
-            
+        { 
             objModel = objService.GetById(id);
             List<RoleModel> lstRole = new List<RoleModel>();
             lstRole = objService.getRole();

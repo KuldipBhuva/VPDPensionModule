@@ -31,7 +31,7 @@
                                     Company Code                    
                                 </div>
                                 <div class="col-sm-6">
-                                    @Html.TextBoxFor(m => m.CompCode, new { @class = "form-control" })
+                                    @Html.TextBoxFor(m => m.CompCode, new { @class = "form-control", @onblur = "return cc();" })
                                 </div>
                             </div>
 
@@ -125,6 +125,23 @@
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-4">
+                                    Pension Eligibity Applicable
+                                </div>
+                                <div class="col-sm-6">
+                                    @Html.DropDownListFor(m => m.EligibityYr, new List<SelectListItem>() { 
+                                   new SelectListItem() { Text = "Yes", Value = "1" }, 
+                                   new SelectListItem() { Text = "No", Selected=true, Value = "2" } }, 
+                                   new { @class = "form-control", @onchange="return Elgyr(this.value);" })
+                                </div>
+                            </div>
+
+                            <br />
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                </div>
+                            </div>
+                            <div class="form-group" id="Eyr">
+                                <div class="col-sm-4">
                                     Pension Eligibity(No of years)
                                 </div>
                                 <div class="col-sm-6">
@@ -178,11 +195,11 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="col-sm-4">
-                                        Employment Type
+                                        Employment/Category
                                     </div>
                                     <div class="col-sm-6">
                                         @Html.DropDownListFor(m => m.EmployeementType, new List<SelectListItem>() { 
-                                    new SelectListItem() { Text = "--Select Employment Type--", Value = "" }, 
+                                    new SelectListItem() { Text = "--Select Employment/Category--", Value = "" }, 
                                     new SelectListItem() { Text = "Managment", Value = "1" }, 
                                     new SelectListItem() { Text = "Other", Value = "2" } }, new { @class = "form-control" })
                                     </div>
@@ -215,6 +232,25 @@
                                     </div>
                                     <div class="col-sm-6">
                                         @Html.TextBoxFor(m => m.Pension_Limit, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                
+                                <br />
+                                <br />
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-4">
+                                        Pension Type
+                                    </div>
+                                    <div class="col-sm-6">
+                                        @Html.DropDownListFor(m => m.PensionType, new List<SelectListItem>() { 
+                                    new SelectListItem() { Text = "--Select Pension Type--", Value = "" }, 
+                                    new SelectListItem() { Text = "Define Benefit", Value = "1" }, 
+                                    new SelectListItem() { Text = "Define Contribution", Value = "2" } }, 
+                                    new { @class = "form-control" })
                                     </div>
                                 </div>
 
@@ -251,9 +287,10 @@
                                                     <thead>
                                                         <tr>
                                                             @*<th>Company Name</th>*@
-                                                            <th>Employeement Type</th>
+                                                            <th>Employeement/Category</th>
                                                             <th>Grade</th>
                                                             <th>Pension Limit</th>
+                                                            <th>Pension Type</th>
                                                             <th>Effective Date</th>
                                                             <th>Status</th>
                                                         </tr>
@@ -273,7 +310,8 @@
                                                                 }
                                                                 <td>@item.GradeName</td>
                                                                 <td>@item.Pension_Limit</td>
-                                                                <td>@item.PenEffDate.Value.ToShortDateString()</td>
+                                                                <td>@item.PensionType</td>
+                                                                <td>@item.PenEffDate.Value.ToString("dd/MM/yyyy")</td>
                                                                 @if (@item.Status == 0)
                                                                 {
                                                                     <td>In-Active</td>
@@ -389,7 +427,7 @@
                                                             <tr>
                                                                 @*<td>@item.CompName</td>*@
                                                                 <td>@item.CompName</td>
-                                                                <td>@item.MergeEffDate.Value.ToShortDateString()</td>
+                                                                <td>@item.MergeEffDate.Value.ToString("dd/MM/yyyy")</td>
                                                                 @if (@item.Status == 0)
                                                                 {
                                                                     <td>In-Active</td>
@@ -598,6 +636,7 @@
                                                             <th>Live Effective Year</th>
                                                             <th>Left Employee SAInterest</th>
                                                             <th>Left Effective Year</th>
+                                                            <th>Create Date</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -608,6 +647,7 @@
                                                                 <td>@item.LiveEffYear</td>
                                                                 <td>@item.LeftEmpInt</td>
                                                                 <td>@item.LeftEffYear</td>
+                                                                <td>@item.CreateDate.Value.ToString("dd/MM/yyyy")</td>
                                                                 <td>
                                                                     @*@Html.ActionLink(" ", "Edit", new { @SaID = @item.ID }, new { @class = "fa fa-pencil-square fa-lg" })*@
                                                                     <a  id="btnSAEdit" class="fa fa-pencil-square fa-lg" onclick="SAHiddenField('@item.SaID')"  style="height:20px;width:20px;" />
@@ -626,7 +666,7 @@
                 </div>
                 <div class="form-group">
                     <div class="col-sm-12">
-                        <input type="submit" name="Button" style="margin: 0px 21px;" value="Save" id="btnSave" class="btn btn-primary" />
+                        <input type="submit" name="Button" style="margin: 0px 21px;" value="Save" id="btnSave" class="btn btn-primary" onclick="return Validation();" />
                     </div>
                 </div>
             </div>
@@ -691,8 +731,18 @@
         $('.datepicker').datepicker(); //Initialise any date pickers
         //$('#divLimit').hide();
         //$('#divMerge').hide();
+        $('#Eyr').hide();
     });
 
+    function Elgyr(val) {
+        debugger;
+        if (val == "1") {
+            $('#Eyr').show();
+        }
+        else {
+            $('#Eyr').hide();
+        }
+    }
     function PenLimit(val) {
         debugger;
         if (val == "Yes") {
@@ -711,4 +761,49 @@
             $('#divMerge').hide();
         }
     }
+    function Validation() {
+        debugger;
+        var CompCode = $('#CompCode').val();
+        var CompName = $('#CompName').val();
+        var gradeid = $('#GradeId').val();
+        var ValidateMsg = true;
+        if (CompCode == "") {
+            showErr("CompCode", "Please enter Company Code");
+            $('#CompCode').focus();
+            ValidateMsg = false;
+        }
+        else {
+            removeErr("err_CompCode");
+        }
+        if (CompName == "") {
+            showErr("CompName", "Please enter Company Name");
+            $('#CompName').focus();
+            ValidateMsg = false;
+        }
+        else {
+            removeErr("err_CompName");
+        }
+        return ValidateMsg;
+    }
+
+    function cc() {
+        debugger;
+        var serviceURL = '/Company/CheckCCExists';
+
+        $.ajax({
+            type: "POST",
+            url: serviceURL,
+            data: JSON.stringify({ model: { CompCode: $("#CompCode").val() } }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                showErr("CompCode", "Company Code Already Exists");
+                $('#CompCode').val('');
+                $('#CompCode').focus();
+            },
+            error: function (data) {
+            }
+        });
+    }
+    
 </script>

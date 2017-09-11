@@ -48,5 +48,6 @@ namespace PensionModel.ViewModel
         public Nullable<System.DateTime> UploadedDate { get; set; }
 
         public List<ReportViewModel> lstSalary { get; set; }
+        public List<SAContributionModel> ListSA { get; set; }
     }
 }

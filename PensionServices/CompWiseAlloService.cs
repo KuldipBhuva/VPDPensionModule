@@ -78,7 +78,7 @@ namespace Pension.Services
                                     AllowName = Allow.AllowanceName,
                                     EffDeate = Allo.EffDeate,
                                     GradeID = Allo.GradeID,
-                                    Grade = grd.Grade_Name,
+                                    GradeName = grd.Grade_Name,
                                     Status = Allo.Status
                                 }).ToList();
 

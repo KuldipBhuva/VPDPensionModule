@@ -35,7 +35,7 @@
                                     Company Code                    
                                 </div>
                                 <div class="col-sm-6">
-                                    @Html.TextBoxFor(m => m.CompCode, new { @class = "form-control" })
+                                    @Html.TextBoxFor(m => m.CompCode, new { @class = "form-control", @readonly = "readonly" })
                                 </div>
                             </div>
 
@@ -49,7 +49,7 @@
                                     Company Name
                                 </div>
                                 <div class="col-sm-6">
-                                    @Html.TextBoxFor(m => m.CompName, new { @class = "form-control", @onblur = "return CheckExist();" })
+                                    @Html.TextBoxFor(m => m.CompName, new { @class = "form-control" })
                                 </div>
                             </div>
 
@@ -130,6 +130,23 @@
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-4">
+                                    Pension Eligibity Applicable
+                                </div>
+                                <div class="col-sm-6">
+                                    @Html.DropDownListFor(m => m.EligibityYr, new List<SelectListItem>() { 
+                                   new SelectListItem() { Text = "Yes", Value = "1" }, 
+                                   new SelectListItem() { Text = "No", Selected=true, Value = "2" } },
+                                   new { @class = "form-control", @onchange = "return Elgyr(this.value);" })
+                                </div>
+                            </div>
+
+                            <br />
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                </div>
+                            </div>
+                            <div class="form-group" id="Eyr">
+                                <div class="col-sm-4">
                                     Pension Eligibity(No of years)
                                 </div>
                                 <div class="col-sm-6">
@@ -183,11 +200,11 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="col-sm-4">
-                                        Employment Type
+                                        Employment/Category
                                     </div>
                                     <div class="col-sm-6">
                                         @Html.DropDownListFor(m => m.EmployeementType, new List<SelectListItem>() { 
-                                    new SelectListItem() { Text = "--Select Employment Type--", Value = "" }, 
+                                    new SelectListItem() { Text = "--Select Employment/Category--", Value = "" }, 
                                     new SelectListItem() { Text = "Managment", Value = "1" }, 
                                     new SelectListItem() { Text = "Other", Value = "2" } }, new { @class = "form-control" })
                                     </div>
@@ -231,6 +248,25 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="col-sm-4">
+                                        Pension Type
+                                    </div>
+                                    <div class="col-sm-6">
+                                        @Html.DropDownListFor(m => m.PensionType, new List<SelectListItem>() { 
+                                    new SelectListItem() { Text = "--Select Pension Type--", Value = "" }, 
+                                    new SelectListItem() { Text = "Define Benefit", Value = "1" }, 
+                                    new SelectListItem() { Text = "Define Contribution", Value = "2" } },
+                                    new { @class = "form-control" })
+                                    </div>
+                                </div>
+
+                                <br />
+                                <br />
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-4">
                                         Effective Date
                                     </div>
                                     <div class="col-sm-6">
@@ -263,9 +299,10 @@
                                                     <thead>
                                                         <tr>
                                                             @*<th>Company Name</th>*@
-                                                            <th>Employeement Type</th>
+                                                            <th>Employeement/Category</th>
                                                             <th>Grade</th>
                                                             <th>Pension Limit</th>
+                                                            <th>Pension Type</th>
                                                             <th>Effective Date</th>
                                                             <th>Status</th>
                                                         </tr>
@@ -285,7 +322,8 @@
                                                                 }
                                                                 <td>@item.GradeName</td>
                                                                 <td>@item.Pension_Limit</td>
-                                                                <td>@item.PenEffDate.Value.ToShortDateString()</td>
+                                                                <td>@item.PensionType</td>
+                                                                <td>@item.PenEffDate.Value.ToString("dd/MM/yyyy")</td>
                                                                 @if (@item.Status == 0)
                                                                 {
                                                                     <td>In-Active</td>
@@ -400,7 +438,7 @@
                                                             <tr>
                                                                 @*<td>@item.CompName</td>*@
                                                                 <td>@item.CompName</td>
-                                                                <td>@item.MergeEffDate.Value.ToShortDateString()</td>
+                                                                <td>@item.MergeEffDate.Value.ToString("dd/MM/yyyy")</td>
                                                                 @if (@item.Status == 0)
                                                                 {
                                                                     <td>In-Active</td>
@@ -606,6 +644,7 @@
                                                         <th>Live Effective Year</th>
                                                         <th>Left Employee SAInterest</th>
                                                         <th>Left Effective Year</th>
+                                                        <th>Create Date</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -618,6 +657,7 @@
                                                             <td>@item.LiveEffYear</td>
                                                             <td>@item.LeftEmpInt</td>
                                                             <td>@item.LeftEffYear</td>
+                                                            <td>@item.CreateDate.Value.ToString("dd/MM/yyyy")</td>
                                                             <td>
                                                                 @*@Html.ActionLink(" ", "Edit", new { @SaID = @item.ID }, new { @class = "fa fa-pencil-square fa-lg" })*@
                                                                 <a  id="btnSAEdit" class="fa fa-pencil-square fa-lg" onclick="SAHiddenField('@item.SaID')"  style="height:20px;width:20px;" />
@@ -806,19 +846,33 @@
         //pen = $('#PensionLimit').val();
         //PenLimit(pen);
 
-        //var mer = "No";
-        //mer = $('#Merging').val();
-        //Merging(mer);
+        var mer = "No";
+        mer = $('#Merging').val();
+        Merging(mer);
+
+        var eyr = $('#EligibityYr').val();
+        Elgyr(eyr);
         debugger;
         var emp = "0";
 
     });
 
+    function Elgyr(val) {
+        debugger;
+        if (val == "1") {
+            $('#Eyr').show();
+        }
+        else {
+            $('#Eyr').hide();
+        }
+    }
     function PenLimit(val) {
         debugger;
         if (val == "Yes") {
             $('#PensionLimit').val(val);
             $('#divLimit').show();
+            $('#PenEffDate').val();
+            $('#Pension_Limit').val();
         }
         else {
             $('#PensionLimit').val(val);
@@ -831,6 +885,7 @@
         if (val == "Yes") {
             $('#Merging').val(val);
             $('#divMerge').show();
+            $('#MergeEffDate').val();
         }
         else {
             $('#Merging').val(val);
@@ -911,9 +966,15 @@
                 debugger;
                 var value = new Date(parseInt(data.MergeEffDate.replace(/(^.*\()|([+-].*$)/g, '')));
                 var EffDate = value.getMonth() + 1 + "/" + value.getDate() + "/" + value.getFullYear();
-
-                $('#MCmyID').val(data.MCmyID);
                 $('#MergeEffDate').val(EffDate);
+
+                $('#MCmyID').empty();
+                for (var i = 0; i < data.LstCmy.length; i++) {
+                    debugger;
+                    var opt = new Option(data.LstCmy[i].CompName, data.LstCmy[i].id);
+                    $('#MCmyID').append(opt);
+                }
+                $('#MCmyID').val(data.MCmyID);
             },
             error: function (data) {
                 alert(data.responseText);

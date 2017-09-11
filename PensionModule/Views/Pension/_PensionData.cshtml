@@ -8,117 +8,124 @@
 {
     VPDPensionEntities DbContext = new VPDPensionEntities();
     <div class="col-sm-12" id="dvData">
-        
-    @if (Model.ListPension.Count() > 0)
-    {
-        
-    <div class="panel panel-primary">
-        <div class="panel-heading">
-            Pension Data List
-            @*<input type="button" id="btnBack" value="Back" class="btnAdd btn btn-primary" />*@
-        </div>
-        <div class="panel-body">
-            <div class="col-sm-12 table-responsive">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>EmpNo</th>
-                            <th>EmpName</th>
-                            <th>AnnuityNo.</th>
-                            <th>Amount</th>
-                            <th>Pay.Type(Charge)</th>
-                            @*<th>CompName</th>
-                            <th>PolicyNo</th>*@
-                            <th>DOD</th>
-                            <th>P.Status</th>
-                            <th>LifeCerti.</th>
-                            <th>Process</th>
-                            <th>Arrears</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @for (var m = 0; m < Model.ListPension.Count(); m++)
-                        {
 
-                            var pension = Model.ListPension[m];                            
+        @if (Model.ListPension.Count() > 0)
+        {
+        
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    Pension Data List
+            @*<input type="button" id="btnBack" value="Back" class="btnAdd btn btn-primary" />*@
+                </div>
+                <div class="panel-body">
+                    <div class="col-sm-12 table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>EmpNo</th>
+                                    <th>EmpName</th>
+                                    <th>AnnuityNo.</th>
+                                    <th>Amount</th>
+                                    <th>Pay.Type(Charge)</th>
+                                    @*<th>CompName</th>
+                            <th>PolicyNo</th>*@
+                                    <th>DOD</th>
+                                    <th>P.Status</th>
+                                    <th>LifeCerti.</th>
+                                    <th>Process</th>
+                                    <th>Arrears</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (var m = 0; m < Model.ListPension.Count(); m++)
+                                {
+
+                                    var pension = Model.ListPension[m];                            
                             
-                            <tr>
-                                @Html.HiddenFor(model => model.ListPension[m].PID)
-                                <td>@pension.EmpDetails.EmpNo</td>
-                                <td>@pension.EmpDetails.EmpName</td>
-                                <td>@pension.AnnuityNo</td>
-                                <td>@pension.GrossAmt</td>
-                                <td>@pension.PayTypeDetails.PaymentType1 (@pension.PayTypeDetails.OtherCharge)</td>
-                                @*                                <td>@pension.CompDetails.CompName</td>
+                                    <tr>
+                                        @Html.HiddenFor(model => model.ListPension[m].PID)
+                                        <td>@pension.EmpDetails.EmpNo</td>
+                                        <td>@pension.EmpDetails.EmpName</td>
+                                        <td>@pension.AnnuityNo</td>
+                                        <td>@pension.GrossAmt</td>
+                                        <td>@pension.PayTypeDetails.PaymentType1 (@pension.PayTypeDetails.OtherCharge)</td>
+                                        @*                                <td>@pension.CompDetails.CompName</td>
                                 <td>@pension.PolicyNo</td>*@
-                                @if (@pension.EmpDetails.DeathDate != null)
-                                {
-                                    <td>@pension.EmpDetails.DeathDate.Value.ToString("dd/MM/yyyy")</td>
-                                }
-                                else
-                                {<td>-</td>}
-                                @if (@pension.EmpDetails.PensionStatus == "2")
-                                {
-                                    <td>Active</td>
-                                }
-                                else
-                                {
-                                    <td>Hold</td>
-                                }
-                                @{
-                                int yr = Convert.ToInt32(@pension.Year);
-                                var lst = DbContext.LifeCertificates.Where(k => k.EmpId == @pension.EmpDetails.EmpId && k.ToDate.Value.Year == yr).SingleOrDefault();
-                                if (lst != null)
-                                {
-                                    <td>@pension.LifeCertiDetails.ToDate</td>   
-                                }
-                                else
-                                {
-                                    <td>No</td>   
-                                }
-                                }
-                                @{
-                            int yy = Convert.ToInt32(Model.ListPension[0].Year);
-                                int lcyy = @pension.LifeCertiDetails.ToDate.Value.Year;
-                                int mm = Convert.ToInt32(Model.ListPension[0].PensionMonth);
-                                int lcmm = @pension.LifeCertiDetails.ToDate.Value.Month;
-                                }
-                                @if (@pension.LifeCertiDetails.ToDate.Value.Year == yy && @pension.EmpDetails.DeathDate == null && @pension.EmpDetails.PensionStatus == "2")
-                                {
-                                    <td>@Html.CheckBoxFor(model => model.ListPension[m].IsProcessed)
-                                        </td>
-                                }
-                                else
-                                {
-                                    <td><i class="fa fa-ban"></i></td> 
-                                }
-                                <td>
-                                    @{var lstAr = DbContext.PensionMasters.Where(k => (k.PensionMonth != pension.PensionMonth || k.Year != pension.Year) && k.SettelmentDate == null && k.IsProcessed == false && k.AnnuityNo == pension.AnnuityNo).FirstOrDefault();
-                                      if (lstAr != null)
-                                      {
+                                        @if (@pension.EmpDetails.DeathDate != null)
+                                        {
+                                            <td>@pension.EmpDetails.DeathDate.Value.ToString("dd/MM/yyyy")</td>
+                                        }
+                                        else
+                                        {<td>-</td>}
+                                        @if (@pension.EmpDetails.PensionStatus == "2")
+                                        {
+                                            <td>Active</td>
+                                        }
+                                        else
+                                        {
+                                            <td>Hold</td>
+                                        }
+                                        @{
+                                        int yr = Convert.ToInt32(@pension.Year);
+                                        var lst = DbContext.LifeCertificates.Where(k => k.EmpId == @pension.EmpDetails.EmpId && k.ToDate.Value.Year == yr).SingleOrDefault();
+                                        if (lst != null)
+                                        {
+                                            if (@pension.LifeCertiDetails.ToDate.HasValue)
+                                            {
+                                            <td>@pension.LifeCertiDetails.ToDate.Value.ToString("dd/MM/yyyy")</td>   
+                                            }
+                                            else
+                                            {
+                                            <td>@pension.LifeCertiDetails.ToDate</td>   
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <td>No</td>   
+                                        }
+                                        }
+                                        @{
+                                        int yy = Convert.ToInt32(Model.ListPension[0].Year);
+                                        int lcyy = @pension.LifeCertiDetails.ToDate.Value.Year;
+                                        int mm = Convert.ToInt32(Model.ListPension[0].PensionMonth);
+                                        int lcmm = @pension.LifeCertiDetails.ToDate.Value.Month;
+                                        }
+                                        @if (@pension.LifeCertiDetails.ToDate.Value.Year == yy && @pension.EmpDetails.DeathDate == null && @pension.EmpDetails.PensionStatus == "2")
+                                        {
+                                            <td>@Html.CheckBoxFor(model => model.ListPension[m].IsProcessed)
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td><i class="fa fa-ban"></i></td> 
+                                        }
+                                        <td>
+                                            @{var lstAr = DbContext.PensionMasters.Where(k => (k.PensionMonth != pension.PensionMonth || k.Year != pension.Year) && k.SettelmentDate == null && k.IsProcessed == false && k.AnnuityNo == pension.AnnuityNo).FirstOrDefault();
+                                              if (lstAr != null)
+                                              {
                                         
-                                        @Html.ActionLink("View", "Arrears", new { @id = @pension.AnnuityNo, @m = @pension.PensionMonth, @y = @pension.Year }, new { @class = "btn btn-info", @target = "_blank" })
-                                      }
-                                      else
-                                      {
+                                                @Html.ActionLink("View", "Arrears", new { @id = @pension.AnnuityNo, @m = @pension.PensionMonth, @y = @pension.Year }, new { @class = "btn btn-info", @target = "_blank" })
+                                              }
+                                              else
+                                              {
                                        
-                                        <center><span class="fa-stack">
+                                                <center><span class="fa-stack">
                                                 <i class="fa fa-inr"></i>
                                                 <i class="fa fa-check text-success"></i>
                                             </span></center>
                                        
-                                      }
-                                    }
-                                </td>
-                                @*<td>@Html.CheckBoxFor(model => model.ListPension[m].Arrears, new { @class="A"})
+                                              }
+                                            }
+                                        </td>
+                                        @*<td>@Html.CheckBoxFor(model => model.ListPension[m].Arrears, new { @class="A"})
                                     <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal">View</button>
                                     @Html.HiddenFor(model => model.ListPension[m].PID, new { @class="wrapperDivHidden"})</td>*@
 
-                            </tr>
-                        }
+                                    </tr>
+                                }
 
 
-                        @*                        @foreach (var item in Model.ListPension)
+                                @*                        @foreach (var item in Model.ListPension)
                         {
                             <tr>
                                 <td>@item.EmpNo</td>
@@ -127,21 +134,21 @@
                                 <td>@item.PolicyNo</td>
                             </tr>
                         }*@
-                    </tbody>
-                </table>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-sm-6"></div>
+                    <input type="Submit" value="Save" class="btn btn-primary" />
+                </div>
             </div>
-            <div class="col-sm-6"></div>
-            <input type="Submit" value="Save" class="btn btn-primary" />
-        </div>
-    </div>
         }
-    else
-    {
-    <div class="col-sm-4"></div>
-        <div class="col-sm-4">
-            <label style="color: red;">No Data Found!</label>
-        </div>
-        <div class="col-sm-4"></div>
+        else
+        {
+            <div class="col-sm-4"></div>
+            <div class="col-sm-4">
+                <label style="color: red;">No Data Found!</label>
+            </div>
+            <div class="col-sm-4"></div>
         }
     </div>
 }

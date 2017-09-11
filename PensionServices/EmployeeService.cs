@@ -13,6 +13,7 @@ namespace PensionServices
     public class EmployeeService
     {
         VPDPensionEntities DbContext = new VPDPensionEntities();
+
         public List<EmployeeViewModel> getAllEmp(int cid)
         {
             try
@@ -42,8 +43,8 @@ namespace PensionServices
                                 Contribution = em.Contribution,
                                 EmployeementType = em.EmployeementType,
                                 AnnuityMode = em.AnnuityMode,
-                                DOJ=em.DOJ,
-                                RetireDate=em.RetireDate
+                                DOJ = em.DOJ,
+                                RetireDate = em.RetireDate
                             }).ToList();
                 return data;
             }
@@ -54,6 +55,7 @@ namespace PensionServices
                 return null;
             }
         }
+
         public int insertEmp(EmployeeViewModel model)
         {
             Mapper.CreateMap<EmployeeViewModel, EmployeeMaster>();
@@ -68,6 +70,7 @@ namespace PensionServices
 
             return DbContext.SaveChanges();
         }
+
         public EmployeeViewModel GetbyID(int id)
         {
             try
@@ -130,8 +133,8 @@ namespace PensionServices
                                 RPensionAmt = em.RPensionAmt,
                                 SASettleDate = em.SASettleDate,
                                 GradeName = gm.Grade_Name,
-                                LicId=em.LicId,
-                                PaymentType=em.PaymentType
+                                LicId = em.LicId,
+                                PaymentType = em.PaymentType
                             }).SingleOrDefault();
                 return data;
             }
@@ -145,12 +148,33 @@ namespace PensionServices
             //    EmployeeViewModel objCompItem = Mapper.Map<EmployeeViewModel>(objCompanyMaster);
             //return objCompItem;           
         }
+
         public int Update(EmployeeViewModel model)
         {
             Mapper.CreateMap<EmployeeViewModel, EmployeeMaster>();
             EmployeeMaster objComp = DbContext.EmployeeMasters.SingleOrDefault(m => m.EmpId == model.EmpId);
             objComp = Mapper.Map(model, objComp);
             return DbContext.SaveChanges();
+        }
+
+        public EmployeeViewModel CheckExists(string eno, int cc)
+        {
+            try
+            {
+                var EmpData = (from emp in DbContext.EmployeeMasters
+                                where emp.CompId == cc && emp.EmpNo == eno
+                                select new EmployeeViewModel()
+                                {
+                                    EmpNo = emp.EmpNo
+                                }).SingleOrDefault();
+
+                return EmpData;
+            }
+            catch (Exception ex)
+            {
+                ErrorLogClass.WriteErrorLog("AdminManagement", "EmployeeService", "CheckExists", ex);
+                return null;
+            }
         }
 
         public List<RetirementTypeViewModel> lstRetirement()

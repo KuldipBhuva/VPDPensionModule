@@ -26,6 +26,7 @@ namespace Pension.Services
             try
             {
                 var lstEmployeer = (from plan in DbContext.PlanMasters
+                                    //join ins in DbContext.InsuranceMasters on plan.CompID equals ins.id
                                     select new PlanViewModel()
                                     {
                                         id = plan.id,
@@ -34,8 +35,8 @@ namespace Pension.Services
                                         Formula = plan.Formula,
                                         PlanName = plan.PlanName,
                                         EffDate = plan.EffDate,
-                                        Status = plan.Status,
-
+                                        Status = plan.Status
+                                        //Insurance=ins.InsuranceCompany
                                     }).ToList();
 
                 return lstEmployeer;
@@ -47,12 +48,13 @@ namespace Pension.Services
             }
         }
 
-        public List<PlanViewModel> lstPlanins(int id)
+        public List<PlanViewModel> lstPlanins()
         {
             try
             {
                 var lstEmployeer = (from plan in DbContext.PlanMasters
-                                    where plan.CompID == id
+                                    //join ins in DbContext.InsuranceMasters on plan.CompID equals ins.id
+                                    //where plan.CompID == id
                                     select new PlanViewModel()
                                     {
                                         id = plan.id,
@@ -61,8 +63,8 @@ namespace Pension.Services
                                         Formula = plan.Formula,
                                         PlanName = plan.PlanName,
                                         EffDate = plan.EffDate,
-                                        Status = plan.Status,
-
+                                        Status = plan.Status
+                                        //Insurance = ins.InsuranceCompany
                                     }).ToList();
 
                 return lstEmployeer;
@@ -79,7 +81,7 @@ namespace Pension.Services
             try
             {
                 PlanMaster objPlan = new PlanMaster();
-                objPlan.CompID = model.CompID;
+                //objPlan.CompID = model.CompID;
                 objPlan.Details = model.Details;
                 objPlan.EffDate = model.EffDate;
                 objPlan.Formula = model.Formula;
@@ -102,6 +104,7 @@ namespace Pension.Services
             try
             {
                 var lstGrd = (from plan in DbContext.PlanMasters
+                              //join ins in DbContext.InsuranceMasters on plan.CompID equals ins.id
                               where plan.id == id
                               select new PlanViewModel()
                               {
@@ -111,8 +114,8 @@ namespace Pension.Services
                                   Formula = plan.Formula,
                                   PlanName = plan.PlanName,
                                   EffDate = plan.EffDate,
-                                  Status = plan.Status,
-
+                                  Status = plan.Status
+                                  //Insurance = ins.InsuranceCompany
                               }).FirstOrDefault();
 
                 return lstGrd;
@@ -122,8 +125,6 @@ namespace Pension.Services
                 ErrorLogClass.WriteErrorLog("AdminManagement", "PlanController", "GetById", ex);
                 return null;
             }
-
-
         }
 
         public int UpdateIns(int Id, PlanViewModel model)
@@ -132,7 +133,7 @@ namespace Pension.Services
             {
                 PlanMaster objPlan = new PlanMaster();
                 objPlan = DbContext.PlanMasters.SingleOrDefault(m => m.id == Id);
-                objPlan.CompID = model.CompID;
+                //objPlan.CompID = model.CompID;
                 objPlan.Details = model.Details;
                 objPlan.EffDate = model.EffDate;
                 objPlan.Formula = model.Formula;
@@ -140,15 +141,12 @@ namespace Pension.Services
                 objPlan.Status = model.Status;
 
                 return DbContext.SaveChanges();
-
             }
             catch (Exception ex)
             {
                 ErrorLogClass.WriteErrorLog("AdminManagement", "PlanController", "UpdateIns", ex);
                 return 0;
             }
-
         }
-
     }
 }

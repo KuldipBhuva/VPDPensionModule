@@ -43,7 +43,7 @@
                                     Employee No
                                 </div>
                                 <div class="col-sm-4">
-                                    @Html.TextBoxFor(m => m.EmpNo, new { @class = "form-control" })
+                                    @Html.TextBoxFor(m => m.EmpNo, new { @class = "form-control", @readonly = "readonly" })
                                     @Html.ValidationMessageFor(m => m.EmpNo)
                                 </div>
                                 <div class="col-sm-2">
@@ -342,11 +342,11 @@
                                     @Html.TextBoxFor(m => m.BranchAddress, new { @class = "form-control" })
                                 </div>
                                 <div class="col-sm-2">
-                                    Employment Type
+                                    Employment/Category
                                 </div>
                                 <div class="col-sm-4">
                                     @Html.DropDownListFor(m => m.EmployeementType, new List<SelectListItem>() { 
-                                    //new SelectListItem() { Text = "--Select Employment Type--", Value = "" }, 
+                                    //new SelectListItem() { Text = "--Select Employment/Category--", Value = "" }, 
                                     new SelectListItem() { Text = "Managment", Value = "1" }, 
                                     new SelectListItem() { Text = "Other", Value = "2",Selected=true} }, new { @class = "form-control" })
                                 </div>
@@ -464,16 +464,16 @@
 
                             <div class="form-group">
                                 <div class="col-sm-2">
-                                    Insurance  
-                                </div>
-                                <div class="col-sm-4">
-                                    @Html.DropDownListFor(m => m.LicId, new SelectList(Model.ListIns, "id", "InsuranceCompany"), "--Select Insurance--", new { @class = "form-control", @OnChange = "return bindplan();" })
-                                </div>
-                                <div class="col-sm-2">
                                     Pension Schema
                                 </div>
                                 <div class="col-sm-4">
-                                    @Html.DropDownListFor(m => m.PentionTypeID, new SelectList(Model.Listpen, "id", "PlanName"), "--Select Plan--", new { @class = "form-control" })
+                                    @Html.DropDownListFor(m => m.PentionTypeID, new SelectList(Model.Listpen, "id", "PlanName"), "--Select Plan--", new { @class = "form-control", @OnChange = "return bindins();"  })
+                                </div>
+                                <div class="col-sm-2">
+                                    Insurance  
+                                </div>
+                                <div class="col-sm-4">
+                                    @Html.DropDownListFor(m => m.LicId, new SelectList(Model.ListIns, "LicId", "InsuranceCompany"), "--Select Insurance--", new { @class = "form-control"})
                                 </div>
                             </div>
                             <br />
@@ -614,7 +614,15 @@
                                     Due Date of First Payment of Pension
                                 </div>
                                 <div class="col-sm-4" style="font-weight: bold;">
-                                    @Html.DisplayFor(m => m.DueDate)
+                                    @if (Model.DueDate.ToString() != "1/1/0001 12:00:00 AM")
+                                    {
+                                        var duedate = Model.DueDate.ToString("dd MMM, yyyy");
+                                        @Html.DisplayFor(m => duedate)
+                                    }
+                                    else
+                                    {
+                                        <label>-</label>
+                                    }
                                 </div>
                                 <div class="col-sm-4"></div>
                                 <br />
@@ -780,23 +788,22 @@
             $('#dbef').hide();
         }
     }
-    function bindplan() {
+    function bindins() {
         debugger;
-        var serviceURL = '/Employee/BindPension';
+        var serviceURL = '/Employee/BindIns';
         $.ajax({
 
             type: "POST",
             url: serviceURL,
-            data: JSON.stringify({ mod: { LicId: $("#LicId").val() } }),
+            data: JSON.stringify({ mod: { PentionTypeID: $("#PentionTypeID").val() } }),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {
-                $('#PentionTypeID').empty();
+                $('#LicId').empty();
                 debugger;
                 for (var i = 0; i < data.length; i++) {
-                    var opt = new Option(data[i].PlanName, data[i].id);
-                    $('#PentionTypeID').append(opt);
-
+                    var opt = new Option(data[i].InsuranceCompany, data[i].LicId);
+                    $('#LicId').append(opt);
                 }
             },
             error: function (data) {
@@ -829,11 +836,11 @@
         debugger;
         var rid = '@Request.RequestContext.HttpContext.Session["RID"]';
 
-         if (rid == 3) {
-             $(".panel-body :input").attr("disabled", true);
-         }
-         else {
-             $('.panel-body :input').removeAttr('disabled');
-         }
-     });
- </script>
+        if (rid == 3) {
+            $(".panel-body :input").attr("disabled", true);
+        }
+        else {
+            $('.panel-body :input').removeAttr('disabled');
+        }
+    });
+</script>

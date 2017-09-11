@@ -285,5 +285,26 @@ namespace PensionModule.Controllers
             objModel.ListSA.AddRange(lstSA);
             return PartialView("_SAData", objModel.ListSA);
         }
+        public ActionResult Edit(int id)
+        {
+
+
+            objModel = objService.GetById(id);
+        
+            return View(objModel);
+        }
+        [HttpPost]
+        public ActionResult Edit(SAContributionModel model)
+        {
+            int cid = 0;
+            int uid = 0;
+            if (Session["Comp"] != null)
+            {
+                cid = Convert.ToInt32(Session["Comp"].ToString());
+                uid = Convert.ToInt32(Session["UID"].ToString());
+            }                      
+            objService.Update(model);
+            return RedirectToAction("Index");
+        }
     }
 }

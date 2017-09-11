@@ -20,7 +20,7 @@
         </div>
         @ViewData["alert"]
         @Html.HiddenFor(m => m.hdnempplan)
-        <div class="panel-body">
+        <div class="panel-body" id="dvBody">
             <br />
             @*<div class="form-group">
                 <div class="col-sm-2">
@@ -216,7 +216,7 @@
             <input type="button" id="btnAdd" value="Add New" class="btnAdd btn btn-primary" />
         </div>
         <div class="panel-heading" style="height: 54px;">
-            <div class="panel-body">
+         
                 <div class="table-responsive" id="Grid">
 
                     <table class="table" id="tblno">
@@ -262,7 +262,7 @@
                 </div>
             </div>
         </div>
-    </div>
+  
 }
 
 <script src="~/Scripts/jquery.validate.js"></script>
@@ -470,3 +470,15 @@
     }
 
 </script>
+<script>
+    var rid = '@Request.RequestContext.HttpContext.Session["RID"]';
+
+    if (rid == 3) {
+        $("#dvBody :input").attr("disabled", true);
+        $("#btnAdd").hide();
+    }
+    else {
+        $('#dvBody').removeAttr('disabled');
+        $("#btnAdd").show();
+    }
+    </script>

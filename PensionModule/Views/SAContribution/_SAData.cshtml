@@ -1,4 +1,5 @@
 ﻿@using PensionModel.ViewModel
+@using PensionModel
  @model List<SAContributionModel>
  
  <script>
@@ -20,19 +21,22 @@
                  <th>EmpNo</th>
                  <th>EmpName</th>
                  <th>Basic</th>  
-                 <th>Comp.Cont.</th>                                               
+                 <th>Comp.Cont.</th>       
+                 <th>Action</th>                                        
              </tr>
          </thead>
          <tbody>
-             @foreach (var item in Model)
+              @foreach (var item in Model)
              {
                  <tr>
                      <td>@item.EmpNo</td>
                      <td>@item.EmpDetails.EmpName</td>
                      <td>@item.Basic</td>   
-                     <td>@item.CompCont</td>                    
+                     <td>@item.CompCont</td>  
+                     <td>@Html.ActionLink(" ", "Edit", new { @id = @item.SAID }, new { @class = "fa fa-pencil-square fa-lg" })</td>                  
                  </tr>
              }
+            
          </tbody>
      </table>
  </div>

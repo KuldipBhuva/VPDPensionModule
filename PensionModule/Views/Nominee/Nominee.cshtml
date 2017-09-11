@@ -245,7 +245,16 @@
     });
 </script>
 <script>
+    var rid = '@Request.RequestContext.HttpContext.Session["RID"]';
 
+    if (rid == 3) {
+        $(".panel-body").attr("disabled", true);
+        $("#btnAdd").hide();
+    }
+    else {
+        $('.panel-body').removeAttr('disabled');
+        $("#btnAdd").show();
+    }
     $('#btnBack').click(function () {
 
         $('#id').val('');
@@ -328,6 +337,7 @@
                 $('#IFSC').val(data.IFSC);
 
 
+<<<<<<< HEAD
                 var rid = '@Request.RequestContext.HttpContext.Session["RID"]';
 
                 if (rid == 3) {
@@ -336,6 +346,11 @@
                 else {
                     $('#accordion :input').removeAttr('disabled');
                 }
+=======
+   
+     
+
+>>>>>>> e73056c7f6163718e4958c8964da5670f6c9bc64
 
 
             },

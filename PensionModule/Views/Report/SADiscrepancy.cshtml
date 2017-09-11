@@ -1,0 +1,99 @@
+﻿@{
+     ViewBag.Title = "SA Discrepancy Report";
+     ViewBag.PageTitle = "SA Discrepancy Report";
+     
+ }
+
+ @using PensionModel.ViewModel
+ @model PensionModel.ViewModel.SAContributionModel
+ @using (Html.BeginForm("SADiscrepancy", "Report", FormMethod.Post, new { enctype = "multipart/form-data" }))
+ {
+     <section class="content-header">
+         <h1>SA Discrepancy<small>Report</small>
+         </h1>
+ 
+     </section>
+     
+     
+     <!-- Advanced Tables -->
+     <div class="panel panel-info" id="dvGrid">
+         <div class="panel-heading">
+             SA Discrepancy Data 
+             
+         </div>
+ 
+        
+             <div class="panel-body">
+ 
+                 <div class="col-sm-12">
+                     <fieldset class="scheduler-border">
+                 <legend class="scheduler-border">Filter</legend>
+                 @Html.Label("* Year", new { @class = "col-sm-2 control-label" })
+                 <div class="col-sm-4">
+ 
+                     @Html.DropDownListFor(m => m.Year, new List<SelectListItem>() { new SelectListItem() { Text = "--Select Year--", Value = "" }, new SelectListItem() { Text = "2013", Value = "2013" }, new SelectListItem() { Text = "2014", Value = "2014" }, new SelectListItem() { Text = "2015", Value = "2015" }, new SelectListItem() { Text = "2016", Value = "2016" }, new SelectListItem() { Text = "2017", Value = "2017" }, new SelectListItem() { Text = "2018", Value = "2018" }, new SelectListItem() { Text = "2019", Value = "2019" }, new SelectListItem() { Text = "2020", Value = "2020" } }, new { @class = "form-control",@id="drpYear"})
+                     @Html.ValidationMessageFor(m => m.Year)
+                 </div>
+                 <div class="col-sm-2">
+                     @Html.Label("*Month", new { @class = "col-sm-2 control-label" })
+                 </div>
+                 <div class="col-sm-4">
+                     <div class="input-group">
+                     @* @{var mm = Model.ListPowerData[0].LastReading.Value.Month;}*@
+                     @Html.DropDownListFor(m => m.Month, new List<SelectListItem>() { new SelectListItem() { Text = "--Select Month--", Value = "" }, new SelectListItem() { Text = "January", Value = "1" }, new SelectListItem() { Text = "February", Value = "2" }, new SelectListItem() { Text = "March", Value = "3" }, new SelectListItem() { Text = "April", Value = "4" }, new SelectListItem() { Text = "May", Value = "5" }, new SelectListItem() { Text = "June", Value = "6" }, new SelectListItem() { Text = "July", Value = "7" }, new SelectListItem() { Text = "August", Value = "8" }, new SelectListItem() { Text = "September", Value = "9" }, new SelectListItem() { Text = "October", Value = "10" }, new SelectListItem() { Text = "November", Value = "11" }, new SelectListItem() { Text = "December", Value = "12" } }, new { @class = "form-control",@id="drpMonth"})
+                     @Html.ValidationMessageFor(m => m.Month)
+                       <span class="input-group-btn">
+                                     <button class="btn btn-success" id="btnView" type="button">View</button>
+                                 </span>
+                             </div>
+                 </div>
+                         </fieldset>
+             </div>
+                 <div class="col-sm-12" style="height:10px;"></div>
+                 <fieldset class="scheduler-border">
+                 <legend class="scheduler-border">SA Discrepancy Report</legend>
+                     @if(Model!=null)
+                     {
+                 <div class="col-sm-12" id="dvData">@Html.Partial("_SADisData",Model.ListSA)</div>
+                     }
+                     </fieldset>
+             </div>
+         
+     </div>
+
+ 
+ }
+
+ <script lang="javascript" type="text/javascript">
+   
+     $(document).ready(function () {
+
+         //$("#btnSave").click(function () {
+         $('#btnView').click(function () {
+             $("#divLoading").show();
+             debugger;
+
+             var mm = $('#drpMonth').val();
+             var yr = $('#drpYear').val();
+
+             if (mm == "") {
+                 mm = 0;
+             }
+             $.ajax(
+             {
+                 url: '@Url.Action("getData", "Report")',
+                 type: "GET",
+                 datatype: "JSON",
+                 data: { year: yr, month: mm },
+
+                 success: function (gr) {
+                     debugger;
+                     $("#dvData").html("");  // clear before appending new list 
+                     $("#dvData").append(gr);
+                     $("#divLoading").hide();
+                 }
+             });
+             $("#divLoading").hide();
+         });
+     });
+ </script>

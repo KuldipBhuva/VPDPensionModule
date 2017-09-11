@@ -21,12 +21,12 @@
         </div>
         <div class="panel-body">
             <div class="form-group">
-                <div class="col-sm-4">
+                @*<div class="col-sm-1">
                     Insurance Company
-                </div>
+                </div>*@
 
-                <div class="col-sm-6">
-                    @Html.DropDownListFor(m => m.CompID, new SelectList(Model.lstInsurance, "id", "InsuranceCompany"), "--Select Company--", new { @class = "form-control" })
+                <div class="col-sm-12">
+                    @*@Html.DropDownListFor(m => m.CompID, new SelectList(Model.lstInsurance, "id", "InsuranceCompany"), "--Select Company--", new { @class = "form-control" })*@
                 </div>
             </div>
             <br />
@@ -42,7 +42,6 @@
                     @Html.TextBoxFor(m => m.PlanName, new { @class = "form-control" })
                 </div>
             </div>
-
             <br />
             <div class="form-group">
                 <div class="col-sm-12">
@@ -56,7 +55,6 @@
                     @Html.TextAreaFor(m => m.Details, new { @class = "form-control" })
                 </div>
             </div>
-
             <br />
             <div class="form-group">
                 <div class="col-sm-12">
@@ -84,6 +82,11 @@
                     <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
                 </div>
             </div>
+            <br />
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
             <div class="form-group">
                 <div class="col-sm-4">
                     Status
@@ -93,13 +96,11 @@
                     @Html.RadioButtonFor(m => m.Status, "0")In-Active    
                 </div>
             </div>
-
             <br />
             <div class="form-group">
                 <div class="col-sm-12">
                 </div>
             </div>
-
             <br />
             <div class="form-group">
                 <div class="col-sm-12">
@@ -127,14 +128,11 @@
                     <table class="table" id="tbl">
                         <thead>
                             <tr>
-                                <th>Plan Name
-                                </th>
-                                <th>Formula
-                                </th>
-                                <th>Status
-                                </th>
-                                <th>Action
-                                </th>
+                                @*<th>Insurance</th>*@
+                                <th>Plan Name</th>
+                                <th>Formula</th>
+                                <th>Status</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
 
@@ -142,6 +140,7 @@
                             @foreach (var item in Model.lstPlan)
                             {
                                 <tr>
+                                    @*<td>@item.Insurance</td>*@
                                     <td>@item.PlanName</td>
                                     <td>@item.Formula</td>
                                     @if (@item.Status == 0)
@@ -181,33 +180,43 @@
     });
 
     $('#btnBack').click(function () {
-        $('#CompID').val('');
+        $(".Inschk").removeAttr("checked");
         $('#PlanName').val('');
         $('#Details').val('');
         $('#Formula').val('');
         $('#EffDate').val('');
-
         $('#HdnPlanID').val('');
-        removeErr("err_LangSName");
-        removeErr("err_LangFName");
+    });
+
+    $('#btnAdd').click(function () {
+        $(".Inschk").removeAttr("checked");
+        $('#PlanName').val('');
+        $('#Details').val('');
+        $('#Formula').val('');
+        $('#EffDate').val('');
+        $('#HdnPlanID').val('');
     });
 
     function Validation() {
         debugger;
+        var valid = true;
         var Grade_Name = $('#CompID').val();
         var PlanName = $('#PlanName').val();
         if (Grade_Name == "") {
-            showErr("CompID", "Please Select Company ");
-            return false;
-        }
-        if (PlanName == "") {
-            showErr("PlanName", "Please Select Plan ");
-            return false;
+            showErr("CompID", "Please Select Insurance Company ");
+            valid = false;
         }
         else {
-            removeErr("err_LangSName");
-            return true;
+            removeErr("err_CompID");
         }
+        if (PlanName == "") {
+            showErr("PlanName", "Please Enter Plan ");
+            valid = false;
+        }
+        else {
+            removeErr("err_PlanName");
+        }
+        return valid;
     }
 
     function ValidLangName() {
@@ -218,7 +227,7 @@
             ValidateMsg = false;
         }
         else {
-            removeErr("err_LangFName");
+            removeErr("err_InsuranceCompany");
             ValidateMsg = true;
         }
         return ValidateMsg;
@@ -257,7 +266,6 @@
     function HiddenField(id) {
         $("#dvGrid").hide();
         $("#dvAdd").show(1000);
-        debugger;
         $('#HdnPlanID').val(id);
         var id = $('#HdnPlanID').val();
 
@@ -270,8 +278,9 @@
             success: function (data) {
                 var value = new Date(parseInt(data.EffDate.replace(/(^.*\()|([+-].*$)/g, '')));
                 var EffDate = value.getMonth() + 1 + "/" + value.getDate() + "/" + value.getFullYear();
-
-                $('#CompID').val(data.CompID);
+                debugger;
+                $('#lstInsurance').val(data.CompID);
+                $(".Inschk").attr("checked");
                 $('#PlanName').val(data.PlanName);
                 $('#Details').val(data.Details);
                 $('#Formula').val(data.Formula);
@@ -283,8 +292,6 @@
             }
         });
     }
-
-
 </script>
 @*<link rel="stylesheet" href="~/assets/js/dataTables/dataTables.bootstrap.css" />
 <script src="~/assets/js/dataTables/jquery.dataTables.js"></script>

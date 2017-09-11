@@ -15,6 +15,7 @@ using System.Data.Common;
 using System.Data.Entity;
 using System.ComponentModel;
 using System.Data.SqlClient;
+using Pension.Models.ViewModel;
 
 namespace PensionModule.Controllers
 {
@@ -157,6 +158,58 @@ namespace PensionModule.Controllers
             {
                 throw ex;
             }
+        }
+        public ActionResult SADiscrepancy()
+        {
+            int cid = 0;
+            int uid = 0;
+            if (Session["Comp"] != null)
+            {
+                cid = Convert.ToInt32(Session["Comp"].ToString());
+                uid = Convert.ToInt32(Session["UID"].ToString());
+            }
+            List<SAContributionModel> lstSA = new List<SAContributionModel>();
+            SAContributionModel objModel = new SAContributionModel();
+            SAService objService = new SAService();
+            objModel.Year = Convert.ToString(System.DateTime.Today.Year);
+            objModel.Month = System.DateTime.Today.Month;
+            lstSA = objService.getSA(cid, objModel.Year, objModel.Month);
+            objModel.ListSA = new List<SAContributionModel>();
+            objModel.ListSA.AddRange(lstSA);
+            return View(objModel);
+        }
+        public ActionResult getData(string year, int month)
+        {
+            int cid = 0;
+            int uid = 0;
+            if (Session["Comp"] != null)
+            {
+                cid = Convert.ToInt32(Session["Comp"].ToString());
+                uid = Convert.ToInt32(Session["UID"].ToString());
+            }
+            SAContributionModel objModel = new SAContributionModel();
+            List<SAContributionModel> lstSA = new List<SAContributionModel>();
+            lstSA = lstservices.getSA(cid, year, month);
+            objModel.ListSA = new List<SAContributionModel>();
+            objModel.ListSA.AddRange(lstSA);
+            return PartialView("_SADisData", objModel.ListSA);
+        }
+        public ActionResult EmpMissingInfo()
+        {
+            int cid = 0;
+            int uid = 0;
+            if (Session["Comp"] != null)
+            {
+                cid = Convert.ToInt32(Session["Comp"].ToString());
+                uid = Convert.ToInt32(Session["UID"].ToString());
+            }
+            List<EmployeeViewModel> objlst = new List<EmployeeViewModel>();
+            EmployeeViewModel objmodel = new EmployeeViewModel();
+
+            objlst = lstservices.getMissInfo(cid);
+            objmodel.ListEmp = new List<EmployeeViewModel>();
+            objmodel.ListEmp.AddRange(objlst);
+            return View(objmodel);
         }
     }
 }

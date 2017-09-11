@@ -42,7 +42,8 @@ namespace Pension.Services
                                    SAIntMethod = comp.SAIntMethod,
                                    SAStopIntType = comp.SAStopIntType,
                                    SAContriRate = comp.SAContriRate,
-                                   SAContriMethod = comp.SAContriMethod
+                                   SAContriMethod = comp.SAContriMethod,
+                                   EligibityYr = comp.EligibityYr
                                }).ToList();
 
                 return lstcomp;
@@ -125,6 +126,7 @@ namespace Pension.Services
                 objcomp.SAStopIntType = model.SAStopIntType;
                 objcomp.SAContriRate = model.SAContriRate;
                 objcomp.SAContriMethod = model.SAContriMethod;
+                objcomp.EligibityYr = model.EligibityYr;
                 DbContext.CompanyMasters.Add(objcomp);
                 DbContext.SaveChanges();
                 if (model.PensionLimit == "Yes")
@@ -136,6 +138,7 @@ namespace Pension.Services
                     penlimit.EffDate = penmodel.EffDate;
                     penlimit.CreateDate = System.DateTime.Now;
                     penlimit.Status = 1;
+                    penlimit.PensionType = penmodel.PensionType;
                     DbContext.PensionLimits.Add(penlimit);
                     DbContext.SaveChanges();
                 }
@@ -157,6 +160,7 @@ namespace Pension.Services
                     saint.LiveEffYear = samodel.LiveEffYear;
                     saint.LeftEmpInt = samodel.LeftEmpInt;
                     saint.LeftEffYear = samodel.LeftEffYear;
+                    saint.CreateDate = System.DateTime.Now;
                     DbContext.SAInterests.Add(saint);
                     DbContext.SaveChanges();
                 }
@@ -192,7 +196,8 @@ namespace Pension.Services
                                    SAIntMethod = comp.SAIntMethod,
                                    SAStopIntType = comp.SAStopIntType,
                                    SAContriRate = comp.SAContriRate,
-                                   SAContriMethod = comp.SAContriMethod
+                                   SAContriMethod = comp.SAContriMethod,
+                                   EligibityYr = comp.EligibityYr
                                }).FirstOrDefault();
                 return lstcomp;
             }
@@ -221,6 +226,7 @@ namespace Pension.Services
                                       GradeName = grade.Grade_Name,
                                       Pension_Limit = pen.Pension_Limit,
                                       PenEffDate = pen.EffDate,
+                                      PensionType = pen.PensionType,
                                       CreateDate = pen.CreateDate,
                                       Status = pen.Status,
                                       CompName = comp.CompName
@@ -289,6 +295,7 @@ namespace Pension.Services
                                       EmployeementType = pen.EmployeementType,
                                       GradeID = pen.GradeID,
                                       Pension_Limit = pen.Pension_Limit,
+                                      PensionType = pen.PensionType,
                                       PenEffDate = pen.EffDate,
                                       CreateDate = pen.CreateDate
                                       //,Status = pen.Status
@@ -308,7 +315,7 @@ namespace Pension.Services
             {
                 var lstmerger = (from comp in DbContext.CompanyMasters
                                  join merge in DbContext.MergingCompanies on comp.id equals merge.MCmyID
-                                 where merge.Id == cmpid && merge.Id == merid
+                                 where merge.CmyID == cmpid && merge.Id == merid
                                  select new CompanyModel()
                                  {
                                      id = comp.id,
@@ -364,16 +371,17 @@ namespace Pension.Services
                 objcomp.SAStopIntType = model.SAStopIntType;
                 objcomp.SAContriRate = model.SAContriRate;
                 objcomp.SAContriMethod = model.SAContriMethod;
+                objcomp.EligibityYr = model.EligibityYr;
                 if (penmodel.Pension_Limit != null && penmodel.EmployeementType != null && penmodel.GradeID != null && penmodel.EffDate != null)
                 {
                     if (model.PenId != 0)
                     {
                         penlimit = DbContext.PensionLimits.SingleOrDefault(m => m.Id == model.PenId);
                     }
-                    else
-                    {
-                        penlimit = DbContext.PensionLimits.SingleOrDefault(m => m.CmyID == Id && m.EmployeementType == penmodel.EmployeementType && m.GradeID == penmodel.GradeID);
-                    }
+                    //else
+                    //{
+                    //    penlimit = DbContext.PensionLimits.SingleOrDefault(m => m.CmyID == Id && m.EmployeementType == penmodel.EmployeementType && m.GradeID == penmodel.GradeID);
+                    //}
                     if (penlimit == null)
                     {
                         penlimit = new PensionLimit();
@@ -382,6 +390,8 @@ namespace Pension.Services
                         penlimit.GradeID = penmodel.GradeID;
                         penlimit.Pension_Limit = penmodel.Pension_Limit;
                         penlimit.EffDate = penmodel.EffDate;
+                        penlimit.Status = 1;
+                        penlimit.PensionType = penmodel.PensionType;
                         DbContext.PensionLimits.Add(penlimit);
                         DbContext.SaveChanges();
                     }
@@ -391,6 +401,7 @@ namespace Pension.Services
                         penlimit.GradeID = penmodel.GradeID;
                         penlimit.Pension_Limit = penmodel.Pension_Limit;
                         penlimit.EffDate = penmodel.EffDate;
+                        penlimit.PensionType = penmodel.PensionType;
                         DbContext.SaveChanges();
                     }
                 }
@@ -442,8 +453,10 @@ namespace Pension.Services
                         saint.LiveEmpInt = samodel.LiveEmpInt;
                         saint.LiveEffYear = samodel.LiveEffYear;
                         saint.LeftEffYear = samodel.LeftEffYear;
+                        saint.CreateDate = System.DateTime.Now;
                         DbContext.SAInterests.Add(saint);
                     }
+                    DbContext.SaveChanges();
                 }
                 if (model.LeftEmpInt != null)
                 {
@@ -467,8 +480,10 @@ namespace Pension.Services
                         saint.LiveEffYear = samodel.LiveEffYear;
                         saint.LeftEmpInt = samodel.LeftEmpInt;
                         saint.LeftEffYear = samodel.LeftEffYear;
+                        saint.CreateDate = System.DateTime.Now;
                         DbContext.SAInterests.Add(saint);
                     }
+                    DbContext.SaveChanges();
                 }
                 return DbContext.SaveChanges();
             }
@@ -479,20 +494,18 @@ namespace Pension.Services
             }
         }
 
-        public CompanyModel CheckExists(string CompName)
+        public CompanyModel CheckExists(string CompCode)
         {
             try
             {
                 var CompData = (from comp in DbContext.CompanyMasters
-                                where comp.CompName == CompName
+                                where comp.CompCode == CompCode
                                 select new CompanyModel()
                                 {
-                                    CompName = comp.CompName
+                                    CompCode = comp.CompCode
                                 }).SingleOrDefault();
-
                 return CompData;
             }
-
             catch (Exception ex)
             {
                 ErrorLogClass.WriteErrorLog("AdminManagement", "CompanyService", "CheckExists", ex);
@@ -512,7 +525,8 @@ namespace Pension.Services
                                  LiveEffYear = sa.LiveEffYear,
                                  LiveEmpInt = sa.LiveEmpInt,
                                  LeftEffYear = sa.LeftEffYear,
-                                 LeftEmpInt = sa.LeftEmpInt
+                                 LeftEmpInt = sa.LeftEmpInt,
+                                 CreateDate = sa.CreateDate
                              }).ToList();
                 return lstsa;
             }

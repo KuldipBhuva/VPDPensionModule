@@ -1,0 +1,93 @@
+﻿@{
+    ViewBag.Title = "SA Contribution Master";
+    ViewBag.PageTitle = "SA Contribution Master";
+}
+
+@using PensionModel.ViewModel
+@model SAContributionModel
+
+
+@using (Html.BeginForm("Edit", "SAContribution", FormMethod.Post))
+{
+    @Html.HiddenFor(m=>m.SAID)
+    @Html.HiddenFor(m=>m.UploadedBy)
+    @Html.HiddenFor(m=>m.UploadedDate)
+    @Html.HiddenFor(m=>m.EmpNo)
+    @Html.HiddenFor(m=>m.CompID)
+    @Html.HiddenFor(m=>m.EmpName)
+    <section class="content-header">
+        <h1>SA Contribution<small>Master</small>
+        </h1>
+
+    </section>
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            SA Contribution Details
+            <input type="button" id="btnBack" value="Back" class="btnAdd btn btn-primary" />
+        </div>
+        <div class="panel-body">              
+                 @Html.Label("EmpNo.", new { @class = "col-sm-2 control-label" })
+                 <div class="col-sm-4">
+           
+
+                     @Html.DisplayFor(m=>m.EmpNo, new { @class = "col-sm-2 label label-info" })
+                </div>
+ 
+                     @Html.Label("Name", new { @class = "col-sm-2 control-label" })
+            
+                 <div class="col-sm-4">
+                     @Html.DisplayFor(m=>m.EmpName, new { @class = "col-sm-2 label label-info" })
+                     </div>
+            <div class="col-sm-12" style="height:5px";></div>
+              @Html.Label("Year", new { @class = "col-sm-2 control-label" })
+                 <div class="col-sm-4">
+ 
+                     @Html.DropDownListFor(m => m.Year, new List<SelectListItem>() { new SelectListItem() { Text = "--Select Year--", Value = "" }, new SelectListItem() { Text = "2013", Value = "2013" }, new SelectListItem() { Text = "2014", Value = "2014" }, new SelectListItem() { Text = "2015", Value = "2015" }, new SelectListItem() { Text = "2016", Value = "2016" }, new SelectListItem() { Text = "2017", Value = "2017" }, new SelectListItem() { Text = "2018", Value = "2018" }, new SelectListItem() { Text = "2019", Value = "2019" }, new SelectListItem() { Text = "2020", Value = "2020" } }, new { @class = "form-control",@id="drpYear"})
+                     @Html.ValidationMessageFor(m => m.Year)
+                 </div>
+                 <div class="col-sm-2">
+                     @Html.Label("Month", new { @class = "col-sm-2 control-label" })
+                 </div>
+                 <div class="col-sm-4">                                         
+                     @Html.DropDownListFor(m => m.Month, new List<SelectListItem>() { new SelectListItem() { Text = "--Select Month--", Value = "" }, new SelectListItem() { Text = "January", Value = "1" }, new SelectListItem() { Text = "February", Value = "2" }, new SelectListItem() { Text = "March", Value = "3" }, new SelectListItem() { Text = "April", Value = "4" }, new SelectListItem() { Text = "May", Value = "5" }, new SelectListItem() { Text = "June", Value = "6" }, new SelectListItem() { Text = "July", Value = "7" }, new SelectListItem() { Text = "August", Value = "8" }, new SelectListItem() { Text = "September", Value = "9" }, new SelectListItem() { Text = "October", Value = "10" }, new SelectListItem() { Text = "November", Value = "11" }, new SelectListItem() { Text = "December", Value = "12" } }, new { @class = "form-control",@id="drpMonth"})
+                     @Html.ValidationMessageFor(m => m.Month)
+                     
+                 </div>
+              <div class="col-sm-12" style="height:5px";></div>
+                     @Html.Label("Basic", new { @class = "col-sm-2 control-label" })
+              
+                 <div class="col-sm-4">
+                     @Html.TextBoxFor(m => m.Basic, new { @class = "form-control" })
+                     </div>
+            
+              <div class="col-sm-12" style="height:5px";></div>
+                     <fieldset class="scheduler-border">
+                 <legend class="scheduler-border">Contribution</legend>
+             @Html.Label("Company", new { @class = "col-sm-2 control-label" })
+              
+                 <div class="col-sm-4">
+                     @Html.TextBoxFor(m => m.CompCont, new { @class = "form-control" })
+                     </div>
+    
+              
+                     @Html.Label("Employee", new { @class = "col-sm-2 control-label" })
+              
+                 <div class="col-sm-4">
+                     @Html.TextBoxFor(m => m.EmpCont, new { @class = "form-control" })
+                     </div>
+                         </fieldset>
+           
+            <div class="col-sm-12" style="height:5px";></div> 
+            <div class="col-sm-2"></div>        
+                <div class="col-sm-4">
+                    <input type="submit" name="Button" value="Update" id="btnSave" class="btn btn-primary" onclick="return Validation();" />
+                </div>
+            </div>
+    </div>
+
+
+
+    
+
+}
+

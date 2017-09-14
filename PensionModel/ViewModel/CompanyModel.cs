@@ -25,6 +25,7 @@ namespace PensionModel.ViewModel
         public Nullable<decimal> SAContriRate { get; set; }
         public Nullable<int> SAStopIntType { get; set; }
         public Nullable<int> SAContriMethod { get; set; }
+        public Nullable<int> EligibityYr { get; set; }
 
         //common
         public Nullable<long> CmyID { get; set; }
@@ -53,6 +54,7 @@ namespace PensionModel.ViewModel
         public string GradeName { get; set; }
         public Nullable<int> PenStatus { get; set; }
         public Nullable<System.DateTime> PenEffDate { get; set; }
+        public Nullable<int> PensionType { get; set; }
         public Nullable<decimal> Pension_Limit { get; set; }
         public int hdnPenId { get; set; }
 

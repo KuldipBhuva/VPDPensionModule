@@ -61,7 +61,8 @@ namespace Pension.Models.ViewModel
         public string Contribution { get; set; }
         public Nullable<decimal> RPensionAmt { get; set; }
         public Nullable<System.DateTime> SASettleDate { get; set; }
-
+        public Nullable<int> LICSubmit { get; set; }
+        public Nullable<System.DateTime> LICSubmitDate { get; set; }
 
         public string GradeName { get; set; }
         public List<CompanyModel> lstCmy { get; set; }
@@ -75,6 +76,8 @@ namespace Pension.Models.ViewModel
         public List<PaymentTypeModel> Listpaytype { get; set; }
         public List<PlanViewModel> Listpen { get; set; }
         public List<PaymentType> Listpay { get; set; }
-        public List<InsuranceViewModel> ListIns { get; set; }
+        public List<AnnuityViewModel> ListIns { get; set; }
+        public EmployeePlanViewModel AnnuityDetails { get; set; }
+        public PensionMasterModel PensionDetails { get; set; }
     }
 }

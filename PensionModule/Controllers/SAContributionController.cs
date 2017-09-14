@@ -303,7 +303,7 @@ namespace PensionModule.Controllers
                 cid = Convert.ToInt32(Session["Comp"].ToString());
                 uid = Convert.ToInt32(Session["UID"].ToString());
             }                      
-            objService.Update(model);
+            objService.UpdateSA(model);
             return RedirectToAction("Index");
         }
     }

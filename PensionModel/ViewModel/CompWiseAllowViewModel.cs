@@ -16,6 +16,7 @@ namespace Pension.Models.ViewModel
         public Nullable<System.DateTime> EffDeate { get; set; }
         public Nullable<int> Status { get; set; }
         public Nullable<int> GradeID { get; set; }
+        public string GradeName { get; set; }
 
         public string CompName { get; set; }
         public string Grade { get; set; }

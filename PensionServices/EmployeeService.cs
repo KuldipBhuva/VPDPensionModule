@@ -13,7 +13,61 @@ namespace PensionServices
     public class EmployeeService
     {
         VPDPensionEntities DbContext = new VPDPensionEntities();
+        public List<EmployeeViewModel> getRetireEmp(int cid)
+        {
+            try
+            {
+                var data = (from em in DbContext.EmployeeMasters
+                            join cm in DbContext.CompanyMasters on em.CompId equals cm.id
+                            //join gm in DbContext.GradeMasters on em.GradeId equals gm.id
+                            //join ep in DbContext.EmployeePlans on em.EmpId equals ep.EmpId into plans
+                            //from e in plans.DefaultIfEmpty().Where(m=>m.RPensionType==1)
+                            //join pm in DbContext.PensionMasters on e.AnnuityNo equals pm.AnnuityNo into pension
+                            //from p in pension.DefaultIfEmpty()
+                            where em.CompId == cid && em.RetireDate!=null
+                            select new EmployeeViewModel()
+                            {
+                                CompDetails = new CompanyModel()
+                                {
+                                    CompName = cm.CompName,
+                                    CompCode = cm.CompCode
+                                },
+                                //AnnuityDetails=new EmployeePlanViewModel()
+                                //{
+                                //    AnnuityNo = (e == null ? string.Empty : e.AnnuityNo),
+                                //},
+                                //PensionDetails=new PensionMasterModel()
+                                //{
+                                //    PolicyNo = (p == null ? string.Empty : p.PolicyNo),
+                                //},
+                                EmpId = em.EmpId,
+                                CompId = em.CompId,
+                                EmpNo = em.EmpNo,
+                                EmpName = em.EmpName,
+                                Email = em.Email,
+                                EmployeeType = em.EmployeeType,
+                                HoldDate = em.HoldDate,
+                                Remarks = em.Remarks,
+                                Status = em.Status,
+                                GradeId = em.GradeId,
+                                Benefits = em.Benefits,
+                                Contribution = em.Contribution,
+                                EmployeementType = em.EmployeementType,
+                                AnnuityMode = em.AnnuityMode,
+                                DOJ = em.DOJ,
+                                RetireDate = em.RetireDate,
+                                LICSubmit=em.LICSubmit,
+                                LICSubmitDate=em.LICSubmitDate
+                            }).ToList();
+                return data;
+            }
 
+            catch (Exception ex)
+            {
+                ErrorLogClass.WriteErrorLog("Dashboard", "EmployeeService", "getRetireEmp", ex);
+                return null;
+            }
+        }
         public List<EmployeeViewModel> getAllEmp(int cid)
         {
             try

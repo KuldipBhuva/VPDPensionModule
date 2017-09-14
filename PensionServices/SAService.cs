@@ -93,6 +93,20 @@ namespace PensionServices
                 return 0;
             }
         }
+        public SAContributionModel GetById(int id)
+        {
+            Mapper.CreateMap<SAContribution, SAContributionModel>();
+            SAContribution objBranch = DbContext.SAContributions.SingleOrDefault(m => m.SAID == id);
+            SAContributionModel objBItem = Mapper.Map<SAContributionModel>(objBranch);
+            return objBItem;
+        }
+        public int UpdateSA(SAContributionModel model)
+        {
+            Mapper.CreateMap<SAContributionModel, SAContribution>();
+            SAContribution objBranch = DbContext.SAContributions.SingleOrDefault(m => m.SAID == model.SAID);
+            objBranch = Mapper.Map(model, objBranch);
+            return DbContext.SaveChanges();
+        }
         //public List<SAContributionModel> getSAByTime(string year, string month, int cid)
         //{
         //    try

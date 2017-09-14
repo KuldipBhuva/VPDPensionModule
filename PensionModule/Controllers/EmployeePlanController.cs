@@ -66,7 +66,7 @@ namespace PensionModule.Controllers
             PlanServices insservices = new PlanServices();
             List<PlanViewModel> lstplan = new List<PlanViewModel>();
             int id = Convert.ToInt32(model.LicId);
-            lstplan = insservices.lstPlanins(id);
+            lstplan = insservices.lstPlanins();
             lstmodel.ListPlan = new List<PlanViewModel>();
             lstmodel.ListPlan.AddRange(lstplan);
 

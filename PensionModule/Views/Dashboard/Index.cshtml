@@ -1,0 +1,134 @@
+﻿@{
+    ViewBag.Title = "Dashboard";
+    ViewBag.PageTitle = "Dashboard";
+}
+
+@using PensionModel.ViewModel
+@using PensionModel
+@model Pension.Models.ViewModel.EmployeeViewModel
+
+
+@using (Html.BeginForm("Index", "Dashboard", FormMethod.Post))
+{
+    
+    
+    <section class="content-header">
+        <h1>Dashboard <small></small>
+        </h1>
+
+    </section>
+    
+    <!-- Advanced Tables -->
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            Employee Data            
+        </div>
+
+        <div class="panel-body">
+            <div class="table-responsive" id="Grid">
+                <table class="table" id="tbl">
+                    <thead>
+                        <tr>
+                            <th>EmpNo.
+                            </th>
+                            <th>EmpName
+                            </th>
+                            <th>DOL
+                            </th>
+                            <th>FirstDuePension
+                            </th>
+                            <th>LICSubmitDate</th>
+                            <th>Annuity</th>
+                            <th>PensionUploaded</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var item in Model.ListEmp)
+                        {DateTime? due = Convert.ToDateTime(@item.RetireDate).AddMonths(1);
+                            <tr>
+                                <td>@item.EmpNo</td>
+                                <td>@item.EmpName</td>
+                                @if (@item.RetireDate != null)
+                                {
+                                    <td>@item.RetireDate.Value.ToString("dd/MM/yyyy")
+                                    </td>
+                                    
+                                    <td>@due.Value.ToString("dd/MM/yyyy")</td>
+                                }
+                                else
+                                {
+                                    <td>-</td>   
+                                    <td>-</td>
+                                }
+                                @if(@item.LICSubmitDate!=null)
+                                {
+                                <td>@item.LICSubmitDate.Value.ToString("dd/MM/yyyy")</td>
+                                }
+                                else
+                                {
+                                 <td>-</td>   
+                                }
+                                @{VPDPensionEntities DbContext = new VPDPensionEntities();
+                                  var annuity = DbContext.EmployeePlans.Where(m => m.EmpId == @item.EmpId && m.RPensionType == 1).SingleOrDefault();
+
+                                  if (annuity != null)
+                                  {
+                                     
+                                    <td>@annuity.AnnuityNo</td>
+                                  }
+                                  else
+                                  {
+                                    <td>-</td>  
+                                  }
+                                  
+                                  if (annuity != null)
+                                  {
+                                      string mm=due.Value.ToString("MM");
+                                      string yy = due.Value.ToString("yyyy");
+                                      var pension = DbContext.PensionMasters.Where(m => m.PensionMonth==mm && m.Year==yy && m.AnnuityNo==annuity.AnnuityNo).SingleOrDefault();
+
+                                      if (pension != null)
+                                      {
+                                          if (pension.IsProcessed == true)
+                                          {
+                                    <td data-toggle="tooltip" data-placement="bottom" title="Pension Uploaded and Processed.">Yes <i class="fa fa-check" aria-hidden="true" style="color: green;"></i></td>
+                                          }
+                                          else
+                                          {
+                                    <td data-toggle="tooltip" data-placement="bottom" title="Pension Uploaded but not Processed.">Yes <i class="fa fa-times" aria-hidden="true" style="color: red;"></i></td>
+                                          }
+                                      }
+                                      else
+                                      {
+                                    
+                                    <td>No</td>   
+                                      }
+                                  }
+                                  else
+                                  {
+                                   <td>-</td>   
+                                  }
+                                }
+                                @* <td>
+                                        
+                                        @Html.ActionLink(" ", "Edit", new { @id = @item.UID}, new { @class = "fa fa-pencil-square fa-lg" })                                       
+                                    </td>*@
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+
+            </div>
+        </div>
+    </div>
+
+}
+
+
+<script>
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();   
+});
+</script>
